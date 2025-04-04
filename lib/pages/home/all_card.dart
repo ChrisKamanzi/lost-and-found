@@ -56,10 +56,9 @@ class _homepageState extends State<all_cards> {
               ),
             ],
           ),
-
         ],
-
       ),
     );
   }
 }
+
