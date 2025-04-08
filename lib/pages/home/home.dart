@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
 
 class homepage extends StatelessWidget {
@@ -43,71 +44,82 @@ class homepage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              Container(
-                // color: Colors.purple.shade200,
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.purple.shade200,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 30, left: 50),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.add_circle_outline_sharp, size: 40),
-                      ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => create_ad_reg()),
+                  );
+                },
+                child: Container(
+                  // color: Colors.purple.shade200,
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.purple.shade200,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 30, left: 50),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.add_circle_outline_sharp, size: 40),
+                        ),
 
-                      Text(
-                        'Create an advert',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w800,
+                        Text(
+                          'Create an advert',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        'Report ig you find or lost',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w100,
+                        SizedBox(height: 5),
+                        Text(
+                          'Report ig you find or lost',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w100,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        'an Item',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w100,
-                            fontSize: 13,
+                        Text(
+                          'an Item',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w100,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
 
               SizedBox(height: 30),
 
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.yellow.shade100,
-                  borderRadius: BorderRadius.circular(20),
-                ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => lost_found_items()),
+                  );
+                },
+                child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow.shade100,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
 
-                child: GestureDetector(
-                  onTap:(){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => lost_found_items()));
-                  },
                   child: Padding(
                     padding: const EdgeInsets.only(top: 30, left: 30),
                     child: Column(
@@ -167,22 +179,20 @@ class homepage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.yellow.shade100,
                   borderRadius: BorderRadius.circular(20),
-
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 30, top: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.manage_search_rounded, size: 60,),
+                      Icon(Icons.manage_search_rounded, size: 60),
                       Text(
                         'Search on map',
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w800,
-                            fontSize: 20
-                          )
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                       Text(
@@ -191,7 +201,7 @@ class homepage extends StatelessWidget {
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w200,
                             fontSize: 13,
-                          )
+                          ),
                         ),
                       ),
                       Text(
@@ -200,10 +210,9 @@ class homepage extends StatelessWidget {
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w200,
                             fontSize: 13,
-                          )
+                          ),
                         ),
                       ),
-
                     ],
                   ),
                 ),
