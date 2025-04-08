@@ -30,6 +30,7 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: true,
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Align(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
@@ -21,6 +22,7 @@ class _create_ad_regState extends State<create_ad_reg> {
     final List<String> category = ['Mobile', 'Laptop', 'Documents'];
 
     return Scaffold(appBar: AppBar(
+      automaticallyImplyLeading: true,
     ),
       body: SingleChildScrollView(
         child: Padding(
@@ -206,9 +208,7 @@ class _create_ad_regState extends State<create_ad_reg> {
                   dropdownColor: Colors.grey.shade100,
                 ),
               ),              SizedBox(height: 20),
-              button(text: 'Contine', onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => select_pic()));
-              }),
+              button(text: 'Contine', onPressed: ()=> context.push('/select_pic')),
             ],
           ),
         ),

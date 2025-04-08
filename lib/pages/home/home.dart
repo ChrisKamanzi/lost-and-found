@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
 
 class homepage extends StatelessWidget {
@@ -45,12 +44,7 @@ class homepage extends StatelessWidget {
               ),
               SizedBox(height: 30),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => create_ad_reg()),
-                  );
-                },
+                onTap: () => context.push('/create_add'),
                 child: Container(
                   // color: Colors.purple.shade200,
                   height: 200,
@@ -106,12 +100,7 @@ class homepage extends StatelessWidget {
               SizedBox(height: 30),
 
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => lost_found_items()),
-                  );
-                },
+                onTap: () => context.push('/lost_found'),
                 child: Container(
                   height: 200,
                   width: double.infinity,

@@ -29,7 +29,7 @@ class textfield extends StatelessWidget {
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20)
           ),

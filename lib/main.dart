@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
+import 'package:lost_and_found/create_Ad/requestor_info.dart';
+import 'package:lost_and_found/create_Ad/select_pic.dart';
+import 'package:lost_and_found/create_Ad/upload_image.dart';
 import 'package:lost_and_found/pages/authentication/home_login .dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
@@ -68,6 +72,37 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state){
         return lost_found_items ();
       }
-    )
+    ),
+    GoRoute(
+        path: '/requestor_info',
+        builder: (BuildContext context, GoRouterState state){
+          return requestor_info();
+        }
+    ),
+    GoRoute(
+        path: '/upload_image',
+        builder: (BuildContext context, GoRouterState state){
+          return upload_image();
+        }
+    ),
+    GoRoute(
+        path: '/create_add',
+        builder: (BuildContext context, GoRouterState state){
+          return create_ad_reg();
+        }
+    ),
+    GoRoute(
+        path: '/select_pic',
+        builder: (BuildContext context, GoRouterState state){
+          return select_pic();
+        }
+    ),
+    GoRoute(
+        path: '/lost_found',
+        builder: (BuildContext context, GoRouterState state){
+          return lost_found_items();
+        }
+    ),
+
   ],
 );
