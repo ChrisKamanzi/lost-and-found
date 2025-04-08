@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/create_Ad/upload_image.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 
 class select_pic extends StatelessWidget {
@@ -79,7 +80,11 @@ class select_pic extends StatelessWidget {
                 ),
 
                   SizedBox(height: 30,),
-                  button(text: 'Upload an Image', onPressed: () {}),
+                  button(text: 'Upload an Image', onPressed: () {
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => upload_image()));
+
+                  }),
                 ],
               ),
             ),
