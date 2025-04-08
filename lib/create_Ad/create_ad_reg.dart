@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/create_Ad/select_pic.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:riverpod/riverpod.dart';
@@ -116,7 +117,7 @@ class _create_ad_regState extends State<create_ad_reg> {
                     height: 40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Colors.yellow.shade100,
+                      color: Colors.yellow.shade800,
                     ),
                     child: Center(child: Text('Found',
                     style: GoogleFonts.brawler(
@@ -176,7 +177,7 @@ class _create_ad_regState extends State<create_ad_reg> {
                   ],
                 ),
                 child: DropdownButtonFormField<String>(
-                  value: selectedCategory,
+                  value: selectedLocation,
                   items: ['Lagos', 'Kigali', 'Bujumbura'].map((String category) {
                     return DropdownMenuItem<String>(
                       value: category,
@@ -205,7 +206,9 @@ class _create_ad_regState extends State<create_ad_reg> {
                   dropdownColor: Colors.grey.shade100,
                 ),
               ),              SizedBox(height: 20),
-              button(text: 'Contine', onPressed: () {}),
+              button(text: 'Contine', onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => select_pic()));
+              }),
             ],
           ),
         ),
