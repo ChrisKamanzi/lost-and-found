@@ -5,8 +5,8 @@ import 'package:lost_and_found/widgets/text_field.dart';
 
 import '../../widgets/elevated_button.dart';
 
-class signUp extends StatelessWidget {
-  const signUp({super.key});
+class sign_up extends StatelessWidget {
+  const sign_up({super.key});
 
   @override
   Widget build(BuildContext context) {

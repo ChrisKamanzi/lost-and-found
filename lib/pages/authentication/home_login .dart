@@ -4,14 +4,14 @@ import 'package:lost_and_found/widgets/text_field.dart';
 
 import '../../widgets/elevated_button.dart';
 
-class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+class home_login extends StatefulWidget {
+  const home_login ({super.key});
 
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<home_login > createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends State<home_login > {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +40,7 @@ class _HomepageState extends State<Homepage> {
             SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.only(left: 30, right: 30),
-              child: button(text: 'Sign Up', onPressed: () {}),
+              child: button(text: 'Sign Up', onPressed: ()=> context.go('/signUp')),
             ),
           ],
         ),

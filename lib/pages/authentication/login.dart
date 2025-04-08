@@ -90,7 +90,7 @@ class login extends StatelessWidget {
             SizedBox(height: 30),
             Align(
               alignment: Alignment.topRight,
-              child: button(text: 'Log In', onPressed: ()=> context.go('/allItems')),
+              child: button(text: 'Log In', onPressed: ()=> context.go('/homepage')),
             ),
             SizedBox(height: 60),
 
