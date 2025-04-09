@@ -10,6 +10,9 @@ class sign_up extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _name = TextEditingController();
+    TextEditingController _email = TextEditingController();
+    TextEditingController _phone= TextEditingController();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -43,7 +46,7 @@ class sign_up extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5),
-            textfield(),
+            textfield(controller: _name,),
             SizedBox(height: 30),
             Align(
               alignment: Alignment.topLeft,
@@ -59,7 +62,7 @@ class sign_up extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5,),
-            textfield(),
+            textfield(controller: _email,),
             SizedBox(height: 30,),
             Align(
               alignment: Alignment.topLeft,
@@ -111,7 +114,7 @@ class sign_up extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5),
-            textfield(),
+            textfield(controller: _phone,),
             SizedBox(height: 30,),
             button(text: 'Sign Up', onPressed: (){}),
             Padding(

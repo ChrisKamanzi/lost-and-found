@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
+import 'package:lost_and_found/models/create_ad_model.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:riverpod/riverpod.dart';
@@ -20,27 +21,51 @@ class _create_ad_regState extends State<create_ad_reg> {
     String? selectedLocation;
 
     final List<String> category = ['Mobile', 'Laptop', 'Documents'];
+    final List<String> location = ['Kigali', 'Lagos', 'Bujumbura'];
 
-    return Scaffold(appBar: AppBar(
-      automaticallyImplyLeading: true,
-    ),
+    TextEditingController _title = TextEditingController();
+    TextEditingController _description = TextEditingController();
+
+    void save() {
+
+      CreateAd ad = CreateAd(
+        selected_category: category!,
+        //  post_type: post_type,
+        title: _title.text,
+        Description: _description.text,
+        Location: location!,
+      );
+
+      print('This is the data: ${ad.toMap()}');
+
+      context.push('/select_pic');
+    };
+
+    return Scaffold(
+      appBar: AppBar(automaticallyImplyLeading: true),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only( left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'Create ad',
                 style: GoogleFonts.brawler(
-                  textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+                  textStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
               Text(
                 'Category',
                 style: GoogleFonts.brawler(
-                  textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -58,26 +83,30 @@ class _create_ad_regState extends State<create_ad_reg> {
                 ),
                 child: DropdownButtonFormField<String>(
                   value: selectedCategory,
-                  items: ['Mobile', 'Laptop', 'Documents'].map((String category) {
-                    return DropdownMenuItem<String>(
-                      value: category,
-                      child: Text(
-                        category,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  items:
+                      ['Mobile', 'Laptop', 'Documents'].map((String category) {
+                        return DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(
+                            category,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                   onChanged: (value) {
                     selectedCategory = value;
                   },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 12,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -87,15 +116,18 @@ class _create_ad_regState extends State<create_ad_reg> {
                 ),
               ),
               SizedBox(height: 20),
-        
+
               Text(
                 'Post Type',
                 style: GoogleFonts.brawler(
-                  textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
-        
+
               Row(
                 children: [
                   Container(
@@ -105,13 +137,17 @@ class _create_ad_regState extends State<create_ad_reg> {
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.purple.shade200,
                     ),
-                    child: Center(child: Text('Lost',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white
-                      )
-                    ),)),
+                    child: Center(
+                      child: Text(
+                        'Lost',
+                        style: GoogleFonts.brawler(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(width: 20),
                   Container(
@@ -121,26 +157,33 @@ class _create_ad_regState extends State<create_ad_reg> {
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.yellow.shade800,
                     ),
-                    child: Center(child: Text('Found',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white
-                      )
-                    ),)),
+                    child: Center(
+                      child: Text(
+                        'Found',
+                        style: GoogleFonts.brawler(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
               SizedBox(height: 20),
-        
+
               Text(
                 'Title',
                 style: GoogleFonts.brawler(
-                  textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
               SizedBox(height: 20),
-              textfield(),
+              textfield(controller: _title),
               SizedBox(height: 20),
               Text(
                 'Description',
@@ -154,7 +197,7 @@ class _create_ad_regState extends State<create_ad_reg> {
                 ),
               ),
               SizedBox(height: 20),
-              textfield(),
+              textfield(controller: _description),
               SizedBox(height: 20),
               Text(
                 'Location',
@@ -162,7 +205,7 @@ class _create_ad_regState extends State<create_ad_reg> {
                   textStyle: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
-                  )
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -180,26 +223,30 @@ class _create_ad_regState extends State<create_ad_reg> {
                 ),
                 child: DropdownButtonFormField<String>(
                   value: selectedLocation,
-                  items: ['Lagos', 'Kigali', 'Bujumbura'].map((String category) {
-                    return DropdownMenuItem<String>(
-                      value: category,
-                      child: Text(
-                        category,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  items:
+                      location.map((String Location) {
+                        return DropdownMenuItem<String>(
+                          value: Location,
+                          child: Text(
+                            Location,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                   onChanged: (value) {
                     selectedCategory = value;
                   },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 12,
+                    ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -207,8 +254,9 @@ class _create_ad_regState extends State<create_ad_reg> {
                   icon: Icon(Icons.arrow_drop_down),
                   dropdownColor: Colors.grey.shade100,
                 ),
-              ),              SizedBox(height: 20),
-              button(text: 'Contine', onPressed: ()=> context.push('/select_pic')),
+              ),
+              SizedBox(height: 20),
+              button(text: 'Contine', onPressed: save),
             ],
           ),
         ),

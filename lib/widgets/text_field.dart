@@ -1,7 +1,18 @@
 import 'package:flutter/material.dart';
 
-class textfield extends StatelessWidget {
-  const textfield({super.key});
+class textfield extends StatefulWidget {
+  final TextEditingController controller;
+
+
+  const textfield({ super.key,
+    required this.controller});
+
+  @override
+  State<textfield> createState() => _textfieldState();
+}
+
+class _textfieldState extends State<textfield> {
+  final TextEditingController _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +29,7 @@ class textfield extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: widget.controller,
         style: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 20,

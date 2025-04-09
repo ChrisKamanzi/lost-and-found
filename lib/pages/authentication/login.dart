@@ -10,6 +10,7 @@ class login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _email = TextEditingController();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -41,7 +42,7 @@ class login extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            textfield(),
+            textfield(controller: _email,),
             SizedBox(height: 10),
             Text(
               'Password',
