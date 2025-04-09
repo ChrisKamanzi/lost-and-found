@@ -3,12 +3,33 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/create_Ad/upload_image.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class select_pic extends StatelessWidget {
+class select_pic extends StatefulWidget {
   const select_pic({super.key});
 
   @override
+  State<select_pic> createState() => _select_picState();
+}
+
+class _select_picState extends State<select_pic> {
+  @override
   Widget build(BuildContext context) {
+
+    File? _ImageFile;
+    final ImagePicker _imagePicker =ImagePicker();
+
+    Future<void> _openCamera() async {
+      final XFile? image = await _imagePicker.pickImage(source: ImageSource.camera);
+
+      if (image != null) {
+        setState(() {
+          _ImageFile = File(image.path);
+        });
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -72,7 +93,7 @@ class select_pic extends StatelessWidget {
                             vertical: 15,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: _openCamera,
                         child: Text(
                           'Take a Photo',
                           style: TextStyle(
@@ -87,8 +108,7 @@ class select_pic extends StatelessWidget {
                   SizedBox(height: 30),
                   button(
                     text: 'Upload an Image',
-                    onPressed: () => context.push('/upload_image')
-
+                    onPressed: () => context.push('/upload_image'),
                   ),
                 ],
               ),
