@@ -1,25 +1,25 @@
 class CreateAd {
-  List<String> selected_category;
+  List<String> selectedCategory;
 
   // String post_type;
   String title;
-  String Description;
-  List<String> Location;
+  String description;
+  List<String> location;
 
   CreateAd({
-    required this.selected_category,
+    required this.selectedCategory,
     //  required this.post_type,
     required this.title,
-    required this.Description,
-    required this.Location,
+    required this.description,
+    required this.location,
   });
 
-  Map<String, String> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      'selected_category': selected_category.join(','),
+      'selected_category': selectedCategory.toList(),
       'title': title,
-      'Description': Description,
-      'Location': Location.join(','),
+      'Description': description,
+      'Location': location.toList()
     };
   }
 }

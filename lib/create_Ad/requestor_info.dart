@@ -13,9 +13,9 @@ class requestor_info extends StatelessWidget {
     TextEditingController _name = TextEditingController();
     TextEditingController _email = TextEditingController();
     TextEditingController _phone = TextEditingController();
-
+    final _formKey = GlobalKey<FormState>();
     void save() {
-      if (_name != null && _email != null && _phone != null) {
+      if (_formKey.currentState!.validate()) {
         int phone = int.parse(_phone.text);
         Request_info request = Request_info(
           name: _name.text,

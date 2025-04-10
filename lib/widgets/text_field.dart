@@ -35,6 +35,12 @@ class _textfieldState extends State<textfield> {
           fontSize: 20,
           color: Colors.black,
         ),
+        validator: (value){
+          if(value == null || value.isEmpty){
+            return 'You cant leave this empty';
+          }
+          return null;
+        },
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,

@@ -11,9 +11,10 @@ import 'package:lost_and_found/pages/home/all_card.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
 import 'package:lost_and_found/pages/splash_screen.dart';
-
+import 'package:riverpod/riverpod.dart';
 void main() {
-  runApp(const MyApp());
+  runApp( const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,10 +25,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
-     // child:  splash_Screen(),
     );
   }
 }
+
 final GoRouter _router = GoRouter(
   initialLocation: '/splash',
   routes: [
@@ -40,26 +41,26 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return home_login ();
-      }
+        return home_login();
+      },
     ),
     GoRoute(
-        path: '/login',
-        builder: (BuildContext context, GoRouterState state) {
-          return login();
-        }
+      path: '/login',
+      builder: (BuildContext context, GoRouterState state) {
+        return login();
+      },
     ),
     GoRoute(
       path: '/signUp',
-      builder: (BuildContext context, GoRouterState state){
+      builder: (BuildContext context, GoRouterState state) {
         return sign_up();
-      }
+      },
     ),
     GoRoute(
       path: '/allcards',
-      builder: (BuildContext context, GoRouterState state){
+      builder: (BuildContext context, GoRouterState state) {
         return all_cards();
-      }
+      },
     ),
     GoRoute(
       path: '/homepage',
@@ -69,40 +70,39 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/allItems',
-      builder: (BuildContext context, GoRouterState state){
-        return lost_found_items ();
-      }
+      builder: (BuildContext context, GoRouterState state) {
+        return lost_found_items();
+      },
     ),
     GoRoute(
-        path: '/requestor_info',
-        builder: (BuildContext context, GoRouterState state){
-          return requestor_info();
-        }
+      path: '/requestor_info',
+      builder: (BuildContext context, GoRouterState state) {
+        return requestor_info();
+      },
     ),
     GoRoute(
-        path: '/upload_image',
-        builder: (BuildContext context, GoRouterState state){
-          return upload_image();
-        }
+      path: '/upload_image',
+      builder: (BuildContext context, GoRouterState state) {
+        return upload_image();
+      },
     ),
     GoRoute(
-        path: '/create_add',
-        builder: (BuildContext context, GoRouterState state){
-          return create_ad_reg();
-        }
+      path: '/create_add',
+      builder: (BuildContext context, GoRouterState state) {
+        return create_ad_reg();
+      },
     ),
     GoRoute(
-        path: '/select_pic',
-        builder: (BuildContext context, GoRouterState state){
-          return select_pic();
-        }
+      path: '/select_pic',
+      builder: (BuildContext context, GoRouterState state) {
+        return select_pic();
+      },
     ),
     GoRoute(
-        path: '/lost_found',
-        builder: (BuildContext context, GoRouterState state){
-          return lost_found_items();
-        }
+      path: '/lost_found',
+      builder: (BuildContext context, GoRouterState state) {
+        return lost_found_items();
+      },
     ),
-
   ],
 );

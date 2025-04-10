@@ -5,7 +5,7 @@ class Request_info {
 
   Request_info({required this.name, required this.email, required this.phone});
 
-  Map<String, String> toMap() {
-    return {'name': name, 'email': email, 'phone': phone.toString()};
+  Map<String, dynamic> toMap() {
+    return {'name': name, 'email': email, 'phone': phone};
   }
 }

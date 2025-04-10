@@ -29,11 +29,11 @@ class _create_ad_regState extends State<create_ad_reg> {
     void save() {
 
       CreateAd ad = CreateAd(
-        selected_category: category!,
+        selectedCategory: category!,
         //  post_type: post_type,
         title: _title.text,
-        Description: _description.text,
-        Location: location!,
+        description: _description.text,
+        location: location!,
       );
 
       print('This is the data: ${ad.toMap()}');
