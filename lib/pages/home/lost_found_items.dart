@@ -34,7 +34,6 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
           child: Align(
-
             alignment: Alignment.topLeft,
             child: Text(
               'Items',
@@ -44,8 +43,6 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
             ),
           ),
         ),
-
-
       bottom: TabBar(
           tabs: [
             Tab(text: 'All'),

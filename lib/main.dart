@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
 import 'package:lost_and_found/create_Ad/requestor_info.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
 import 'package:lost_and_found/create_Ad/upload_image.dart';
+import 'package:lost_and_found/pages/authentication/forgot_password.dart';
+import 'package:lost_and_found/pages/authentication/forgot_token.dart';
 import 'package:lost_and_found/pages/authentication/home_login .dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
@@ -13,7 +16,7 @@ import 'package:lost_and_found/pages/home/lost_found_items.dart';
 import 'package:lost_and_found/pages/splash_screen.dart';
 import 'package:riverpod/riverpod.dart';
 void main() {
-  runApp( const MyApp(),
+  runApp( ProviderScope(child: const MyApp()),
   );
 }
 
@@ -102,6 +105,18 @@ final GoRouter _router = GoRouter(
       path: '/lost_found',
       builder: (BuildContext context, GoRouterState state) {
         return lost_found_items();
+      },
+    ),
+    GoRoute(
+      path: '/forrgotPassword',
+      builder: (BuildContext context, GoRouterState state) {
+        return forgotPassword();
+      },
+    ),
+    GoRoute(
+      path: '/token',
+      builder: (BuildContext context, GoRouterState state) {
+        return TokenPage();
       },
     ),
   ],
