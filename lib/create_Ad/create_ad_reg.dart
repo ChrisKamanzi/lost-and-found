@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
@@ -7,16 +8,14 @@ import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:riverpod/riverpod.dart';
 
-class create_ad_reg extends StatefulWidget {
+import '../providers/create_ad_provider.dart';
+
+class create_ad_reg extends ConsumerWidget {
   const create_ad_reg({super.key});
-
   @override
-  State<create_ad_reg> createState() => _create_ad_regState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final createAd = ref.watch(createAdProvider);
 
-class _create_ad_regState extends State<create_ad_reg> {
-  @override
-  Widget build(BuildContext context) {
     String? selectedCategory;
     String? selectedLocation;
 
@@ -36,11 +35,10 @@ class _create_ad_regState extends State<create_ad_reg> {
         location: location!,
       );
 
-      print('This is the data: ${ad.toMap()}');
+      print('This is the data: ${ad.toJson()}');
 
       context.push('/select_pic');
     };
-
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
       body: SingleChildScrollView(
@@ -183,7 +181,9 @@ class _create_ad_regState extends State<create_ad_reg> {
                 ),
               ),
               SizedBox(height: 20),
-              textfield(controller: _title),
+              textfield(controller: _title,
+
+              ),
               SizedBox(height: 20),
               Text(
                 'Description',

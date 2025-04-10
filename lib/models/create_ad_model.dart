@@ -14,7 +14,7 @@ class CreateAd {
     required this.location,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'selected_category': selectedCategory.toList(),
       'title': title,

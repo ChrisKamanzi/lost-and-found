@@ -1,16 +1,41 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../widgets/elevated_button.dart';
+import 'package:http/http.dart' as http;
 
 class login extends StatelessWidget {
   const login({super.key});
 
+  Future<void> _login(String email, String password, BuildContext context,) async {
+     String login="$apiUrl/login";
+    try {
+      final response = await http.post(
+        Uri.parse(login),
+        body: {'email': email, 'password': password},
+      );
+      print('Response body: ${response.body}');
+      if (response.statusCode == 201) {
+        final data = json.decode(response.body);
+        print('Success: $data');
+        context.go('/homepage');
+      } else {
+        print('Login failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _email = TextEditingController();
+    TextEditingController _password = TextEditingController();
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -24,10 +49,11 @@ class login extends StatelessWidget {
                 'Log In.',
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
-                  fontSize: 60,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),)
+                    fontSize: 60,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.black,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 50),
@@ -42,7 +68,7 @@ class login extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            textfield(controller: _email,),
+            textfield(controller: _email),
             SizedBox(height: 10),
             Text(
               'Password',
@@ -56,6 +82,7 @@ class login extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextFormField(
+              controller: _password,
               obscureText: true,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
@@ -65,7 +92,10 @@ class login extends StatelessWidget {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey.shade200,
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 12,
+                ),
                 suffixIcon: IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.remove_red_eye),
@@ -78,7 +108,7 @@ class login extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: TextButton(
-                onPressed: () {},
+                onPressed: () => context.push('/forrgotPassword'),
                 child: Text(
                   'Forgot Password',
                   style: GoogleFonts.brawler(
@@ -87,14 +117,18 @@ class login extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 30),
             Align(
               alignment: Alignment.topRight,
-              child: button(text: 'Log In', onPressed: ()=> context.go('/homepage')),
+              child: button(
+                text: 'Log In',
+                onPressed: () {
+                  // Trigger login with email and password
+                  _login(_email.text, _password.text, context);
+                },
+              ),
             ),
             SizedBox(height: 60),
-
             Align(
               alignment: Alignment.center,
               child: Text(
@@ -108,7 +142,6 @@ class login extends StatelessWidget {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.only(bottom: 10, left: 70, top: 150),
               child: Row(
@@ -119,15 +152,17 @@ class login extends StatelessWidget {
                       textStyle: TextStyle(fontSize: 15, color: Colors.black),
                     ),
                   ),
-                  TextButton(onPressed: () =>context.go('/signUp'),
-                      child: Text(
-                        'Sign Up',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w300, fontSize: 15
-                          )
+                  TextButton(
+                    onPressed: () => context.go('/signUp'),
+                    child: Text(
+                      'Sign Up',
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 15,
                         ),
-                      )
+                      ),
+                    ),
                   ),
                 ],
               ),

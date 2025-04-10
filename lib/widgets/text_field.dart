@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 
 class textfield extends StatefulWidget {
   final TextEditingController controller;
+ // final Function(String) onChanged;
 
 
   const textfield({ super.key,
-    required this.controller});
+    required this.controller,
+  //required this.onChanged
+  });
 
   @override
   State<textfield> createState() => _textfieldState();
@@ -29,6 +32,7 @@ class _textfieldState extends State<textfield> {
         ],
       ),
       child: TextFormField(
+
         controller: widget.controller,
         style: TextStyle(
           fontWeight: FontWeight.w400,
@@ -41,6 +45,7 @@ class _textfieldState extends State<textfield> {
           }
           return null;
         },
+     //   onChanged:  widget.onChanged,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
