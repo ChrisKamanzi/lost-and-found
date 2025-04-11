@@ -18,6 +18,7 @@ class forgotPassword extends StatelessWidget {
         Uri.parse(login),
         body: {'email': email},
       );
+
       print('Response body: ${response.body}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
