@@ -130,7 +130,7 @@ class drawer extends StatelessWidget {
                 ),
                 SizedBox(height: 200),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => context.push('/congrat'),
                   child: Text(
                     'LogOut',
                     style: GoogleFonts.brawler(

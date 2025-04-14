@@ -5,6 +5,7 @@ import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
 import 'package:lost_and_found/create_Ad/requestor_info.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
 import 'package:lost_and_found/create_Ad/upload_image.dart';
+import 'package:lost_and_found/pages/authentication/congrat.dart';
 import 'package:lost_and_found/pages/authentication/forgot_password.dart';
 import 'package:lost_and_found/pages/authentication/forgot_token.dart';
 import 'package:lost_and_found/pages/authentication/home_login .dart';
@@ -124,6 +125,12 @@ final GoRouter _router = GoRouter(
       path: '/account',
       builder: (BuildContext context, GoRouterState state) {
         return account();
+      },
+    ),
+    GoRoute(
+      path: '/congrat',
+      builder: (BuildContext context, GoRouterState state) {
+        return congrat();
       },
     ),
   ],

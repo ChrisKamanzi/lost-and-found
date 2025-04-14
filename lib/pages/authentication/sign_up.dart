@@ -45,7 +45,7 @@ class sign_up extends StatelessWidget {
         Navigator.of(context).pop();
         final data = json.decode(response.body);
         print('Success: $data');
-        context.go('/login');
+        context.go('/congrat');
       } else {
         Navigator.of(context).pop();
         print('Login failed with status: ${response.statusCode}');
