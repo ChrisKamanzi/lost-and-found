@@ -86,7 +86,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/upload_image',
       builder: (BuildContext context, GoRouterState state) {
-        return upload_image();
+        return uploadImage();
       },
     ),
     GoRoute(

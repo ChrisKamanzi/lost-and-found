@@ -45,7 +45,6 @@ class _select_picState extends State<select_pic> {
             padding: const EdgeInsets.only(left: 20, right: 20, top: 150),
             child: Center(
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
