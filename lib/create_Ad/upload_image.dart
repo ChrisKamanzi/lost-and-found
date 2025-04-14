@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lost_and_found/widgets/drawer.dart';
 import 'dart:io';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 
@@ -57,6 +58,7 @@ class _UploadImageState extends State<uploadImage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
+    //  drawer: drawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 50),

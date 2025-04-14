@@ -10,6 +10,7 @@ import 'package:lost_and_found/pages/authentication/forgot_token.dart';
 import 'package:lost_and_found/pages/authentication/home_login .dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
+import 'package:lost_and_found/pages/home/acount.dart';
 import 'package:lost_and_found/pages/home/all_card.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
@@ -117,6 +118,12 @@ final GoRouter _router = GoRouter(
       path: '/token',
       builder: (BuildContext context, GoRouterState state) {
         return TokenPage();
+      },
+    ),
+    GoRoute(
+      path: '/account',
+      builder: (BuildContext context, GoRouterState state) {
+        return account();
       },
     ),
   ],

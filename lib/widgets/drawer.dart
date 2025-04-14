@@ -26,10 +26,13 @@ class drawer extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.person,
-                          size: 80,
-                          color: Colors.grey.shade500,
+                        IconButton(
+                          onPressed: () => context.go('/account'),
+                          icon: Icon(
+                            Icons.person,
+                            size: 80,
+                            color: Colors.grey.shade500,
+                          ),
                         ),
                         Icon(
                           Icons.brightness_3_sharp,
@@ -128,13 +131,15 @@ class drawer extends StatelessWidget {
                 SizedBox(height: 200),
                 TextButton(
                   onPressed: () {},
-                  child: Text('LogOut',
-                      style: GoogleFonts.brawler(
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300
-                        )
-                      )),
+                  child: Text(
+                    'LogOut',
+                    style: GoogleFonts.brawler(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

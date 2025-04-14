@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/pages/home/all_card.dart';
+import 'package:lost_and_found/widgets/drawer.dart';
 
 class lost_found_items extends StatefulWidget {
   const lost_found_items ({super.key});
@@ -30,6 +31,7 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         automaticallyImplyLeading: true,
         title: Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -43,6 +45,7 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
             ),
           ),
         ),
+
       bottom: TabBar(
           tabs: [
             Tab(text: 'All'),
@@ -55,6 +58,7 @@ class _homeState extends State<lost_found_items > with SingleTickerProviderState
           controller: _TabController,
         ),
       ),
+   //   drawer: drawer(),
       body: TabBarView(
         controller: _TabController,
         children: [

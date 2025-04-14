@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/create_Ad/select_pic.dart';
 import 'package:lost_and_found/models/create_ad_model.dart';
+import 'package:lost_and_found/widgets/drawer.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:riverpod/riverpod.dart';
@@ -41,6 +42,7 @@ class create_ad_reg extends ConsumerWidget {
     };
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
+    //  drawer: drawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),

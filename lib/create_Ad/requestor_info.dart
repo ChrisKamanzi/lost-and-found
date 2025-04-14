@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/models/requestor_info.dart';
+import 'package:lost_and_found/widgets/drawer.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 
@@ -30,6 +31,7 @@ class requestor_info extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
+      //drawer: drawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
