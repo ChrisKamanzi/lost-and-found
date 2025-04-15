@@ -37,15 +37,15 @@ class _select_picState extends State<select_pic> {
         automaticallyImplyLeading: true,
       ),
       extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset('asset/picture1.jpg', fit: BoxFit.cover),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 150),
-              child: Center(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset('asset/picture1.jpg', fit: BoxFit.cover),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 150),
+            child: Center(
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -77,7 +77,7 @@ class _select_picState extends State<select_pic> {
                         ),
                       ),
                     ),
-        
+                
                     SizedBox(height: 100),
                     Padding(
                       padding: const EdgeInsets.only(top: 100),
@@ -115,8 +115,8 @@ class _select_picState extends State<select_pic> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

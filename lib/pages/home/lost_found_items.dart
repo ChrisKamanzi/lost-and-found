@@ -1,71 +1,132 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/pages/home/all_card.dart';
-import 'package:lost_and_found/widgets/drawer.dart';
+import 'package:lost_and_found/models/lost_found_model.dart';
+import 'package:lost_and_found/widgets/card.dart'; // Assuming LostFoundCard is here
 
-class lost_found_items extends StatefulWidget {
-  const lost_found_items ({super.key});
+class lostFoundItems extends StatefulWidget {
+  const lostFoundItems({super.key});
 
   @override
-  State<lost_found_items > createState() => _homeState();
+  State<lostFoundItems> createState() => _LostFoundItemsState();
 }
 
-class _homeState extends State<lost_found_items > with SingleTickerProviderStateMixin {
-  late TabController _TabController;
+class _LostFoundItemsState extends State<lostFoundItems>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  final List<lostFound> items = [
+    lostFound(
+      imagePAth: 'asset/iphone16.jpg',
+      location: 'Lagos, Nigeria',
+      lostStatus: 'Lost',
+      daysAgo: '2 days ago',
+    ),
+    lostFound(
+      imagePAth: 'asset/airpods.webp',
+      location: 'Kigali, Rwanda',
+      lostStatus: 'Found',
+      daysAgo: '5 days ago',
+    ),
+    lostFound(
+      imagePAth: 'asset/shoe.jpeg',
+      location: 'Rusizi, Rwanda',
+      lostStatus: 'Lost',
+      daysAgo: '3 days ago',
+    ),
+    lostFound(
+      imagePAth: 'asset/card.jpeg',
+      location: 'Antalya, Turkey',
+      lostStatus: 'Found',
+      daysAgo: '6 days ago',
+    ),
+  ];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _TabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    _TabController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-
-        automaticallyImplyLeading: true,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Items',
-              style: GoogleFonts.brawler(
-                textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
-              ),
+        backgroundColor: Colors.white,
+        title: Text(
+          'Items',
+          style: GoogleFonts.brawler(
+            textStyle: const TextStyle(
+              fontSize: 22,
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-
-      bottom: TabBar(
-          tabs: [
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: Colors.orange,
+          indicatorWeight: 3,
+          tabs: const [
             Tab(text: 'All'),
             Tab(text: 'Mobile'),
             Tab(text: 'Documents'),
             Tab(text: 'Laptop'),
           ],
-          indicatorColor: Colors.yellow,
-          indicatorWeight: 4,
-          controller: _TabController,
         ),
+        elevation: 1,
       ),
-   //   drawer: drawer(),
       body: TabBarView(
-        controller: _TabController,
+        controller: _tabController,
         children: [
-          Center(child: all_cards()),
-          Center(child: all_cards()),
-          Center(child: all_cards()),
-          Center(child: all_cards()),
+          GridView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: items.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 10,
+              childAspectRatio: 0.57,
+            ),
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return LostFoundCard(
+                imagePath: item.imagePAth,
+                location: item.location,
+                lostStatus: item.lostStatus,
+                daysAgo: item.daysAgo,
+              );
+            },
+          ),
+          GridView.builder(
+            itemCount: items.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 0.62,
+            ),
+            itemBuilder: (context, index){
+              final item = items[index];
+              return LostFoundCard(
+                  imagePath: item.imagePAth,
+                  location: item.location,
+                  lostStatus: item.lostStatus,
+                  daysAgo: item.daysAgo
+              );
+            },
+          ),
+
+          const Center(child: Text('Documents category coming soon')),
+          const Center(child: Text('Laptop category coming soon')),
         ],
       ),
     );

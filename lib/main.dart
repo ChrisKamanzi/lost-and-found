@@ -12,7 +12,7 @@ import 'package:lost_and_found/pages/authentication/home_login .dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/home/acount.dart';
-import 'package:lost_and_found/pages/home/all_card.dart';
+import 'package:lost_and_found/widgets/all_card.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
 import 'package:lost_and_found/pages/splash_screen.dart';
@@ -61,12 +61,7 @@ final GoRouter _router = GoRouter(
         return sign_up();
       },
     ),
-    GoRoute(
-      path: '/allcards',
-      builder: (BuildContext context, GoRouterState state) {
-        return all_cards();
-      },
-    ),
+
     GoRoute(
       path: '/homepage',
       builder: (BuildContext context, GoRouterState state) {
@@ -76,7 +71,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/allItems',
       builder: (BuildContext context, GoRouterState state) {
-        return lost_found_items();
+        return lostFoundItems();
       },
     ),
     GoRoute(
@@ -106,7 +101,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/lost_found',
       builder: (BuildContext context, GoRouterState state) {
-        return lost_found_items();
+        return lostFoundItems();
       },
     ),
     GoRoute(
