@@ -37,84 +37,86 @@ class _select_picState extends State<select_pic> {
         automaticallyImplyLeading: true,
       ),
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset('asset/picture1.jpg', fit: BoxFit.cover),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 150),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Select a picture by',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    'taking a picture or uploading',
-                    style: GoogleFonts.brawler(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 25,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'an image',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 100),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 100),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.purple.shade400,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 15,
-                          ),
-                        ),
-                        onPressed: _openCamera,
-                        child: Text(
-                          'Take a Photo',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset('asset/picture1.jpg', fit: BoxFit.cover),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 150),
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Select a picture by',
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontSize: 25,
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 30),
-                  button(
-                    text: 'Upload an Image',
-                    onPressed: () => context.push('/upload_image'),
-                  ),
-                ],
+                    Text(
+                      'taking a picture or uploading',
+                      style: GoogleFonts.brawler(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'an image',
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+        
+                    SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 100),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.purple.shade400,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 15,
+                            ),
+                          ),
+                          onPressed: _openCamera,
+                          child: Text(
+                            'Take a Photo',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    button(
+                      text: 'Upload an Image',
+                      onPressed: () => context.push('/upload_image'),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
