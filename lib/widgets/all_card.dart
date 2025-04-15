@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 class LostFoundCard extends StatelessWidget {
+
   final String imagePath;
   final String location;
   final String lostStatus;
@@ -12,53 +12,39 @@ class LostFoundCard extends StatelessWidget {
     required this.location,
     required this.lostStatus,
     required this.daysAgo,
+
   });
 
   @override
   Widget build(BuildContext context) {
+
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 3,
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
-            child: Image.asset(
+            child: Image.network(
               imagePath,
-              height: 100,
-              width: double.infinity,
               fit: BoxFit.cover,
+              height: 120,
+              width: double.infinity,
+              errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  location,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  lostStatus,
-                  style: TextStyle(
-                    color:
-                        lostStatus.toLowerCase() == 'found'
-                            ? Colors.green
-                            : Colors.red,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  daysAgo,
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                ),
+                Text(location, style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(lostStatus),
+                Text('Posted: $daysAgo'),
               ],
             ),
           ),
