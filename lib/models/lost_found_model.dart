@@ -1,5 +1,5 @@
 class lostFound {
-  final String imagePath; // Just ONE image now
+  final String imagePath;
   final String location;
   final String lostStatus;
   final String daysAgo;
@@ -14,7 +14,6 @@ class lostFound {
   factory lostFound.fromJson(Map<String, dynamic> json) {
     String imagePath = '';
 
-    // Try to get the first image if available
     if (json['itemImages'] != null &&
         json['itemImages'] is List &&
         json['itemImages'].isNotEmpty) {

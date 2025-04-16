@@ -12,10 +12,11 @@ import 'package:lost_and_found/pages/authentication/home_login .dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/home/acount.dart';
+import 'package:lost_and_found/pages/into/report.dart';
 import 'package:lost_and_found/widgets/all_card.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
-import 'package:lost_and_found/pages/splash_screen.dart';
+import 'package:lost_and_found/pages/into/splash_screen.dart';
 import 'package:riverpod/riverpod.dart';
 void main() {
   runApp( ProviderScope(child: const MyApp()),
@@ -126,6 +127,12 @@ final GoRouter _router = GoRouter(
       path: '/congrat',
       builder: (BuildContext context, GoRouterState state) {
         return congrat();
+      },
+    ),
+    GoRoute(
+      path: '/report',
+      builder: (BuildContext context, GoRouterState state) {
+        return report();
       },
     ),
   ],
