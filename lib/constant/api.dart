@@ -1,1 +1,2 @@
-const  apiUrl ="https://8d7c-2c0f-eb68-206-7c00-e00d-70e2-93b2-8bb8.ngrok-free.app/api/v1";
+const  apiUrl ="https://eb51-41-186-78-162.ngrok-free.app/api/v1";
+

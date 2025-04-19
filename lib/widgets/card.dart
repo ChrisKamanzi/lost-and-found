@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class LostFoundCard extends StatelessWidget {
+  final String title;
+
   final String imagePath;
   final String location;
   final String lostStatus;
@@ -8,6 +11,7 @@ class LostFoundCard extends StatelessWidget {
 
   const LostFoundCard({
     Key? key,
+    required this.title,
     required this.imagePath,
     required this.location,
     required this.lostStatus,
@@ -26,21 +30,28 @@ class LostFoundCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: Image.asset(
-                  imagePath,
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              const SizedBox(height: 10),
+
+            SizedBox(
+            width: double.infinity,
+            child: imagePath.startsWith('file://')
+                ? Image.file(File(imagePath)) // Load local file
+                : Image.network( // Otherwise, load remote image
+              imagePath,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
+              width: 120,
+              height: 120,
+            ),
+          ),
+
+
+
+          const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Phone Lost and Found',
+                    title,
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                   ),
 

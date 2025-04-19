@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-class LostFoundCard extends StatelessWidget {
+class LostFoundCardd extends StatelessWidget {
 
   final String imagePath;
   final String location;
   final String lostStatus;
   final String daysAgo;
 
-  const LostFoundCard({
+  const LostFoundCardd({
     super.key,
     required this.imagePath,
     required this.location,
