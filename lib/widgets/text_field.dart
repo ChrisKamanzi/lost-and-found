@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 class textfield extends StatefulWidget {
   final TextEditingController controller;
- // final Function(String) onChanged;
+  final String? hintText;
+
+  // final Function(String) onChanged;
 
 
   const textfield({ super.key,
     required this.controller,
-  //required this.onChanged
+    this.hintText
+    //required this.onChanged
   });
 
   @override
@@ -53,6 +56,7 @@ class _textfieldState extends State<textfield> {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20)
           ),
+          hintText: widget.hintText
         ),
       ),
     );

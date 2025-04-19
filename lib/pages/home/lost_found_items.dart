@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
-import 'package:lost_and_found/widgets/card.dart'; // Assuming LostFoundCard is here
+import 'package:lost_and_found/widgets/card.dart';
 
 class lostFoundItems extends StatefulWidget {
   const lostFoundItems({super.key});
@@ -16,31 +16,146 @@ class lostFoundItems extends StatefulWidget {
 class _LostFoundItemsState extends State<lostFoundItems>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<Map<String, String>> categories = [];
+  late List<Future<List<lostFound>>> categoryFutures;
+  String searchQuery = '';
+  TextEditingController searchController = TextEditingController();
 
-  Future<List<lostFound>> fetchItems() async {
-    final response = await http.get(Uri.parse('$apiUrl/items'));
-
+  Future<List<lostFound>> fetchItems({String query = ''}) async {
+    final url =
+        query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
+    final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      final List data = jsonDecode(response.body);
+      final Map<String, dynamic> json = jsonDecode(response.body);
+      final List<dynamic> data = json['items'];
       return data.map((item) => lostFound.fromJson(item)).toList();
     } else {
       throw Exception('Failed to load items ${response.statusCode}');
     }
   }
 
-  late Future<List<lostFound>> _futureItems;
+  Future<List<lostFound>> fetchItemsByCategory(
+    String slug, {
+    String query = '',
+  }) async {
+    final url =
+        query.isNotEmpty
+            ? '$apiUrl/items?category=$slug&search=$query'
+            : '$apiUrl/items?category=$slug';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> json = jsonDecode(response.body);
+      final List<dynamic> data = json['items'];
+      return data.map((item) => lostFound.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load items for $slug');
+    }
+  }
+
+  Future<List<Map<String, String>>> fetchCategories() async {
+    final response = await http.get(Uri.parse('$apiUrl/categories'));
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> json = jsonDecode(response.body);
+      final List<dynamic> data = json['categories'];
+      return data.map<Map<String, String>>((category) {
+        return {
+          'name': category['name'],
+          'slug': category['name'].toString().toLowerCase(),
+        };
+      }).toList();
+    } else {
+      throw Exception('Failed to fetch categories');
+    }
+  }
+
+  void searchItems(String query) {
+    final selectedIndex = _tabController.index;
+    final isAllTab = selectedIndex == 0;
+
+    setState(() {
+      searchQuery = query;
+      categoryFutures = [
+        fetchItems(query: query),
+        ...categories.map((c) {
+          final slug = c['slug']!;
+          if (!isAllTab && categories[selectedIndex - 1]['slug'] == slug) {
+            return fetchItemsByCategory(slug, query: query);
+          }
+          return fetchItemsByCategory(slug);
+        }),
+      ];
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-    _futureItems = fetchItems();
+    fetchCategories().then((fetchedCategories) {
+      setState(() {
+        categories = fetchedCategories;
+        _tabController = TabController(
+          length: categories.length + 1,
+          vsync: this,
+        );
+        categoryFutures = [
+          fetchItems(),
+          ...categories.map((c) => fetchItemsByCategory(c['slug']!)),
+        ];
+      });
+    });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    searchController.dispose();
     super.dispose();
+  }
+
+  List<Tab> buildTabs() {
+    return [
+      const Tab(text: 'All'),
+      ...categories.map((c) => Tab(text: c['name'])).toList(),
+    ];
+  }
+
+  List<Widget> buildTabViews() {
+    return categoryFutures.map((future) {
+      return FutureBuilder<List<lostFound>>(
+        future: future,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No items found'));
+          }
+
+          final items = snapshot.data!;
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            itemCount: items.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 10,
+              childAspectRatio: 0.75,
+            ),
+            itemBuilder: (context, index) {
+              final item = items[index];
+              return LostFoundCard(
+                title: item.title,
+                imagePath: item.imagePath,
+                location: item.location,
+                lostStatus: item.lostStatus,
+                daysAgo: item.daysAgo,
+              );
+            },
+          );
+        },
+      );
+    }).toList();
   }
 
   @override
@@ -49,73 +164,42 @@ class _LostFoundItemsState extends State<lostFoundItems>
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
-          'Items',
-          style: GoogleFonts.brawler(
-            textStyle: const TextStyle(
-              fontSize: 22,
-              color: Colors.black87,
-              fontWeight: FontWeight.bold,
+        title: TextField(
+          controller: searchController,
+          decoration: InputDecoration(
+            hintText: 'Search items...',
+            hintStyle: const TextStyle(color: Colors.grey),
+            border: InputBorder.none,
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.search, color: Colors.black),
+              onPressed: () => searchItems(searchController.text),
             ),
           ),
+          style: GoogleFonts.brawler(
+            textStyle: const TextStyle(fontSize: 18, color: Colors.black87),
+          ),
+          onSubmitted: searchItems,
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.orange,
-          indicatorWeight: 3,
-          tabs: const [
-            Tab(text: 'All'),
-            Tab(text: 'Mobile'),
-            Tab(text: 'Documents'),
-            Tab(text: 'Laptop'),
-          ],
-        ),
+        bottom:
+            categories.isEmpty
+                ? null
+                : TabBar(
+                  controller: _tabController,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.orange,
+                  indicatorWeight: 3,
+                  tabs: buildTabs(),
+                ),
         elevation: 1,
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          FutureBuilder<List<lostFound>>(
-            future: _futureItems,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(child: Text('No items found'));
-              }
-
-              final items = snapshot.data!;
-              return GridView.builder(
-                padding: const EdgeInsets.all(10),
-                itemCount: items.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  return LostFoundCard(
-                    imagePath: item.imagePath, // Just one image now
-                    location: item.location,
-                    lostStatus: item.lostStatus,
-                    daysAgo: item.daysAgo,
-                  );
-
-                },
-              );
-            },
-          ),
-          const Center(child: Text('Mobile category coming soon')),
-          const Center(child: Text('Documents category coming soon')),
-          const Center(child: Text('Laptop category coming soon')),
-        ],
-      ),
+      body:
+          categories.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : TabBarView(
+                controller: _tabController,
+                children: buildTabViews(),
+              ),
     );
   }
 }

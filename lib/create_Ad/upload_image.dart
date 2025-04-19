@@ -58,7 +58,7 @@ class _UploadImageState extends State<uploadImage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
-    //  drawer: drawer(),
+      //  drawer: drawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 30, right: 50),

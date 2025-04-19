@@ -1,10 +1,12 @@
 class lostFound {
+  final String title;
   final String imagePath;
   final String location;
   final String lostStatus;
   final String daysAgo;
 
   lostFound({
+    required this.title,
     required this.imagePath,
     required this.location,
     required this.lostStatus,
@@ -12,19 +14,15 @@ class lostFound {
   });
 
   factory lostFound.fromJson(Map<String, dynamic> json) {
-    String imagePath = '';
-
-    if (json['itemImages'] != null &&
-        json['itemImages'] is List &&
-        json['itemImages'].isNotEmpty) {
-      imagePath = json['itemImages'][0]['url'];
-    }
+    final List images = json['itemImages'] ?? [];
+    final String imagePath = images.isNotEmpty ? images[0]['url'] ?? '' : '';
 
     return lostFound(
+      title: json['title'] ?? '',
       imagePath: imagePath,
-      location: json['location'],
-      lostStatus: json['post_type'],
-      daysAgo: json['posted_at'],
+      location: json['location'] ?? '',
+      lostStatus: json['post_type'] ?? '',
+      daysAgo: json['posted_at'] ?? '',
     );
   }
 }

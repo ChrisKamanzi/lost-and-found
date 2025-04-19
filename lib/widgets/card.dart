@@ -50,9 +50,11 @@ class LostFoundCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
                   ),
 
                   Icon(Icons.favorite_border, color: Colors.redAccent),
@@ -63,12 +65,17 @@ class LostFoundCard extends StatelessWidget {
                 children: [
                   Icon(Icons.location_on_rounded, color: Colors.blueAccent),
                   const SizedBox(width: 5),
-                  Text(
-                    location,
-                    style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                  Expanded(
+                    child: Text(
+                      location,
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
                 ],
               ),
+
               const SizedBox(height: 5),
               Container(
                 padding: const EdgeInsets.symmetric(
