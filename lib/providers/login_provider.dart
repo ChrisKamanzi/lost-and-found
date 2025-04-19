@@ -4,7 +4,8 @@ import '../models/create_ad_model.dart';
 class CreateAdNotifier extends StateNotifier<CreateAd> {
   CreateAdNotifier()
       : super(CreateAd(
-    selectedCategory: [],
+    selectedCategory: '',
+    post_type: '',
     title: '',
     description: '',
     location: [],
@@ -13,24 +14,36 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateTitle(String newTitle) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
       title: newTitle,
       description: state.description,
       location: state.location,
     );
   }
-
+  void updatePostTypr(String newPostType) {
+    state = CreateAd(
+      selectedCategory: state.selectedCategory,
+      post_type: newPostType,
+      title: state.title,
+      description: state.description,
+      location: state.location,
+    );
+  }
   void updateDescription(String newDescription) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
       title: state.title,
       description: newDescription,
       location: state.location,
     );
   }
 
-  void updateCategory(List<String> newCategories) {
+  void updateCategory(newCategories) {
     state = CreateAd(
       selectedCategory: newCategories,
+      post_type: state.post_type,
+
       title: state.title,
       description: state.description,
       location: state.location,
@@ -40,6 +53,8 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateLocation(List<String> newLocation) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
+
       title: state.title,
       description: state.description,
       location: newLocation,
@@ -48,7 +63,8 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
 
   void reset() {
     state = CreateAd(
-      selectedCategory: [],
+      selectedCategory: '',
+      post_type: '',
       title: '',
       description: '',
       location: [],

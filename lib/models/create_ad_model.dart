@@ -1,25 +1,31 @@
-class CreateAd {
-  List<String> selectedCategory;
+import 'dart:io';
 
-  // String post_type;
+class CreateAd {
+  String selectedCategory;
+  String post_type;
   String title;
   String description;
   List<String> location;
+  final File? image1;
+  final File? image2;
 
   CreateAd({
     required this.selectedCategory,
-    //  required this.post_type,
+    required this.post_type,
     required this.title,
     required this.description,
     required this.location,
+    this.image1,
+    this.image2,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'selected_category': selectedCategory.toList(),
+      'category': selectedCategory,
+      'post_type': post_type,
       'title': title,
-      'Description': description,
-      'Location': location.toList()
+      'description': description,
+      'location': location,
     };
   }
 }

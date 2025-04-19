@@ -4,16 +4,27 @@ import 'package:lost_and_found/models/create_ad_model.dart';
 class CreateAdNotifier extends StateNotifier<CreateAd> {
   CreateAdNotifier()
       : super(CreateAd(
-    selectedCategory: [],
+    selectedCategory: '',
+    post_type: '',
     title: '',
     description: '',
     location: [],
   )
   );
+  void updatePostStpe(post_type) {
+    state = CreateAd(
+      selectedCategory: state.selectedCategory,
+      post_type:post_type ,
+      title: state.title,
+      description: state.description,
+      location: state.location,
+    );
+  }
 
-  void updateCategory(List<String> categories) {
+  void updateCategory(categories) {
     state = CreateAd(
       selectedCategory: categories,
+      post_type: state.post_type ,
       title: state.title,
       description: state.description,
       location: state.location,
@@ -23,6 +34,7 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateTitle(String title) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
       title: title,
       description: state.description,
       location: state.location,
@@ -32,6 +44,7 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateDescription(String description) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
       title: state.title,
       description: description,
       location: state.location,
@@ -41,6 +54,7 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateLocation(List<String> location) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
+      post_type: state.post_type,
       title: state.title,
       description: state.description,
       location: location,

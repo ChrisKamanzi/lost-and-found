@@ -25,7 +25,7 @@ class forgotPassword extends StatelessWidget {
         print('Success: $data');
         context.go('/token');
       } else {
-        print('Login failed with status: ${response.statusCode}');
+        print('Forgot password failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/elevated_button.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,27 +12,46 @@ class login extends StatelessWidget {
   const login({super.key});
 
   Future<void> _login(
-    String email,
-    String password,
-    BuildContext context,
-  ) async {
-    String login = "$apiUrl/login";
+      String email,
+      String password,
+      BuildContext context,
+      ) async {
+    String loginUrl = "$apiUrl/login";
     try {
       final response = await http.post(
-        Uri.parse(login),
+        Uri.parse(loginUrl),
         body: {'email': email, 'password': password},
       );
+
       print('Response body: ${response.body}');
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final data = json.decode(response.body);
-        print('Success: $data');
-        context.go('/homepage');
+        final token = data['token'];
+        final int userId = data['user']['id'];
+
+        if (token != null && userId != null) {
+          await saveToken(token, userId);
+          print('Success: $data');
+          print("id is = $userId and token is $token");
+          context.go('/homepage');
+        } else {
+          print('Token or User ID missing in response');
+          print("id is = $userId and token is $token");
+        }
       } else {
         print('Login failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
     }
+  }
+
+  Future<void> saveToken(String token, int userId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('authToken', token);
+    await prefs.setInt('userId', userId);
+    print('Token saved: $token');
+    print('User ID saved: $userId');
   }
 
   @override
@@ -61,6 +81,7 @@ class login extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50),
+
               Text(
                 'Email',
                 style: GoogleFonts.brawler(

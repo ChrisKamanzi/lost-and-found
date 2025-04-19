@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
-import 'package:lost_and_found/create_Ad/requestor_info.dart';
-import 'package:lost_and_found/create_Ad/select_pic.dart';
-import 'package:lost_and_found/create_Ad/upload_image.dart';
 import 'package:lost_and_found/pages/authentication/congrat.dart';
 import 'package:lost_and_found/pages/authentication/forgot_password.dart';
 import 'package:lost_and_found/pages/authentication/forgot_token.dart';
-import 'package:lost_and_found/pages/authentication/home_login .dart';
+import 'package:lost_and_found/pages/authentication/home_login%20.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/home/acount.dart';
-import 'package:lost_and_found/pages/into/report.dart';
-import 'package:lost_and_found/widgets/all_card.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
+import 'package:lost_and_found/pages/into/report.dart';
 import 'package:lost_and_found/pages/into/splash_screen.dart';
-import 'package:riverpod/riverpod.dart';
-void main() {
-  runApp( ProviderScope(child: const MyApp()),
-  );
-}
+import 'package:lost_and_found/providers/themNotifier.dart';
+import 'create_Ad/create_ad_reg.dart';
+import 'create_Ad/requestor_info.dart';
+import 'create_Ad/select_pic.dart';
+import 'create_Ad/upload_image.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() {
+  runApp( ProviderScope(child: MyApp()));
+}
+class MyApp extends ConsumerWidget {
+   MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeNotifierProvider);
+
     return MaterialApp.router(
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeMode,
     );
   }
-}
 
 final GoRouter _router = GoRouter(
   initialLocation: '/splash',
@@ -90,7 +92,7 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/create_add',
       builder: (BuildContext context, GoRouterState state) {
-        return create_ad_reg();
+        return CreateAdReg();
       },
     ),
     GoRoute(
@@ -136,4 +138,5 @@ final GoRouter _router = GoRouter(
       },
     ),
   ],
-);
+);}
+
