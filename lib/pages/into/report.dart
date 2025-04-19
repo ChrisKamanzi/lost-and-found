@@ -41,7 +41,7 @@ class _SearchPageState extends State<report> {
           Padding(
             padding: const EdgeInsets.only(right: 30),
             child: TextButton(
-              onPressed: () => context.go('/homepage'),
+              onPressed: () => context.go('/login'),
               child: Text(
                 'Skip',
                 style: GoogleFonts.brawler(
