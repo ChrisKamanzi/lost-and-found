@@ -153,6 +153,17 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     );
                   }).toList(),
               onChanged: (value) => setState(() => selectedCategory = value),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 12,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(

@@ -8,6 +8,7 @@ import 'package:lost_and_found/pages/authentication/home_login%20.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/home/acount.dart';
+import 'package:lost_and_found/pages/home/card_detail.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost_found_items.dart';
 import 'package:lost_and_found/pages/into/report.dart';
@@ -135,6 +136,12 @@ final GoRouter _router = GoRouter(
       path: '/report',
       builder: (BuildContext context, GoRouterState state) {
         return report();
+      },
+    ),
+    GoRoute(
+      path: '/cardDetail',
+      builder: (BuildContext context, GoRouterState state) {
+        return cardDetail();
       },
     ),
   ],

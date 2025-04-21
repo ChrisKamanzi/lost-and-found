@@ -160,47 +160,50 @@ class homepage extends StatelessWidget {
               ),
               SizedBox(height: 30),
 
-              Container(
-                height: 200,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.yellow.shade100,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.manage_search_rounded, size: 60),
-                      Text(
-                        'Search on map',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 20,
+              GestureDetector(
+                onTap: ()=> context.push('/cardDetail'),
+                child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.yellow.shade100,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30, top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.manage_search_rounded, size: 60),
+                        Text(
+                          'Search on map',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        'Search for Items on locations',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 13,
+                        Text(
+                          'Search for Items on locations',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
-                      ),
-                      Text(
-                        'near you',
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontWeight: FontWeight.w200,
-                            fontSize: 13,
+                        Text(
+                          'near you',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w200,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
