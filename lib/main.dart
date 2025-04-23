@@ -13,6 +13,8 @@ import 'package:lost_and_found/pages/home/lost&found/acount.dart';
 import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost&found/lost_found_items.dart';
+import 'package:lost_and_found/pages/home/lost&found/message.dart';
+import 'package:lost_and_found/pages/searchOnMap/map.dart';
 import 'package:lost_and_found/providers/themNotifier.dart';
 import 'create_Ad/create_ad_reg.dart';
 import 'create_Ad/requestor_info.dart';
@@ -142,6 +144,18 @@ final GoRouter _router = GoRouter(
       path: '/cardDetail',
       builder: (BuildContext context, GoRouterState state) {
         return cardDetail();
+      },
+    ),
+    GoRoute(
+      path: '/map',
+      builder: (BuildContext context, GoRouterState state) {
+        return map();
+      },
+    ),
+    GoRoute(
+      path: '/chat',
+      builder: (BuildContext context, GoRouterState state) {
+        return chat();
       },
     ),
   ],
