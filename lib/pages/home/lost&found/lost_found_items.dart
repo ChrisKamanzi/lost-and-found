@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
 import 'package:lost_and_found/widgets/card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class lostFoundItems extends StatefulWidget {
   const lostFoundItems({super.key});
@@ -22,9 +24,24 @@ class _LostFoundItemsState extends State<lostFoundItems>
   TextEditingController searchController = TextEditingController();
 
   Future<List<lostFound>> fetchItems({String query = ''}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('authToken');
+
+    if (token == null) {
+      throw Exception('Token not found in local storage');
+    }
+
     final url =
         query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
-    final response = await http.get(Uri.parse(url));
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(response.body);
       final List<dynamic> data = json['items'];
@@ -38,11 +55,20 @@ class _LostFoundItemsState extends State<lostFoundItems>
     String slug, {
     String query = '',
   }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('authToken');
+
     final url =
         query.isNotEmpty
             ? '$apiUrl/items?category=$slug&search=$query'
             : '$apiUrl/items?category=$slug';
-    final response = await http.get(Uri.parse(url));
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    // Check the response status and parse the data accordingly
     if (response.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(response.body);
       final List<dynamic> data = json['items'];
@@ -53,7 +79,24 @@ class _LostFoundItemsState extends State<lostFoundItems>
   }
 
   Future<List<Map<String, String>>> fetchCategories() async {
-    final response = await http.get(Uri.parse('$apiUrl/categories'));
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('authToken');
+
+    if (token == null) {
+      throw Exception('Token not found in local storage');
+    }
+
+    final response = await http.get(
+      Uri.parse('$apiUrl/categories'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    print('Status code: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
     if (response.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(response.body);
       final List<dynamic> data = json['categories'];
@@ -142,6 +185,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
               mainAxisSpacing: 10,
               childAspectRatio: 0.75,
             ),
+
             itemBuilder: (context, index) {
               final item = items[index];
               return LostFoundCard(
@@ -150,6 +194,9 @@ class _LostFoundItemsState extends State<lostFoundItems>
                 location: item.location,
                 lostStatus: item.lostStatus,
                 daysAgo: item.daysAgo,
+                /*   onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => cardDetail(itemId: item.title,)));
+                }*/
               );
             },
           );

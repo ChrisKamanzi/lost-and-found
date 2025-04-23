@@ -161,7 +161,7 @@ class homepage extends StatelessWidget {
               SizedBox(height: 30),
 
               GestureDetector(
-                onTap: ()=> context.push('/cardDetail'),
+                onTap: ()=> context.push('/map'),
                 child: Container(
                   height: 200,
                   width: double.infinity,

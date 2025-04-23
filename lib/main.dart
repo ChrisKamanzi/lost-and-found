@@ -158,6 +158,7 @@ final GoRouter _router = GoRouter(
         return chat();
       },
     ),
+
   ],
 );}
 

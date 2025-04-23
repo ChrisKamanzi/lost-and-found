@@ -56,7 +56,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
   }
 
   void save() async {
-    String url = "$apiUrl/items/store";
+    String url = "$apiUrl/items";
 
     try {
       final prefs = await SharedPreferences.getInstance();

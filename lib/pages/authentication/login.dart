@@ -154,7 +154,7 @@ class login extends StatelessWidget {
               ),
               SizedBox(height: 60),
               TextButton(
-                onPressed: () => context.push('/homepage'),
+                onPressed: () => context.push('/chat'),
                 child: Text('Temporary Button'),
               ),
 
