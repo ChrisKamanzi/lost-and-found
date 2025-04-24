@@ -1,45 +1,55 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constant/api.dart';
 import '../../../models/lost_found_model.dart';
 import '../../../widgets/elevated_button.dart';
 
 class cardDetail extends StatefulWidget {
- // final String? itemId;
+  final String itemId;
 
-  const cardDetail({super.key,
-   // this.itemId
-  });
+  const cardDetail({super.key, required this.itemId});
 
   @override
   State<cardDetail> createState() => _CardDetailScreenState();
 }
 
 class _CardDetailScreenState extends State<cardDetail> {
-  late Future<lostFound> itemDetail;
+  late Future<lostFound> itemFuture;
 
-  Future<lostFound> fetchItemDetail(String id) async {
-    final response = await http.get(Uri.parse('$apiUrl/items/$id'));
+  Future<lostFound> fetchItemById(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('authToken');
+
+    final response = await http.get(
+      Uri.parse('$apiUrl/items/$id'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
     if (response.statusCode == 200) {
       final json = jsonDecode(response.body);
       return lostFound.fromJson(json['item']);
     } else {
-      throw Exception('Failed to load item details');
+      throw Exception('Failed to load item');
     }
   }
 
   @override
   void initState() {
     super.initState();
-  //  itemDetail = fetchItemDetail(widget.itemId!);
+    itemFuture = fetchItemById(widget.itemId);
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<lostFound>(
-      future: itemDetail,
+      future: itemFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -47,28 +57,13 @@ class _CardDetailScreenState extends State<cardDetail> {
           );
         } else if (snapshot.hasError) {
           return Scaffold(
-            body: Center(child: Text('Error: \${snapshot.error}')),
+            body: Center(child: Text('Error: ${snapshot.error}')),
           );
         } else {
           final item = snapshot.data!;
           return Scaffold(
             backgroundColor: Colors.grey.shade100,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.white,
-              title: Text(
-                'Found Items',
-                style: GoogleFonts.brawler(
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-              ),
-              centerTitle: true,
-              iconTheme: const IconThemeData(color: Colors.black),
-            ),
+            appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -88,12 +83,15 @@ class _CardDetailScreenState extends State<cardDetail> {
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
                       item.imagePath,
-                      height: 250,
+                      height: 350,
                       width: double.infinity,
                       fit: BoxFit.cover,
+                      errorBuilder:
+                          (context, error, stackTrace) =>
+                              const Icon(Icons.broken_image, size: 300),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -101,13 +99,13 @@ class _CardDetailScreenState extends State<cardDetail> {
                     ),
                     decoration: BoxDecoration(
                       color:
-                          item.lostStatus.toLowerCase() == 'found'
+                          item.postType.toLowerCase() == 'found'
                               ? Colors.green.shade600
                               : Colors.red,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      item.lostStatus,
+                      item.postType,
                       style: GoogleFonts.brawler(
                         textStyle: const TextStyle(
                           fontSize: 14,
@@ -133,7 +131,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       const Icon(Icons.lock_clock, color: Colors.grey),
                       const SizedBox(width: 6),
                       Text(
-                        item.daysAgo,
+                        item.postedAt,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 15,
@@ -193,7 +191,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       children: [
                         _infoRow('Brand', item.title),
                         const SizedBox(height: 10),
-                        _infoRow('Posted', item.daysAgo),
+                        _infoRow('Posted', item.postedAt),
                       ],
                     ),
                   ),
@@ -239,7 +237,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                         ),
                       ),
                       Text(
-                        item.title,
+                        item.name,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -251,7 +249,23 @@ class _CardDetailScreenState extends State<cardDetail> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  button(text: 'Send Message', onPressed: () {}),
+                  button(
+                    text: 'Send Message',
+                    onPressed: () {
+                      print('itemId: ${item.id}');
+                      print('userId: ${item.userId}');
+
+                      context.push(
+                        '/chat',
+                        extra: {
+                          'name' : item.name,
+                          'itemId': item.id,
+                          'userId': item.userId,
+                        },
+                      );
+                    },
+                  ),
+
                 ],
               ),
             ),

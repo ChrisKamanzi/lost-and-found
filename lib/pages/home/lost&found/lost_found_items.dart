@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
+import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/widgets/card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -68,7 +69,6 @@ class _LostFoundItemsState extends State<lostFoundItems>
       headers: {'Authorization': 'Bearer $token'},
     );
 
-    // Check the response status and parse the data accordingly
     if (response.statusCode == 200) {
       final Map<String, dynamic> json = jsonDecode(response.body);
       final List<dynamic> data = json['items'];
@@ -189,14 +189,13 @@ class _LostFoundItemsState extends State<lostFoundItems>
             itemBuilder: (context, index) {
               final item = items[index];
               return LostFoundCard(
+                itemId: item.id,
                 title: item.title,
                 imagePath: item.imagePath,
                 location: item.location,
-                lostStatus: item.lostStatus,
-                daysAgo: item.daysAgo,
-                /*   onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => cardDetail(itemId: item.title,)));
-                }*/
+                lostStatus: item.postType,
+                daysAgo: item.postedAt,
+             //   => context.go('/cardDetail/${item.id}'),
               );
             },
           );

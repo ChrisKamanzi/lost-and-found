@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:go_router/go_router.dart';
 
 class LostFoundCard extends StatelessWidget {
+  final String itemId;
   final String title;
-
   final String imagePath;
   final String location;
   final String lostStatus;
   final String daysAgo;
-//  final VoidCallback onTap;
 
   const LostFoundCard({
     Key? key,
+    required this.itemId,
     required this.title,
     required this.imagePath,
     required this.location,
     required this.lostStatus,
     required this.daysAgo,
-  //  required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-     // onTap: onTap,
+      onTap: () {
+        context.push('/cardDetail/$itemId');
+      },
       child: Padding(
         padding: const EdgeInsets.only(top: 10, left: 1),
         child: Card(
@@ -38,20 +40,17 @@ class LostFoundCard extends StatelessWidget {
               children: [
                 SizedBox(
                   width: double.infinity,
-                  child:
-                      imagePath.startsWith('file://')
-                          ? Image.file(File(imagePath))
-                          : Image.network(
-                            imagePath,
-                            fit: BoxFit.cover,
-                            errorBuilder:
-                                (context, error, stackTrace) =>
-                                    const Icon(Icons.image_not_supported),
-                            width: 120,
-                            height: 120,
-                          ),
+                  child: imagePath.startsWith('file://')
+                      ? Image.file(File(imagePath))
+                      : Image.network(
+                    imagePath,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.image_not_supported),
+                    width: 120,
+                    height: 120,
+                  ),
                 ),
-
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,20 +58,19 @@ class LostFoundCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-
-                    Icon(Icons.favorite_border, color: Colors.redAccent),
+                    const Icon(Icons.favorite_border, color: Colors.redAccent),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    Icon(Icons.location_on_rounded, color: Colors.blueAccent),
+                    const Icon(Icons.location_on_rounded, color: Colors.blueAccent),
                     const SizedBox(width: 5),
                     Expanded(
                       child: Text(
@@ -84,7 +82,6 @@ class LostFoundCard extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 5),
                 Container(
                   padding: const EdgeInsets.symmetric(
@@ -97,7 +94,7 @@ class LostFoundCard extends StatelessWidget {
                   ),
                   child: Text(
                     lostStatus,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.redAccent,
                       fontWeight: FontWeight.bold,
                     ),
@@ -106,15 +103,15 @@ class LostFoundCard extends StatelessWidget {
                 const SizedBox(height: 5),
                 Text(
                   '$daysAgo ago',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
                 const SizedBox(height: 5),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.share),
-                    label: Text('Share'),
+                    icon: const Icon(Icons.share),
+                    label: const Text('Share'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

@@ -67,7 +67,6 @@ final GoRouter _router = GoRouter(
         return sign_up();
       },
     ),
-
     GoRoute(
       path: '/homepage',
       builder: (BuildContext context, GoRouterState state) {
@@ -141,9 +140,10 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/cardDetail',
+      path: '/cardDetail/:itemId',
       builder: (BuildContext context, GoRouterState state) {
-        return cardDetail();
+        final itemId = state.pathParameters['itemId']!;
+        return cardDetail(itemId: itemId);
       },
     ),
     GoRoute(
@@ -154,10 +154,15 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/chat',
-      builder: (BuildContext context, GoRouterState state) {
-        return chat();
+      builder: (context, state) {
+        final extra = state.extra as Map<dynamic, dynamic>;
+        return chat(
+            name: extra[ 'name']!,
+            itemId: extra[ 'itemId']!,
+            userId: extra['userId']!);
       },
     ),
+
 
   ],
 );}
