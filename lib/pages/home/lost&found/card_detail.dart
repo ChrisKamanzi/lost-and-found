@@ -1,8 +1,7 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../constant/api.dart';
 import '../../../models/lost_found_model.dart';
@@ -10,7 +9,6 @@ import '../../../widgets/elevated_button.dart';
 
 class cardDetail extends StatefulWidget {
   final String itemId;
-
   const cardDetail({super.key, required this.itemId});
 
   @override
@@ -24,19 +22,32 @@ class _CardDetailScreenState extends State<cardDetail> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
 
-    final response = await http.get(
-      Uri.parse('$apiUrl/items/$id'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
+    print('[SharedPreferences] Retrieved token: $token');
+    if (token == null) {
+      throw Exception('Token not found in local storage');
+    }
 
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      return lostFound.fromJson(json['item']);
-    } else {
-      throw Exception('Failed to load item');
+    final Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      print('[API REQUEST] GET $apiUrl/items/$id');
+      final response = await dio.get('$apiUrl/items/$id');
+      print('[API RESPONSE] Status Code: ${response.statusCode}');
+      print('[API RESPONSE] Body: ${response.data}');
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+        return lostFound.fromJson(data['item']);
+      } else {
+        throw Exception('Failed to load item: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('[ERROR] fetchItemById: $e');
+      rethrow;
     }
   }
 
@@ -61,6 +72,9 @@ class _CardDetailScreenState extends State<cardDetail> {
           );
         } else {
           final item = snapshot.data!;
+          print('[INFO] Loaded item: ${item.title}');
+          print('[INFO] Image path: ${item.imagePath}');
+
           return Scaffold(
             backgroundColor: Colors.grey.shade100,
             appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
@@ -79,6 +93,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                     ),
                   ),
                   const SizedBox(height: 15),
+
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
@@ -86,22 +101,25 @@ class _CardDetailScreenState extends State<cardDetail> {
                       height: 350,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      errorBuilder:
-                          (context, error, stackTrace) =>
-                              const Icon(Icons.broken_image, size: 300),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        print('[IMAGE ERROR] Failed to load: ${item.imagePath}');
+                        print('[STACK TRACE] $stackTrace');
+                        return const Icon(Icons.broken_image, size: 300);
+                      },
                     ),
                   ),
+
                   const SizedBox(height: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color:
-                          item.postType.toLowerCase() == 'found'
-                              ? Colors.green.shade600
-                              : Colors.red,
+                      color: item.postType.toLowerCase() == 'found'
+                          ? Colors.green.shade600
+                          : Colors.red,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -115,6 +133,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 20),
                   Text(
                     item.title,
@@ -125,6 +144,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 10),
                   Row(
                     children: [
@@ -142,6 +162,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -159,6 +180,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 30),
                   Text(
                     'Additional Information',
@@ -170,12 +192,10 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 15),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 20,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     decoration: BoxDecoration(
                       color: Colors.yellow.shade600,
                       borderRadius: BorderRadius.circular(16),
@@ -195,6 +215,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 25),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -214,15 +235,12 @@ class _CardDetailScreenState extends State<cardDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: const [
                         Icon(Icons.email, size: 28, color: Colors.deepPurple),
-                        Icon(
-                          Icons.favorite_border,
-                          size: 28,
-                          color: Colors.pink,
-                        ),
+                        Icon(Icons.favorite_border, size: 28, color: Colors.pink),
                         Icon(Icons.share, size: 28, color: Colors.teal),
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 25),
                   Row(
                     children: [
@@ -248,24 +266,22 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ],
                   ),
+
                   const SizedBox(height: 30),
                   button(
                     text: 'Send Message',
                     onPressed: () {
+                      print('[ACTION] Chat button pressed');
                       print('itemId: ${item.id}');
                       print('userId: ${item.userId}');
 
-                      context.push(
-                        '/chat',
-                        extra: {
-                          'name' : item.name,
-                          'itemId': item.id,
-                          'userId': item.userId,
-                        },
-                      );
+                      context.push('/chat', extra: {
+                        'name': item.name,
+                        'itemId': item.id,
+                        'userId': item.userId,
+                      });
                     },
                   ),
-
                 ],
               ),
             ),
@@ -279,14 +295,8 @@ class _CardDetailScreenState extends State<cardDetail> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: GoogleFonts.brawler(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
-        Text(
-          value,
-          style: GoogleFonts.brawler(fontSize: 16, fontWeight: FontWeight.w700),
-        ),
+        Text(title, style: GoogleFonts.brawler(fontSize: 16, fontWeight: FontWeight.w700)),
+        Text(value, style: GoogleFonts.brawler(fontSize: 16, fontWeight: FontWeight.w700)),
       ],
     );
   }

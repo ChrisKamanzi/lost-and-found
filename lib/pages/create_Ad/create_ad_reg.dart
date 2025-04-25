@@ -1,17 +1,17 @@
-import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
-import '../constant/api.dart';
-import '../providers/create_ad_provider.dart';
+import '../../constant/api.dart';
+import '../../models/create_ad_model.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../providers/categoryNotifier.dart';
+import '../../providers/districtsNotifier.dart';
 
 class CreateAdReg extends ConsumerStatefulWidget {
   const CreateAdReg({super.key});
@@ -21,24 +21,21 @@ class CreateAdReg extends ConsumerStatefulWidget {
 }
 
 class _CreateAdRegState extends ConsumerState<CreateAdReg> {
-  File? _selectedImage;
   File? _image1;
   File? _image2;
 
-  final List<Map<String, dynamic>> category = [
-    {'id': '01js0j115bzntqafah5tdfqr977', 'name': 'Mobile'},
-    {'id': '01js0j11szfyyc58c9h4z6xcwdd', 'name': 'Laptop'},
-    {'id': '01js0j139g8007a55c2hxtqs077', 'name': 'Documents'},
-  ];
-
-  final List<String> location = ['Kigali', 'Lagos', 'Bujumbura'];
-
-  String? selectedCategory;
   String? selectedLocation;
   String? selectedPostType;
 
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(categoryProvider.notifier).fetchCategories();
+    ref.read(villageProvider.notifier).fetchVillages();
+  }
 
   Future<void> _pickImage(int imageNumber) async {
     final pickedFile = await ImagePicker().pickImage(
@@ -55,8 +52,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
     }
   }
 
-  void save() async {
+  Future<void> save(CreateAd createAdData) async {
     String url = "$apiUrl/items";
+    Dio dio = Dio();
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -68,59 +66,73 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         return;
       }
 
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.headers.addAll({
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-      });
+      final selectedCategory = ref.read(selectedCategoryProvider);
 
-      request.fields['title'] = _title.text;
-      request.fields['description'] = _description.text;
-      request.fields['category_id'] = selectedCategory ?? '';
-      request.fields['post_type'] =
-          selectedPostType == 'Lost' ? 'lost' : 'found';
-      request.fields['user_id'] = userId.toString();
+      FormData formData = FormData();
 
-      if (selectedLocation != null) {
-        request.fields['location'] = selectedLocation!;
-      }
-      if (_image1 != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'itemImages[]',
-            _image1!.path,
-            filename: basename(_image1!.path),
+      formData.fields.addAll([
+        MapEntry('title', createAdData.title),
+        MapEntry('description', createAdData.description),
+        MapEntry('post_type', createAdData.post_type),
+        MapEntry('user_id', userId.toString()),
+        if (selectedCategory != null)
+          MapEntry('category_id', selectedCategory),
+        if (createAdData.villageId.isNotEmpty)
+          MapEntry('village_id', createAdData.villageId),
+        if (createAdData.location.isNotEmpty)
+          MapEntry('location', createAdData.location.first),
+      ]);
+
+      if (createAdData.image1 != null) {
+        formData.files.add(MapEntry(
+          'itemImages[]',
+          await MultipartFile.fromFile(
+            createAdData.image1!.path,
+            filename: basename(createAdData.image1!.path),
           ),
-        );
+        ));
       }
-      if (_image2 != null) {
-        request.files.add(
-          await http.MultipartFile.fromPath(
-            'itemImages[]',
-            _image2!.path,
-            filename: basename(_image2!.path),
+
+      if (createAdData.image2 != null) {
+        formData.files.add(MapEntry(
+          'itemImages[]',
+          await MultipartFile.fromFile(
+            createAdData.image2!.path,
+            filename: basename(createAdData.image2!.path),
           ),
-        );
+        ));
       }
-      print('Sending category_id: ${request.fields['category_id']}');
 
-      var response = await request.send();
-      var responseBody = await http.Response.fromStream(response);
+      print('FormData fields: ${formData.fields}');
+      print('FormData files: ${formData.files}');
 
-      print('Response body: ${responseBody.body}');
-      if (responseBody.statusCode == 200 || responseBody.statusCode == 201) {
-        print('Success with status: ${responseBody.statusCode}');
-      } else {
-        print('Save failed with status: ${responseBody.statusCode}');
-      }
+      final response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+
+      print('✅ Response: ${response.statusCode} - ${response.data}');
     } catch (e) {
-      print('️Error during save: $e');
+      if (e is DioException) {
+        print('❌ Dio error: ${e.response?.statusCode} - ${e.response?.data}');
+      } else {
+        print('❌ Unexpected error: $e');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final createAd = ref.watch(createAdProvider);
+    final categories = ref.watch(categoryProvider);
+    final selectedCategory = ref.watch(selectedCategoryProvider);
+    final villages = ref.watch(villageProvider);
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
@@ -139,20 +151,23 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
               ),
             ),
             const SizedBox(height: 30),
+
+            // Category Dropdown
             DropdownButtonFormField<String>(
               hint: Text('Category'),
-              value: selectedCategory,
-              items:
-                  category.map((cat) {
-                    return DropdownMenuItem<String>(
-                      value: cat['id'], // use the ID here
-                      child: Text(
-                        cat['name'],
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    );
-                  }).toList(),
-              onChanged: (value) => setState(() => selectedCategory = value),
+              value: ref.watch(selectedCategoryProvider),
+              items: categories.map((cat) {
+                return DropdownMenuItem<String>(
+                  value: cat['id'],
+                  child: Text(
+                    cat['name'],
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                );
+              }).toList(),
+              onChanged: (value) {
+                ref.read(selectedCategoryProvider.notifier).state = value;
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey.shade200,
@@ -165,17 +180,19 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                 ),
               ),
             ),
+
             const SizedBox(height: 20),
+
+            // Post Type Dropdown
             DropdownButtonFormField<String>(
               hint: Text('Post Type'),
               value: selectedPostType,
-              items:
-                  ['Lost', 'Found'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value, style: const TextStyle(fontSize: 20)),
-                    );
-                  }).toList(),
+              items: ['Lost', 'Found'].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value, style: const TextStyle(fontSize: 20)),
+                );
+              }).toList(),
               onChanged: (value) => setState(() => selectedPostType = value),
               decoration: InputDecoration(
                 filled: true,
@@ -190,21 +207,35 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
               ),
             ),
             const SizedBox(height: 20),
+
+            // Title TextField
             textfield(controller: _title, hintText: 'Title'),
             const SizedBox(height: 20),
+
+            // Description TextField
             textfield(controller: _description, hintText: 'Description'),
             const SizedBox(height: 20),
+
+            // Village Dropdown
             DropdownButtonFormField<String>(
-              hint: Text('Location'),
+              hint: Text('Village'),
               value: selectedLocation,
-              items:
-                  location.map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value, style: const TextStyle(fontSize: 20)),
-                    );
-                  }).toList(),
-              onChanged: (value) => setState(() => selectedLocation = value),
+              items: villages.isNotEmpty
+                  ? villages.map((village) {
+                return DropdownMenuItem<String>(
+                  value: village['id'],
+                  child: Text(
+                    village['name'],
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                );
+              }).toList()
+                  : [],
+              onChanged: (value) {
+                setState(() {
+                  selectedLocation = value;
+                });
+              },
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey.shade200,
@@ -218,6 +249,8 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
               ),
             ),
             const SizedBox(height: 20),
+
+            // Image Upload Section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -252,8 +285,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
               ],
             ),
             const SizedBox(height: 10),
-
             const SizedBox(height: 20),
+
+            // Image Preview Section
             Row(
               children: [
                 Container(
@@ -264,22 +298,21 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.purple.shade200),
                   ),
-                  child:
-                      _image1 != null
-                          ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.file(
-                              _image1!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                          )
-                          : Center(
-                            child: Text(
-                              'No image selected',
-                              style: TextStyle(color: Colors.grey.shade700),
-                            ),
-                          ),
+                  child: _image1 != null
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.file(
+                      _image1!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  )
+                      : Center(
+                    child: Text(
+                      'No image selected',
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 20),
                 Container(
@@ -290,28 +323,45 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.purple.shade200),
                   ),
-                  child:
-                      _image2 != null
-                          ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.file(
-                              _image2!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                          )
-                          : Center(
-                            child: Text(
-                              'Press that Icon 👆'
-                              '',
-                              style: TextStyle(color: Colors.grey.shade700),
-                            ),
-                          ),
+                  child: _image2 != null
+                      ? ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.file(
+                      _image2!,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  )
+                      : Center(
+                    child: Text(
+                      'Press that Icon 👆',
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            button(text: 'Done', onPressed: save),
+
+            // Done Button
+            button(
+              text: 'Done',
+              onPressed: () {
+                String? villageId = selectedLocation;
+
+                CreateAd createAdData = CreateAd(
+                  selectedCategory: selectedCategory ?? '',
+                  post_type: selectedPostType == 'Lost' ? 'lost' : 'found',
+                  title: _title.text.trim(),
+                  description: _description.text.trim(),
+                  location: selectedLocation != null ? [selectedLocation!] : [],
+                  villageId: villageId!,
+                  image1: _image1,
+                  image2: _image2,
+                );
+                save(createAdData);
+              },
+            ),
           ],
         ),
       ),

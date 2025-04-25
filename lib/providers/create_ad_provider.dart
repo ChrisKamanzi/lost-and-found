@@ -1,20 +1,23 @@
+/*
 import 'package:riverpod/riverpod.dart';
 import 'package:lost_and_found/models/create_ad_model.dart';
 
 class CreateAdNotifier extends StateNotifier<CreateAd> {
   CreateAdNotifier()
-      : super(CreateAd(
-    selectedCategory: '',
-    post_type: '',
-    title: '',
-    description: '',
-    location: [],
-  )
-  );
+    : super(
+        CreateAd(
+          selectedCategory: '',
+          post_type: '',
+          title: '',
+          description: '',
+          location: [],
+        ),
+      );
+
   void updatePostStpe(post_type) {
     state = CreateAd(
       selectedCategory: state.selectedCategory,
-      post_type:post_type ,
+      post_type: post_type,
       title: state.title,
       description: state.description,
       location: state.location,
@@ -24,7 +27,7 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
   void updateCategory(categories) {
     state = CreateAd(
       selectedCategory: categories,
-      post_type: state.post_type ,
+      post_type: state.post_type,
       title: state.title,
       description: state.description,
       location: state.location,
@@ -63,5 +66,6 @@ class CreateAdNotifier extends StateNotifier<CreateAd> {
 }
 
 final createAdProvider = StateNotifierProvider<CreateAdNotifier, CreateAd>(
-      (ref) => CreateAdNotifier(),
+  (ref) => CreateAdNotifier(),
 );
+*/
