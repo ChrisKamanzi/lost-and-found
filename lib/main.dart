@@ -5,6 +5,7 @@ import 'package:lost_and_found/pages/authentication/congrat.dart';
 import 'package:lost_and_found/pages/authentication/forgot_password.dart';
 import 'package:lost_and_found/pages/authentication/forgot_token.dart';
 import 'package:lost_and_found/pages/authentication/home_login%20.dart';
+import 'package:lost_and_found/pages/authentication/into/About%20us.dart';
 import 'package:lost_and_found/pages/authentication/into/report.dart';
 import 'package:lost_and_found/pages/authentication/into/splash_screen.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
@@ -17,16 +18,17 @@ import 'package:lost_and_found/pages/home/lost&found/acount.dart';
 import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/home/lost&found/lost_found_items.dart';
-import 'package:lost_and_found/pages/home/lost&found/message.dart';
+import 'package:lost_and_found/pages/message/char2.dart';
+import 'package:lost_and_found/pages/message/message.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
 import 'package:lost_and_found/providers/themNotifier.dart';
 
-
 void main() {
-  runApp( ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }
+
 class MyApp extends ConsumerWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,130 +43,144 @@ class MyApp extends ConsumerWidget {
     );
   }
 
-final GoRouter _router = GoRouter(
-  initialLocation: '/splash',
-  routes: [
-    GoRoute(
-      path: '/splash',
-      builder: (BuildContext context, GoRouterState state) {
-        return splash_Screen();
-      },
-    ),
-    GoRoute(
-      path: '/home',
-      builder: (BuildContext context, GoRouterState state) {
-        return home_login();
-      },
-    ),
-    GoRoute(
-      path: '/login',
-      builder: (BuildContext context, GoRouterState state) {
-        return login();
-      },
-    ),
-    GoRoute(
-      path: '/signUp',
-      builder: (BuildContext context, GoRouterState state) {
-        return sign_up();
-      },
-    ),
-    GoRoute(
-      path: '/homepage',
-      builder: (BuildContext context, GoRouterState state) {
-        return homepage();
-      },
-    ),
-    GoRoute(
-      path: '/allItems',
-      builder: (BuildContext context, GoRouterState state) {
-        return lostFoundItems();
-      },
-    ),
-    GoRoute(
-      path: '/requestor_info',
-      builder: (BuildContext context, GoRouterState state) {
-        return requestor_info();
-      },
-    ),
-    GoRoute(
-      path: '/upload_image',
-      builder: (BuildContext context, GoRouterState state) {
-        return uploadImage();
-      },
-    ),
-    GoRoute(
-      path: '/create_add',
-      builder: (BuildContext context, GoRouterState state) {
-        return CreateAdReg();
-      },
-    ),
-    GoRoute(
-      path: '/select_pic',
-      builder: (BuildContext context, GoRouterState state) {
-        return select_pic();
-      },
-    ),
-    GoRoute(
-      path: '/lost_found',
-      builder: (BuildContext context, GoRouterState state) {
-        return lostFoundItems();
-      },
-    ),
-    GoRoute(
-      path: '/forrgotPassword',
-      builder: (BuildContext context, GoRouterState state) {
-        return forgotPassword();
-      },
-    ),
-    GoRoute(
-      path: '/token',
-      builder: (BuildContext context, GoRouterState state) {
-        return TokenPage();
-      },
-    ),
-    GoRoute(
-      path: '/account',
-      builder: (BuildContext context, GoRouterState state) {
-        return account();
-      },
-    ),
-    GoRoute(
-      path: '/congrat',
-      builder: (BuildContext context, GoRouterState state) {
-        return congrat();
-      },
-    ),
-    GoRoute(
-      path: '/report',
-      builder: (BuildContext context, GoRouterState state) {
-        return report();
-      },
-    ),
-    GoRoute(
-      path: '/cardDetail/:itemId',
-      builder: (BuildContext context, GoRouterState state) {
-        final itemId = state.pathParameters['itemId']!;
-        return cardDetail(itemId: itemId);
-      },
-    ),
-    GoRoute(
-      path: '/map',
-      builder: (BuildContext context, GoRouterState state) {
-        return map();
-      },
-    ),
-    GoRoute(
-      path: '/chat',
-      builder: (context, state) {
-        final extra = state.extra as Map<dynamic, dynamic>;
-        return chat(
-            name: extra[ 'name']!,
-            itemId: extra[ 'itemId']!,
-            userId: extra['userId']!);
-      },
-    ),
-
-
-  ],
-);}
-
+  final GoRouter _router = GoRouter(
+    initialLocation: '/splash',
+    routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (BuildContext context, GoRouterState state) {
+          return splash_Screen();
+        },
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (BuildContext context, GoRouterState state) {
+          return home_login();
+        },
+      ),
+      GoRoute(
+        path: '/login',
+        builder: (BuildContext context, GoRouterState state) {
+          return login();
+        },
+      ),
+      GoRoute(
+        path: '/signUp',
+        builder: (BuildContext context, GoRouterState state) {
+          return sign_up();
+        },
+      ),
+      GoRoute(
+        path: '/homepage',
+        builder: (BuildContext context, GoRouterState state) {
+          return homepage();
+        },
+      ),
+      GoRoute(
+        path: '/allItems',
+        builder: (BuildContext context, GoRouterState state) {
+          return lostFoundItems();
+        },
+      ),
+      GoRoute(
+        path: '/requestor_info',
+        builder: (BuildContext context, GoRouterState state) {
+          return requestor_info();
+        },
+      ),
+      GoRoute(
+        path: '/upload_image',
+        builder: (BuildContext context, GoRouterState state) {
+          return uploadImage();
+        },
+      ),
+      GoRoute(
+        path: '/create_add',
+        builder: (BuildContext context, GoRouterState state) {
+          return CreateAdReg();
+        },
+      ),
+      GoRoute(
+        path: '/select_pic',
+        builder: (BuildContext context, GoRouterState state) {
+          return select_pic();
+        },
+      ),
+      GoRoute(
+        path: '/lost_found',
+        builder: (BuildContext context, GoRouterState state) {
+          return lostFoundItems();
+        },
+      ),
+      GoRoute(
+        path: '/forrgotPassword',
+        builder: (BuildContext context, GoRouterState state) {
+          return forgotPassword();
+        },
+      ),
+      GoRoute(
+        path: '/token',
+        builder: (BuildContext context, GoRouterState state) {
+          return TokenPage();
+        },
+      ),
+      GoRoute(
+        path: '/account',
+        builder: (BuildContext context, GoRouterState state) {
+          return account();
+        },
+      ),
+      GoRoute(
+        path: '/congrat',
+        builder: (BuildContext context, GoRouterState state) {
+          return congrat();
+        },
+      ),
+      GoRoute(
+        path: '/report',
+        builder: (BuildContext context, GoRouterState state) {
+          return report();
+        },
+      ),
+      GoRoute(
+        path: '/cardDetail/:itemId',
+        builder: (BuildContext context, GoRouterState state) {
+          final itemId = state.pathParameters['itemId']!;
+          return cardDetail(itemId: itemId);
+        },
+      ),
+      GoRoute(
+        path: '/map',
+        builder: (BuildContext context, GoRouterState state) {
+          return map();
+        },
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          return chat(
+            name: extra['name']!,
+            itemId: extra['itemId']!,
+            userId: extra['userId']!,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/conversation',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final itemId = extra['itemId'];
+          final receiverId = extra['receiverId'];
+          return ConversationScreen(itemId: itemId, receiverId: receiverId);
+        },
+      ),
+      GoRoute(
+        path: '/aboutUS',
+        builder: (BuildContext context, GoRouterState state) {
+          return about_us();
+        },
+      ),
+    ],
+  );
+}
