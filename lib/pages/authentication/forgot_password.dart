@@ -1,27 +1,29 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/elevated_button.dart';
-import 'package:http/http.dart' as http;
 
 class forgotPassword extends StatelessWidget {
   const forgotPassword({super.key});
 
   Future<void> _forgotPassword(String email, BuildContext context) async {
-    String login = "$apiUrl/forgot-password";
+    String loginUrl = "$apiUrl/forgot-password";
+    Dio dio = Dio();
+
     try {
-      final response = await http.post(
-        Uri.parse(login),
-        body: {'email': email},
+      final response = await dio.post(
+        loginUrl,
+        data: {'email': email},
       );
 
-      print('Response body: ${response.body}');
+      print('Response body: ${response.data}');
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final data = response.data;
         print('Success: $data');
         context.go('/token');
       } else {

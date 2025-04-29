@@ -1,12 +1,10 @@
-import 'package:lost_and_found/models/DistrictModel.dart';
-
 class SignUpModel {
   final String name;
   final String email;
   final String password;
   final String passwordConfirmation;
   final String phone;
-  final DistrictModel district;
+  final String? village;
 
   SignUpModel({
     required this.name,
@@ -14,8 +12,7 @@ class SignUpModel {
     required this.password,
     required this.passwordConfirmation,
     required this.phone,
-    required this.district,
-
+    this.village,
   });
 
   Map<String, dynamic> toJson() {
@@ -24,8 +21,8 @@ class SignUpModel {
       'email': email,
       'password': password,
       'password_confirmation': passwordConfirmation,
-      'phone': phone,
-      'district_id': district.id,
+      'phone_number': phone,
+      'village_id': village,
     };
   }
 }

@@ -11,12 +11,12 @@ class User {
     required this.id,
   });
 
-  factory User.fromJson(Map<dynamic, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
-      telephone: json['telephone'] ?? '',
-      id: json['id'] ?? 0,
+      name: json['name'],
+      email: json['email'],
+      telephone: json['telephone'],
+      id: json['id'],
     );
   }
 }

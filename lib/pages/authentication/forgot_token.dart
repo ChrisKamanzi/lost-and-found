@@ -1,45 +1,43 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../models/ResetPassword.dart';
 import '../../widgets/elevated_button.dart';
-import 'package:http/http.dart' as http;
 
 class TokenPage extends StatelessWidget {
   const TokenPage({super.key});
 
+
   Future<void> _Token(
-    String token,
-    String email,
-    String password,
-    String passwordConf,
-    BuildContext context,
-  ) async {
-    String login = "$apiUrl/reset-password";
+      ResetPasswordModel resetPasswordData,
+      BuildContext context,
+      ) async {
+    String loginUrl = "$apiUrl/reset-password";
+    Dio dio = Dio();
+
     try {
-      final response = await http.post(
-        Uri.parse(login),
-        body: {
-          'token': token,
-          'email': email,
-          'password': password,
-          'password_confirmation': passwordConf,
-        },
+      final response = await dio.post(
+        loginUrl,
+        data: resetPasswordData.toJson(),
       );
-      print('Response body: ${response.body}');
+
+      print('Response body: ${response.data}');
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final data = response.data;
         print('Success: $data');
         context.go('/homepage');
       } else {
-        print('Login reset password with status: ${response.statusCode}');
+        print('Login reset password failed with status: ${response.statusCode}');
       }
     } catch (e) {
       print('Error: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,15 +128,16 @@ class TokenPage extends StatelessWidget {
               Align(
                 alignment: Alignment.topRight,
                 child: button(
-                  text: 'Reset PAssword',
+                  text: 'Reset Password',
                   onPressed: () {
-                    _Token(
-                      _token.text,
-                      _email.text,
-                      _password.text,
-                      _passwordConfirmation.text,
-                      context,
+                    ResetPasswordModel resetPasswordData = ResetPasswordModel(
+                      token: _token.text.trim(),
+                      email: _email.text.trim(),
+                      password: _password.text.trim(),
+                      passwordConfirmation: _passwordConfirmation.text.trim(),
                     );
+
+                    _Token(resetPasswordData, context);
                   },
                 ),
               ),
