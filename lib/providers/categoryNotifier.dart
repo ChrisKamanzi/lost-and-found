@@ -23,10 +23,10 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
       final response = await dio.get('$apiUrl/categories', options: options);
       if (response.statusCode == 200) {
         final List<dynamic> categories = response.data['categories'];
-        state = categories.map((cat) => {
-          'id': cat['id'],
-          'name': cat['name'],
-        }).toList();
+        state =
+            categories
+                .map((cat) => {'id': cat['id'], 'name': cat['name']})
+                .toList();
       } else {
         print('Failed to load categories. Status code: ${response.statusCode}');
       }
@@ -42,16 +42,13 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 }
 
 final dioProvider = Provider((ref) {
-  return Dio(BaseOptions(
-    headers: {
-      'Accept': 'application/json',
-    },
-  ));
+  return Dio(BaseOptions(headers: {'Accept': 'application/json'}));
 });
 
-final categoryProvider = StateNotifierProvider<CategoryNotifier, List<Map<String, dynamic>>>((ref) {
-  final dio = ref.watch(dioProvider);
-  return CategoryNotifier(dio);
-});
+final categoryProvider =
+    StateNotifierProvider<CategoryNotifier, List<Map<String, dynamic>>>((ref) {
+      final dio = ref.watch(dioProvider);
+      return CategoryNotifier(dio);
+    });
 
 final selectedCategoryProvider = StateProvider<String?>((ref) => null);

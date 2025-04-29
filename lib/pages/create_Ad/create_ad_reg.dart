@@ -75,8 +75,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         MapEntry('description', createAdData.description),
         MapEntry('post_type', createAdData.post_type),
         MapEntry('user_id', userId.toString()),
-        if (selectedCategory != null)
-          MapEntry('category_id', selectedCategory),
+        if (selectedCategory != null) MapEntry('category_id', selectedCategory),
         if (createAdData.villageId.isNotEmpty)
           MapEntry('village_id', createAdData.villageId),
         if (createAdData.location.isNotEmpty)
@@ -84,23 +83,27 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       ]);
 
       if (createAdData.image1 != null) {
-        formData.files.add(MapEntry(
-          'itemImages[]',
-          await MultipartFile.fromFile(
-            createAdData.image1!.path,
-            filename: basename(createAdData.image1!.path),
+        formData.files.add(
+          MapEntry(
+            'itemImages[]',
+            await MultipartFile.fromFile(
+              createAdData.image1!.path,
+              filename: basename(createAdData.image1!.path),
+            ),
           ),
-        ));
+        );
       }
 
       if (createAdData.image2 != null) {
-        formData.files.add(MapEntry(
-          'itemImages[]',
-          await MultipartFile.fromFile(
-            createAdData.image2!.path,
-            filename: basename(createAdData.image2!.path),
+        formData.files.add(
+          MapEntry(
+            'itemImages[]',
+            await MultipartFile.fromFile(
+              createAdData.image2!.path,
+              filename: basename(createAdData.image2!.path),
+            ),
           ),
-        ));
+        );
       }
 
       print('FormData fields: ${formData.fields}');
@@ -118,12 +121,12 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         ),
       );
 
-      print('✅ Response: ${response.statusCode} - ${response.data}');
+      print(' Response: ${response.statusCode} - ${response.data}');
     } catch (e) {
       if (e is DioException) {
-        print('❌ Dio error: ${e.response?.statusCode} - ${e.response?.data}');
+        print(' Dio error: ${e.response?.statusCode} - ${e.response?.data}');
       } else {
-        print('❌ Unexpected error: $e');
+        print(' Unexpected error: $e');
       }
     }
   }
@@ -156,15 +159,16 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
             DropdownButtonFormField<String>(
               hint: Text('Category'),
               value: ref.watch(selectedCategoryProvider),
-              items: categories.map((cat) {
-                return DropdownMenuItem<String>(
-                  value: cat['id'],
-                  child: Text(
-                    cat['name'],
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                );
-              }).toList(),
+              items:
+                  categories.map((cat) {
+                    return DropdownMenuItem<String>(
+                      value: cat['id'],
+                      child: Text(
+                        cat['name'],
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    );
+                  }).toList(),
               onChanged: (value) {
                 ref.read(selectedCategoryProvider.notifier).state = value;
               },
@@ -187,12 +191,13 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
             DropdownButtonFormField<String>(
               hint: Text('Post Type'),
               value: selectedPostType,
-              items: ['Lost', 'Found'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: const TextStyle(fontSize: 20)),
-                );
-              }).toList(),
+              items:
+                  ['Lost', 'Found'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, style: const TextStyle(fontSize: 20)),
+                    );
+                  }).toList(),
               onChanged: (value) => setState(() => selectedPostType = value),
               decoration: InputDecoration(
                 filled: true,
@@ -220,17 +225,18 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
             DropdownButtonFormField<String>(
               hint: Text('Village'),
               value: selectedLocation,
-              items: villages.isNotEmpty
-                  ? villages.map((village) {
-                return DropdownMenuItem<String>(
-                  value: village['id'],
-                  child: Text(
-                    village['name'],
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                );
-              }).toList()
-                  : [],
+              items:
+                  villages.isNotEmpty
+                      ? villages.map((village) {
+                        return DropdownMenuItem<String>(
+                          value: village['id'],
+                          child: Text(
+                            village['name'],
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        );
+                      }).toList()
+                      : [],
               onChanged: (value) {
                 setState(() {
                   selectedLocation = value;
@@ -298,21 +304,22 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.purple.shade200),
                   ),
-                  child: _image1 != null
-                      ? ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.file(
-                      _image1!,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  )
-                      : Center(
-                    child: Text(
-                      'No image selected',
-                      style: TextStyle(color: Colors.grey.shade700),
-                    ),
-                  ),
+                  child:
+                      _image1 != null
+                          ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.file(
+                              _image1!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          )
+                          : Center(
+                            child: Text(
+                              'No image selected',
+                              style: TextStyle(color: Colors.grey.shade700),
+                            ),
+                          ),
                 ),
                 const SizedBox(width: 20),
                 Container(
@@ -323,21 +330,22 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(color: Colors.purple.shade200),
                   ),
-                  child: _image2 != null
-                      ? ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.file(
-                      _image2!,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                  )
-                      : Center(
-                    child: Text(
-                      'Press that Icon 👆',
-                      style: TextStyle(color: Colors.grey.shade700),
-                    ),
-                  ),
+                  child:
+                      _image2 != null
+                          ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.file(
+                              _image2!,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          )
+                          : Center(
+                            child: Text(
+                              'Press that Icon 👆',
+                              style: TextStyle(color: Colors.grey.shade700),
+                            ),
+                          ),
                 ),
               ],
             ),
