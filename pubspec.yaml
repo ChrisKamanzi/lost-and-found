@@ -36,8 +36,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   go_router: ^14.8.1
   google_fonts: ^6.2.1
-  riverpod: ^2.0.0
+  flutter_riverpod: ^2.4.0
   image_picker: ^1.1.2
+  http: ^1.3.0
+  animated_page_reveal: ^1.0.0
+  shared_preferences: ^2.3.5
+  flutter_map: ^8.1.1
+  dio: ^5.8.0+1
+  geolocator: ^14.0.0
+
 
 dev_dependencies:
   flutter_test:

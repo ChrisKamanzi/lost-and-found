@@ -1,108 +1,186 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lost_and_found/create_Ad/create_ad_reg.dart';
-import 'package:lost_and_found/create_Ad/requestor_info.dart';
-import 'package:lost_and_found/create_Ad/select_pic.dart';
-import 'package:lost_and_found/create_Ad/upload_image.dart';
-import 'package:lost_and_found/pages/authentication/home_login .dart';
+import 'package:lost_and_found/pages/authentication/congrat.dart';
+import 'package:lost_and_found/pages/authentication/forgot_password.dart';
+import 'package:lost_and_found/pages/authentication/forgot_token.dart';
+import 'package:lost_and_found/pages/authentication/home_login%20.dart';
+import 'package:lost_and_found/pages/authentication/into/About%20us.dart';
+import 'package:lost_and_found/pages/authentication/into/report.dart';
+import 'package:lost_and_found/pages/authentication/into/splash_screen.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
-import 'package:lost_and_found/pages/home/all_card.dart';
+import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
+import 'package:lost_and_found/pages/create_Ad/requestor_info.dart';
+import 'package:lost_and_found/pages/create_Ad/select_pic.dart';
+import 'package:lost_and_found/pages/create_Ad/upload_image.dart';
+import 'package:lost_and_found/pages/home/lost&found/acount.dart';
+import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/pages/home/home.dart';
-import 'package:lost_and_found/pages/home/lost_found_items.dart';
-import 'package:lost_and_found/pages/splash_screen.dart';
+import 'package:lost_and_found/pages/home/lost&found/lost_found_items.dart';
+import 'package:lost_and_found/pages/message/char2.dart';
+import 'package:lost_and_found/pages/message/message.dart';
+import 'package:lost_and_found/pages/searchOnMap/map.dart';
+import 'package:lost_and_found/providers/themNotifier.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends ConsumerWidget {
+  MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeNotifierProvider);
+
     return MaterialApp.router(
       routerConfig: _router,
       debugShowCheckedModeBanner: false,
-     // child:  splash_Screen(),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeMode,
     );
   }
-}
-final GoRouter _router = GoRouter(
-  initialLocation: '/splash',
-  routes: [
-    GoRoute(
-      path: '/splash',
-      builder: (BuildContext context, GoRouterState state) {
-        return splash_Screen();
-      },
-    ),
-    GoRoute(
-      path: '/home',
-      builder: (BuildContext context, GoRouterState state) {
-        return home_login ();
-      }
-    ),
-    GoRoute(
+
+  final GoRouter _router = GoRouter(
+    initialLocation: '/splash',
+    routes: [
+      GoRoute(
+        path: '/splash',
+        builder: (BuildContext context, GoRouterState state) {
+          return splash_Screen();
+        },
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (BuildContext context, GoRouterState state) {
+          return home_login();
+        },
+      ),
+      GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
           return login();
-        }
-    ),
-    GoRoute(
-      path: '/signUp',
-      builder: (BuildContext context, GoRouterState state){
-        return sign_up();
-      }
-    ),
-    GoRoute(
-      path: '/allcards',
-      builder: (BuildContext context, GoRouterState state){
-        return all_cards();
-      }
-    ),
-    GoRoute(
-      path: '/homepage',
-      builder: (BuildContext context, GoRouterState state) {
-        return homepage();
-      },
-    ),
-    GoRoute(
-      path: '/allItems',
-      builder: (BuildContext context, GoRouterState state){
-        return lost_found_items ();
-      }
-    ),
-    GoRoute(
+        },
+      ),
+      GoRoute(
+        path: '/signUp',
+        builder: (BuildContext context, GoRouterState state) {
+          return sign_up();
+        },
+      ),
+      GoRoute(
+        path: '/homepage',
+        builder: (BuildContext context, GoRouterState state) {
+          return homepage();
+        },
+      ),
+      GoRoute(
+        path: '/allItems',
+        builder: (BuildContext context, GoRouterState state) {
+          return lostFoundItems();
+        },
+      ),
+      GoRoute(
         path: '/requestor_info',
-        builder: (BuildContext context, GoRouterState state){
+        builder: (BuildContext context, GoRouterState state) {
           return requestor_info();
-        }
-    ),
-    GoRoute(
+        },
+      ),
+      GoRoute(
         path: '/upload_image',
-        builder: (BuildContext context, GoRouterState state){
-          return upload_image();
-        }
-    ),
-    GoRoute(
+        builder: (BuildContext context, GoRouterState state) {
+          return uploadImage();
+        },
+      ),
+      GoRoute(
         path: '/create_add',
-        builder: (BuildContext context, GoRouterState state){
-          return create_ad_reg();
-        }
-    ),
-    GoRoute(
+        builder: (BuildContext context, GoRouterState state) {
+          return CreateAdReg();
+        },
+      ),
+      GoRoute(
         path: '/select_pic',
-        builder: (BuildContext context, GoRouterState state){
+        builder: (BuildContext context, GoRouterState state) {
           return select_pic();
-        }
-    ),
-    GoRoute(
+        },
+      ),
+      GoRoute(
         path: '/lost_found',
-        builder: (BuildContext context, GoRouterState state){
-          return lost_found_items();
-        }
-    ),
-
-  ],
-);
+        builder: (BuildContext context, GoRouterState state) {
+          return lostFoundItems();
+        },
+      ),
+      GoRoute(
+        path: '/forrgotPassword',
+        builder: (BuildContext context, GoRouterState state) {
+          return forgotPassword();
+        },
+      ),
+      GoRoute(
+        path: '/token',
+        builder: (BuildContext context, GoRouterState state) {
+          return TokenPage();
+        },
+      ),
+      GoRoute(
+        path: '/account',
+        builder: (BuildContext context, GoRouterState state) {
+          return account();
+        },
+      ),
+      GoRoute(
+        path: '/congrat',
+        builder: (BuildContext context, GoRouterState state) {
+          return congrat();
+        },
+      ),
+      GoRoute(
+        path: '/report',
+        builder: (BuildContext context, GoRouterState state) {
+          return report();
+        },
+      ),
+      GoRoute(
+        path: '/cardDetail/:itemId',
+        builder: (BuildContext context, GoRouterState state) {
+          final itemId = state.pathParameters['itemId']!;
+          return cardDetail(itemId: itemId);
+        },
+      ),
+      GoRoute(
+        path: '/map',
+        builder: (BuildContext context, GoRouterState state) {
+          return map();
+        },
+      ),
+      GoRoute(
+        path: '/chat',
+        builder: (context, state) {
+          final extra = state.extra as Map<dynamic, dynamic>;
+          return chat(
+            name: extra['name']!,
+            itemId: extra['itemId']!,
+            userId: extra['userId']!,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/conversation',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final itemId = extra['itemId'];
+          final receiverId = extra['receiverId'];
+          return ConversationScreen(itemId: itemId, receiverId: receiverId);
+        },
+      ),
+      GoRoute(
+        path: '/aboutUS',
+        builder: (BuildContext context, GoRouterState state) {
+          return about_us();
+        },
+      ),
+    ],
+  );
+}
