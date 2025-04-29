@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class drawer extends StatelessWidget {
+import '../providers/userProvider.dart';
+
+
+class drawer extends ConsumerWidget {
   const drawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nameAsync = ref.watch(nameeProvider);
+    final phoneAsync = ref.watch(phoneProvider);
+
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,11 +24,10 @@ class drawer extends StatelessWidget {
             child: DrawerHeader(
               decoration: BoxDecoration(color: Colors.orange.shade300),
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
-
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,41 +40,47 @@ class drawer extends StatelessWidget {
                             color: Colors.grey.shade500,
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.brightness_3_sharp,
                           size: 60,
                           color: Colors.white,
                         ),
                       ],
                     ),
-                    Text(
-                      'David James',
-                      style: GoogleFonts.brawler(
-                        textStyle: TextStyle(
+                    nameAsync.when(
+                      data: (name) => Text(
+                        name,
+                        style: GoogleFonts.brawler(
                           fontSize: 25,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
+                      loading: () => const Text("Loading name..."),
+                      error: (e, _) => const Text("Error"),
                     ),
-                    Text(
-                      '+250 788751446',
-                      style: GoogleFonts.brawler(fontWeight: FontWeight.w200),
+                    phoneAsync.when(
+                      data: (phone) => Text(
+                        phone,
+                        style: GoogleFonts.brawler(
+                          fontWeight: FontWeight.w200,
+                        ),
+                      ),
+                      loading: () => const Text("Loading phone..."),
+                      error: (e, _) => const Text("Error"),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          SizedBox(height: 80),
 
+          const SizedBox(height: 80),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Column(
               children: [
                 TextButton(
-                  onPressed: () {
-                    //  context.push('/favorites');
-                  },
+                  onPressed: () {},
                   child: Text(
                     'Favorites',
                     style: GoogleFonts.brawler(
@@ -78,66 +90,38 @@ class drawer extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
-
+                const SizedBox(height: 20),
                 TextButton(
-                  onPressed: () {
-                    context.push('/messages');
-                  },
-                  child: Text(
-                    'Messages',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-
-                TextButton(
-                  onPressed: () {
-                    context.push('/about');
-                  },
+                  onPressed: () => context.push('/aboutUS'),
                   child: Text(
                     'About us',
                     style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 25,
-                        color: Colors.black,
-                      ),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(
-                  onPressed: () {
-                    context.push('/settings');
-                  },
+                  onPressed: () => context.push('/settings'),
                   child: Text(
                     'Settings',
                     style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
-                SizedBox(height: 200),
+                const SizedBox(height: 200),
                 TextButton(
                   onPressed: () => context.push('/congrat'),
                   child: Text(
                     'LogOut',
                     style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                      ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
