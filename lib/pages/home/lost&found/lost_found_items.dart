@@ -1,11 +1,8 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
-import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/widgets/card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,51 +30,69 @@ class _LostFoundItemsState extends State<lostFoundItems>
     }
 
     final url =
-        query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
+    query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
 
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
+    Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> json = jsonDecode(response.body);
-      final List<dynamic> data = json['items'];
-      return data.map((item) => lostFound.fromJson(item)).toList();
-    } else {
-      throw Exception('Failed to load items ${response.statusCode}');
+    try {
+      final response = await dio.get(url);
+
+      if (response.statusCode == 200) {
+        final data = response.data['items'] as List<dynamic>;
+        return data.map((item) => lostFound.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load items ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching items: $e');
+      throw e;
     }
   }
 
+  // Fetch items by category using the category ID
   Future<List<lostFound>> fetchItemsByCategory(
-    String slug, {
-    String query = '',
-  }) async {
+      String categoryId, {String query = ''}) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
 
-    final url =
-        query.isNotEmpty
-            ? '$apiUrl/items?category=$slug&search=$query'
-            : '$apiUrl/items?category=$slug';
+    if (token == null) {
+      throw Exception('Token not found in local storage');
+    }
 
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {'Authorization': 'Bearer $token'},
-    );
+    Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> json = jsonDecode(response.body);
-      final List<dynamic> data = json['items'];
-      return data.map((item) => lostFound.fromJson(item)).toList();
-    } else {
-      throw Exception('Failed to load items for $slug');
+    final queryParameters = {
+      'category': categoryId,  // Passing the category ID here (e.g., "01jsvj6p7hjb4rzyw9efsqr49n")
+      if (query.isNotEmpty) 'search': query,
+    };
+
+    try {
+      final response = await dio.get(
+        '$apiUrl/items',
+        queryParameters: queryParameters,
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data['items'] as List<dynamic>;
+        return data.map((item) => lostFound.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load items for category $categoryId');
+      }
+    } catch (e) {
+      print('Error fetching items for category $categoryId: $e');
+      throw e;
     }
   }
 
+  // Fetch categories with their IDs
   Future<List<Map<String, String>>> fetchCategories() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
@@ -86,28 +101,29 @@ class _LostFoundItemsState extends State<lostFoundItems>
       throw Exception('Token not found in local storage');
     }
 
-    final response = await http.get(
-      Uri.parse('$apiUrl/categories'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-    );
+    Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
 
-    print('Status code: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    try {
+      final response = await dio.get('$apiUrl/categories');
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> json = jsonDecode(response.body);
-      final List<dynamic> data = json['categories'];
-      return data.map<Map<String, String>>((category) {
-        return {
-          'name': category['name'],
-          'slug': category['name'].toString().toLowerCase(),
-        };
-      }).toList();
-    } else {
-      throw Exception('Failed to fetch categories');
+      if (response.statusCode == 200) {
+        final data = response.data['categories'] as List<dynamic>;
+        return data.map<Map<String, String>>((category) {
+          return {
+            'name': category['name'],
+            'id': category['id'],
+          };
+        }).toList();
+      } else {
+        throw Exception('Failed to fetch categories');
+      }
+    } catch (e) {
+      print('Error fetching categories: $e');
+      throw e;
     }
   }
 
@@ -120,11 +136,11 @@ class _LostFoundItemsState extends State<lostFoundItems>
       categoryFutures = [
         fetchItems(query: query),
         ...categories.map((c) {
-          final slug = c['slug']!;
-          if (!isAllTab && categories[selectedIndex - 1]['slug'] == slug) {
-            return fetchItemsByCategory(slug, query: query);
+          final categoryId = c['id']!;
+          if (!isAllTab && categories[selectedIndex - 1]['id'] == categoryId) {
+            return fetchItemsByCategory(categoryId, query: query);
           }
-          return fetchItemsByCategory(slug);
+          return fetchItemsByCategory(categoryId);
         }),
       ];
     });
@@ -142,7 +158,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
         );
         categoryFutures = [
           fetchItems(),
-          ...categories.map((c) => fetchItemsByCategory(c['slug']!)),
+          ...categories.map((c) => fetchItemsByCategory(c['id']!)),
         ];
       });
     });
@@ -155,10 +171,11 @@ class _LostFoundItemsState extends State<lostFoundItems>
     super.dispose();
   }
 
+  // Build tabs
   List<Tab> buildTabs() {
     return [
       const Tab(text: 'All'),
-      ...categories.map((c) => Tab(text: c['name'])).toList(),
+      ...categories.map((c) => Tab(text: c['name'])),
     ];
   }
 
@@ -177,25 +194,23 @@ class _LostFoundItemsState extends State<lostFoundItems>
 
           final items = snapshot.data!;
           return GridView.builder(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(15),
             itemCount: items.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 10,
-              childAspectRatio: 0.75,
+              childAspectRatio: 0.65,
             ),
-
             itemBuilder: (context, index) {
               final item = items[index];
               return LostFoundCard(
                 itemId: item.id,
                 title: item.title,
                 imagePath: item.imagePath,
-                location: item.location,
+                location: "${item.location['district']}",
                 lostStatus: item.postType,
                 daysAgo: item.postedAt,
-             //   => context.go('/cardDetail/${item.id}'),
               );
             },
           );
@@ -227,25 +242,25 @@ class _LostFoundItemsState extends State<lostFoundItems>
           onSubmitted: searchItems,
         ),
         bottom:
-            categories.isEmpty
-                ? null
-                : TabBar(
-                  controller: _tabController,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: Colors.orange,
-                  indicatorWeight: 3,
-                  tabs: buildTabs(),
-                ),
+        categories.isEmpty
+            ? null
+            : TabBar(
+          controller: _tabController,
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey,
+          indicatorColor: Colors.orange,
+          indicatorWeight: 3,
+          tabs: buildTabs(),
+        ),
         elevation: 1,
       ),
       body:
-          categories.isEmpty
-              ? const Center(child: CircularProgressIndicator())
-              : TabBarView(
-                controller: _tabController,
-                children: buildTabViews(),
-              ),
+      categories.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : TabBarView(
+        controller: _tabController,
+        children: buildTabViews(),
+      ),
     );
   }
 }
