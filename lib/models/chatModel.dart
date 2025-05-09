@@ -1,6 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lost_and_found/constant/api.dart';
 
 class Message {
   final String messageId;
@@ -52,35 +49,7 @@ class Conversation {
   }
 }
 
-Future<Conversation> fetchConversation(String receiverId, String itemId) async {
-  final prefs = await SharedPreferences.getInstance();
-  final token = prefs.getString('authToken');
 
-  print('[SharedPreferences] Retrieved token: $token');
-  if (token == null) {
-    throw Exception('Token not found in local storage');
-  }
 
-  final Dio dio = Dio();
-  dio.options.headers = {
-    'Authorization': 'Bearer $token',
-    'accept': 'application/json',
-  };
 
-  final url = '$apiUrl/conversation/$receiverId/$itemId';
 
-  try {
-    final response = await dio.get(url);
-
-    if (response.statusCode == 200) {
-      final data = response.data;
-      return Conversation.fromJson(data);
-    } else if (response.statusCode == 401) {
-      throw Exception('Unauthorized: Invalid or expired token.');
-    } else {
-      throw Exception('Failed to fetch conversation: ${response.statusCode}');
-    }
-  } catch (error) {
-    throw Exception('Error fetching conversation: $error');
-  }
-}

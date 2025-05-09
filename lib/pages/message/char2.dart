@@ -1,183 +1,114 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/constant/api.dart';
-import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/chatModel.dart';
+import '../../providers/chatProvider.dart';
 
-class ConversationScreen extends StatefulWidget {
-  final String? conv_id;
+class ConversationScreen extends ConsumerWidget {
   final int receiverId;
   final String itemId;
   final String? name;
 
   const ConversationScreen({
-    Key? key,
+    super.key,
     required this.receiverId,
     required this.itemId,
-    this.conv_id,
     this.name,
-  }) : super(key: key);
+  });
 
   @override
-  State<ConversationScreen> createState() => _ConversationScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final conversationAsync = ref.watch(conversationProvider((receiverId, itemId)));
+    final notifier = ref.read(conversationProvider((receiverId, itemId)).notifier);
+    final messageController = TextEditingController();
 
-class _ConversationScreenState extends State<ConversationScreen> {
-  late Future<Conversation> _conversationFuture;
-  final TextEditingController _messageController = TextEditingController();
-  final Dio _dio = Dio();
-
-  @override
-  void initState() {
-    super.initState();
-    _conversationFuture = fetchConversation();
-  }
-
-  Future<Conversation> fetchConversation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('authToken');
-
-    if (token == null) {
-      throw Exception('Token not found');
-    }
-
-    _dio.options.headers = {
-      'Authorization': 'Bearer $token',
-      'accept': 'application/json',
-    };
-
-    final url = '$apiUrl/conversation/${widget.receiverId}/${widget.itemId}';
-    final response = await _dio.get(url);
-
-    if (response.statusCode == 200) {
-      final data = response.data;
-      return Conversation.fromJson(data);
-    } else {
-      throw Exception('Failed to fetch conversation');
-    }
-  }
-
-  Future<void> sendMessage(String convId, String messageText) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('authToken');
-
-    if (token == null) {
-      throw Exception('Token not found');
-    }
-
-    _dio.options.headers = {
-      'Authorization': 'Bearer $token',
-      'accept': 'application/json',
-    };
-
-    final url = '$apiUrl/message';
-
-    print('[Sending Message] conversation_id: $convId, message: $messageText');
-
-    try {
-      final response = await _dio.post(
-        url,
-        data: {'conversation_id': convId, 'message': messageText},
-      );
-
-      print('[Response status code] ${response.statusCode}');
-      print('[Response data] ${response.data}');
-
-      if (response.statusCode == 200) {
-        print('Message sent successfully');
-        setState(() {
-          _conversationFuture = fetchConversation();
-          _messageController.clear();
-        });
-      } else {
-        print('Failed with status: ${response.statusCode}');
-        print('Response data: ${response.data}');
-        throw Exception('Failed to send message');
-      }
-    } catch (error) {
-      print('Error sending message: $error');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.name ?? 'Chat',
+          name ?? 'Chat',
           style: GoogleFonts.brawler(
-            textStyle: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
+            textStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
           ),
         ),
       ),
+      body: conversationAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (err, _) => Center(child: Text('Error: $err')),
+        data: (conversation) {
+          final messages = conversation.messages;
 
-      body: FutureBuilder<Conversation>(
-        future: _conversationFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            final conversation = snapshot.data!;
-            final messages = conversation.messages;
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  reverse: true,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
 
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    reverse: true,
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[messages.length - 1 - index];
-                      return ListTile(
-                        title: Text(message.sender),
-                        subtitle: Text(message.message),
-                        trailing: Text(
-                          message.messagedAt,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
+                    final msg = messages[messages.length - 1 - index];
+                    final isMe = msg.sender == receiverId ? false : true;
+                    return Align(
+                      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.all(12),
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+                        decoration: BoxDecoration(
+                          color: isMe ? Colors.green[300] : Colors.blue[300],
+                          borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(12),
+                            topRight: const Radius.circular(12),
+                            bottomLeft: Radius.circular(isMe ? 12 : 0),
+                            bottomRight: Radius.circular(isMe ? 0 : 12),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 50,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _messageController,
-                          decoration: const InputDecoration(
-                            hintText: 'Type your message...',
-                            border: OutlineInputBorder(),
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              msg.message,
+                              style: const TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              msg.messagedAt,
+                              style: const TextStyle(color: Colors.white70, fontSize: 10),
+                            ),
+                          ],
                         ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () {
-                          final messageText = _messageController.text.trim();
-                          if (messageText.isNotEmpty) {
-                            sendMessage(conversation.convId, messageText);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
+                    );
+
+                  },
                 ),
-              ],
-            );
-          } else {
-            return const Center(child: Text('No messages.'));
-          }
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: messageController,
+                        decoration: const InputDecoration(
+                          hintText: 'Type your message...',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () {
+                        final text = messageController.text.trim();
+                        if (text.isNotEmpty) {
+                          notifier.sendMessage(conversation.convId, text, receiverId, itemId);
+                          messageController.clear();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
