@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 
 class congrat extends StatelessWidget {
@@ -9,51 +10,43 @@ class congrat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent),
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.deepPurpleAccent,
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 150, left: 20, right: 10),
+      backgroundColor: Colors.deepPurpleAccent.shade100,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Lottie.asset(
+                  'asset/animation.json',
+                  width: 250,
+                  repeat: true,
+                  animate: true,
+                ),
+                const SizedBox(height: 20),
                 Text(
                   'Congrats!',
                   style: GoogleFonts.brawler(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w900,
+                    textStyle: const TextStyle(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      fontSize: 40,
                     ),
                   ),
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 16),
                 Text(
-                  'Your Sign up is complete',
+                  'Your sign-up is complete 🎉',
                   style: GoogleFonts.brawler(
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w800,
+                    textStyle: const TextStyle(
+                      fontSize: 22,
+                      color: Colors.white70,
                     ),
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                
-                SizedBox(height: 30,),
-                
-                SizedBox(
-                    height: 350,
-                    width: 500,
-                    child: Image.asset('asset/success.png',))
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 750, left: 30, right: 30),
-            child: Column(
-              children: [
+                const SizedBox(height: 80),
                 button(
                   text: 'CONTINUE',
                   onPressed: () => context.go('/login'),
@@ -61,7 +54,7 @@ class congrat extends StatelessWidget {
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
