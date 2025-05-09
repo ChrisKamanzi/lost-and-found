@@ -11,11 +11,7 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
     try {
       final response = await dio.get(
         "$apiUrl/villages",
-        options: Options(
-          headers: {
-            'Accept': 'application/json',
-          },
-        ),
+        options: Options(headers: {'Accept': 'application/json'}),
       );
       if (response.statusCode == 200) {
         state = List<Map<String, dynamic>>.from(response.data['villages']);
@@ -27,16 +23,13 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 }
 
 final dioProvider = Provider((ref) {
-  return Dio(BaseOptions(
-    headers: {
-      'Accept': 'application/json',
-    },
-  ));
+  return Dio(BaseOptions(headers: {'Accept': 'application/json'}));
 });
 
-final villageProvider = StateNotifierProvider<VillageNotifier, List<Map<String, dynamic>>>((ref) {
-  final dio = ref.watch(dioProvider);
-  return VillageNotifier(dio);
-});
+final villageProvider =
+    StateNotifierProvider<VillageNotifier, List<Map<String, dynamic>>>((ref) {
+      final dio = ref.watch(dioProvider);
+      return VillageNotifier(dio);
+    });
 
 final selectedVillageProvider = StateProvider<String?>((ref) => null);
