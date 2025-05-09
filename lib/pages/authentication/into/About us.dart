@@ -1,84 +1,147 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class about_us extends StatelessWidget {
+class AboutUs extends StatefulWidget {
+  const AboutUs({super.key});
+
+  @override
+  State<AboutUs> createState() => _AboutUsState();
+}
+
+class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
+  late AnimationController _slideController;
+  late List<Animation<Offset>> _slideAnimations;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _slideController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 800),
+    );
+
+    _slideAnimations = List.generate(3, (index) {
+      return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero).animate(
+        CurvedAnimation(
+          parent: _slideController,
+          curve: Interval(
+            index * 0.2, // delay for each
+            1.0,
+            curve: Curves.easeOut,
+          ),
+        ),
+      );
+    });
+
+    _slideController.forward();
+  }
+
+  @override
+  void dispose() {
+    _slideController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final featureTexts = [
+      'Report Lost Item',
+      'Locate Found Item',
+      'Instant Messaging',
+    ];
+
+    final colors = [
+      Colors.orange.shade400,
+      Colors.blue.shade200,
+      Colors.deepPurpleAccent.shade200,
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('About Us'),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
+      appBar: AppBar(backgroundColor: Colors.orange.shade400),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50, left: 15, right: 15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildSectionTitle('Our Mission'),
-              _buildSectionContent(
-                'At L&F, we strive to create a community of trust where people can find and return lost items. Our goal is to simplify the process of reporting and recovering lost belongings.',
+              Text(
+                'ABOUT US',
+                style: GoogleFonts.lato(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 45,
+                  ),
+                ),
               ),
-              _buildSectionTitle('How It Works'),
-              _buildSectionContent(
-                '1. Post a Lost or Found Item\n2. Browse Listings\n3. Contact the Owner',
-              ),
-              _buildSectionTitle('Our Features'),
-              _buildFeatures(),
               SizedBox(height: 40),
-              _buildSectionTitle('Get in Touch'),
-              _buildSectionContent(
-                'Have questions or suggestions? Reach out to us at  lostfound@gmail.com.',
+              Padding(
+                padding: const EdgeInsets.only(left: 5, right: 10),
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  width: double.infinity,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.amberAccent,
+                  ),
+                  child: Text(
+                    ' We believe in the power of community and compassion. '
+                    'Our platform connects people who have lost valuable items with those who’ve found them,'
+                    ' making it easier than ever to reunite lost belongings with their rightful owners. ',
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+              Text(
+                'FEATURES',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(3, (index) {
+                    return SlideTransition(
+                      position: _slideAnimations[index],
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 300,
+                            height: 300,
+                            decoration: BoxDecoration(
+                              color: colors[index],
+                              shape: BoxShape.circle,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              featureTexts[index],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                height: 1.3,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-          color: Colors.blueAccent,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionContent(String content) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: Text(
-        content,
-        style: TextStyle(fontSize: 16, color: Colors.black54),
-      ),
-    );
-  }
-
-  Widget _buildFeatures() {
-    return Column(
-      children: [
-        _buildFeatureItem('Easy Search', Icons.search),
-        _buildFeatureItem('Secure Messaging', Icons.lock),
-        _buildFeatureItem('Location Tracking', Icons.location_on),
-      ],
-    );
-  }
-
-  Widget _buildFeatureItem(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.blueAccent, size: 30),
-          SizedBox(width: 10),
-          Text(title, style: TextStyle(fontSize: 18, color: Colors.black87)),
-        ],
       ),
     );
   }
