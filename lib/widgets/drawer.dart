@@ -1,10 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:lost_and_found/constant/api.dart';
+import 'package:lost_and_found/providers/themNotifier.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/userProvider.dart';
-
 
 class drawer extends ConsumerWidget {
   const drawer({super.key});
@@ -33,38 +35,48 @@ class drawer extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          onPressed: () => context.go('/account'),
+                          onPressed: () => context.push('/account'),
                           icon: Icon(
                             Icons.person,
                             size: 80,
                             color: Colors.grey.shade500,
                           ),
                         ),
-                        const Icon(
-                          Icons.brightness_3_sharp,
-                          size: 60,
-                          color: Colors.white,
+                        IconButton(
+                          onPressed:
+                              () => ref.read(themeNotifierProvider.notifier).toggleTheme(),
+                          icon: Icon(
+                            Icons.brightness_3_sharp,
+                            size: 60,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
                     nameAsync.when(
-                      data: (name) => Text(
-                        name,
-                        style: GoogleFonts.brawler(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
+                      data:
+                          (name) => Text(
+                            name,
+                            style: GoogleFonts.brawler(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w900,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
+                            ),
+                          ),
                       loading: () => const Text("Loading name..."),
                       error: (e, _) => const Text("Error"),
                     ),
                     phoneAsync.when(
-                      data: (phone) => Text(
-                        phone,
-                        style: GoogleFonts.brawler(
-                          fontWeight: FontWeight.w200,
-                        ),
-                      ),
+                      data:
+                          (phone) => Text(
+                            phone,
+                            style: GoogleFonts.brawler(
+                              fontWeight: FontWeight.w200,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
+                            ),
+                          ),
                       loading: () => const Text("Loading phone..."),
                       error: (e, _) => const Text("Error"),
                     ),
@@ -80,17 +92,18 @@ class drawer extends ConsumerWidget {
             child: Column(
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => context.push('/favorite'),
                   child: Text(
                     'Favorites',
                     style: GoogleFonts.brawler(
                       fontSize: 25,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
+
                 TextButton(
                   onPressed: () => context.push('/aboutUS'),
                   child: Text(
@@ -98,30 +111,85 @@ class drawer extends ConsumerWidget {
                     style: GoogleFonts.brawler(
                       fontWeight: FontWeight.w800,
                       fontSize: 25,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () => context.push('/chatHistory'),
+                  child: Text(
+                    'Messages',
+                    style: GoogleFonts.brawler(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
                 TextButton(
                   onPressed: () => context.push('/settings'),
                   child: Text(
                     'Settings',
                     style: GoogleFonts.brawler(
                       fontSize: 25,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
                 const SizedBox(height: 200),
                 TextButton(
-                  onPressed: () => context.push('/congrat'),
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    final token = prefs.getString('authToken');
+
+                    if (token != null) {
+                      try {
+                        final dio = Dio();
+                        final response = await dio.post(
+                          '$apiUrl/logout',
+                          options: Options(
+                            headers: {
+                              'Authorization': 'Bearer $token',
+                              'Accept': 'application/json',
+                            },
+                          ),
+                        );
+                        if (response.statusCode == 200) {
+                          print('logged out succesfully');
+                          await prefs.remove('authToken');
+                          if (context.mounted) {
+                            context.go('/login');
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Logout failed on server.'),
+                            ),
+                          );
+                        }
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Logout error: $e')),
+                        );
+                      }
+                    } else {
+                      await prefs.remove('authToken');
+                      if (context.mounted) {
+                        context.go('/login');
+                      }
+                    }
+                  },
+
                   child: Text(
                     'LogOut',
                     style: GoogleFonts.brawler(
                       fontSize: 20,
                       fontWeight: FontWeight.w300,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
                     ),
                   ),
                 ),
