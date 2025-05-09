@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/widgets/drawer.dart';
+import 'package:lost_and_found/providers/userProvider.dart';
+import 'package:riverpod/riverpod.dart';
 
-class account extends StatelessWidget {
+class account extends ConsumerWidget {
   const account({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final name = ref.watch(nameeProvider);
+    final phone = ref.watch(phoneProvider);
+    final email = ref.watch(EmailProvider);
     return Scaffold(
       appBar: AppBar(),
-      drawer: drawer(),
+      //  drawer: drawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -17,19 +22,24 @@ class account extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(Icons.person, size: 150, color: Colors.grey),
-                Text(
-                  'David',
-                  style: GoogleFonts.brawler(
-                    textStyle: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 30,
-                    ),
-                  ),
+                name.when(
+                  data:
+                      (name) => Text(
+                        name,
+                        style: GoogleFonts.brawler(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                  error: (e, _) => const Text("Error"),
+                  loading: () => const Text("Loading name..."),
                 ),
               ],
             ),
             SizedBox(height: 60),
-        
+
             SizedBox(
               height: 280,
               width: double.infinity,
@@ -49,7 +59,11 @@ class account extends StatelessWidget {
                     color: Colors.white,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 50, left: 20, right: 30),
+                    padding: const EdgeInsets.only(
+                      top: 50,
+                      left: 20,
+                      right: 30,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -61,19 +75,24 @@ class account extends StatelessWidget {
                               color: Colors.deepPurpleAccent,
                             ),
                             SizedBox(width: 20),
-                            Text(
-                              '+250 788751446',
-                              style: GoogleFonts.brawler(
-                                textStyle: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
+
+                            phone.when(
+                              data:
+                                  (phone) => Text(
+                                    phone,
+                                    style: GoogleFonts.brawler(
+                                      textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                              error: (e, _) => const Text("Error"),
+                              loading: () => const Text("Loading name..."),
                             ),
                           ],
                         ),
                         SizedBox(height: 30),
-        
                         Row(
                           children: [
                             Icon(
@@ -82,40 +101,23 @@ class account extends StatelessWidget {
                               color: Colors.deepPurpleAccent,
                             ),
                             SizedBox(width: 20),
-        
-                            Text(
-                              'David@gmail.com',
-                              style: GoogleFonts.brawler(
-                                textStyle: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 20,
-                                ),
-                              ),
+                            email.when(
+                              data:
+                                  (email) => Text(
+                                    email,
+                                    style: GoogleFonts.brawler(
+                                      textStyle: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                              error: (e, _) => const Text("Error"),
+                              loading: () => const Text("Loading name..."),
                             ),
                           ],
                         ),
                         SizedBox(height: 20),
-        
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.alternate_email,
-                              size: 40,
-                              color: Colors.deepPurpleAccent,
-                            ),
-                            SizedBox(width: 20),
-        
-                            Text(
-                              '@David',
-                              style: GoogleFonts.brawler(
-                                textStyle: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
