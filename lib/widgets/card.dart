@@ -26,9 +26,7 @@ class LostFoundCard extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10, left: 1),
       child: Card(
         elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(
@@ -62,21 +60,29 @@ class LostFoundCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Icon(Icons.favorite_border, color: Colors.redAccent),
                 ],
               ),
               const SizedBox(height: 8),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.location_on_rounded,
-                    color: Colors.blueAccent,
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white54
+                            : Colors.blueGrey,
                   ),
                   const SizedBox(width: 5),
                   Expanded(
                     child: Text(
                       location,
-                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                      style: TextStyle(
+                        fontSize: 14,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : Colors.blueGrey,
+                      ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -104,7 +110,13 @@ class LostFoundCard extends StatelessWidget {
               //  const SizedBox(height: 5),
               Text(
                 '$daysAgo ago',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 12,
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.blueGrey,
+                ),
               ),
               const SizedBox(height: 1),
               SizedBox(

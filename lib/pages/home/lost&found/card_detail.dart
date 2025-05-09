@@ -18,9 +18,42 @@ class cardDetail extends StatefulWidget {
 }
 
 class _CardDetailScreenState extends State<cardDetail> {
-  late Future<lostFound> itemFuture;
+  late Future<LostFound> itemFuture;
+  bool isFavorited = false;
 
-  Future<lostFound> fetchItemById(String id) async {
+  Future<void> toggleFavorite(String itemId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('authToken');
+
+    if (token == null) {
+      print('[ERROR] Auth token not found');
+      return;
+    }
+
+    final Dio dio = Dio();
+    dio.options.headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+    };
+
+    try {
+      print('[API REQUEST] POST $apiUrl/items/$itemId/favorite');
+      final response = await dio.post('$apiUrl/items/$itemId/favorite');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('[SUCCESS] Favorite toggled successfully');
+        setState(() {
+          isFavorited = !isFavorited;
+        });
+      } else {
+        print('[ERROR] Failed to toggle favorite: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('[ERROR] toggleFavorite: $e');
+    }
+  }
+
+  Future<LostFound> fetchItemById(String id) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
     print('[SharedPreferences] Retrieved token: $token');
@@ -40,7 +73,7 @@ class _CardDetailScreenState extends State<cardDetail> {
 
       if (response.statusCode == 200) {
         final data = response.data;
-        return lostFound.fromJson(data['item']);
+        return LostFound.fromJson(data['item']);
       } else {
         throw Exception('Failed to load item: ${response.statusCode}');
       }
@@ -58,7 +91,7 @@ class _CardDetailScreenState extends State<cardDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<lostFound>(
+    return FutureBuilder<LostFound>(
       future: itemFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -128,8 +161,9 @@ class _CardDetailScreenState extends State<cardDetail> {
                         textStyle: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.blueGrey,                        ),
                       ),
                     ),
                   ),
@@ -167,7 +201,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: () => context.push('/map'),
+                        onPressed: () => context.push('/mapItem'),
                         icon: Icon(
                           Icons.location_on_rounded,
                           color: Colors.grey,
@@ -241,10 +275,15 @@ class _CardDetailScreenState extends State<cardDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Icon(Icons.email, size: 28, color: Colors.deepPurple),
-                        Icon(
-                          Icons.favorite_border,
-                          size: 28,
-                          color: Colors.pink,
+                        GestureDetector(
+                          onTap: () => toggleFavorite(item.id),
+                          child: Icon(
+                            isFavorited
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            size: 28,
+                            color: isFavorited ? Colors.red : Colors.pink,
+                          ),
                         ),
 
                         GestureDetector(
@@ -304,8 +343,6 @@ class _CardDetailScreenState extends State<cardDetail> {
                               ),
                         ),
                       );
-
-
                     },
                   ),
                 ],
