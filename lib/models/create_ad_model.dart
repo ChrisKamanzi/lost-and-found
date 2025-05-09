@@ -1,6 +1,7 @@
 import 'dart:io';
 
 class CreateAd {
+
   final String selectedCategory;
   final String post_type;
   final String title;
@@ -11,6 +12,7 @@ class CreateAd {
   final String villageId;
 
   CreateAd({
+
     required this.selectedCategory,
     required this.post_type,
     required this.title,
@@ -19,6 +21,7 @@ class CreateAd {
     this.image1,
     this.image2,
     required this.villageId,
+
   });
 
   Map<String, dynamic> toJson() {

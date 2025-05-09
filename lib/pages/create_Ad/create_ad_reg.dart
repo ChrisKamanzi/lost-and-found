@@ -11,7 +11,7 @@ import '../../models/create_ad_model.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/categoryNotifier.dart';
-import '../../providers/districtsNotifier.dart';
+import '../../providers/VillagesNotifier.dart';
 
 class CreateAdReg extends ConsumerStatefulWidget {
   const CreateAdReg({super.key});
@@ -21,11 +21,12 @@ class CreateAdReg extends ConsumerStatefulWidget {
 }
 
 class _CreateAdRegState extends ConsumerState<CreateAdReg> {
+
   File? _image1;
   File? _image2;
-
   String? selectedLocation;
   String? selectedPostType;
+  bool _isLoading = false;
 
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
@@ -52,17 +53,21 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
     }
   }
 
-  Future<void> save(CreateAd createAdData) async {
+  Future<void> save(CreateAd createAdData, BuildContext context) async {
     String url = "$apiUrl/items";
     Dio dio = Dio();
 
     try {
+      setState(() => _isLoading = true);
+
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
       final userId = prefs.getInt('userId');
 
       if (token == null || userId == null) {
-        print('Missing token or userId. User might not be authenticated.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('You are not authenticated.')),
+        );
         return;
       }
 
@@ -80,7 +85,8 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
           MapEntry('village_id', createAdData.villageId),
         if (createAdData.location.isNotEmpty)
           MapEntry('location', createAdData.location.first),
-      ]);
+      ]
+      );
 
       if (createAdData.image1 != null) {
         formData.files.add(
@@ -93,7 +99,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
           ),
         );
       }
-
       if (createAdData.image2 != null) {
         formData.files.add(
           MapEntry(
@@ -105,10 +110,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
           ),
         );
       }
-
-      print('FormData fields: ${formData.fields}');
-      print('FormData files: ${formData.files}');
-
       final response = await dio.post(
         url,
         data: formData,
@@ -121,13 +122,40 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         ),
       );
 
-      print(' Response: ${response.statusCode} - ${response.data}');
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Ad successfully created!')),
+        );
+
+        // Clear form after success
+        setState(() {
+          _title.clear();
+          _description.clear();
+          _image1 = null;
+          _image2 = null;
+          selectedPostType = null;
+          selectedLocation = null;
+          ref.read(selectedCategoryProvider.notifier).state = null;
+        });
+      }
     } catch (e) {
       if (e is DioException) {
-        print(' Dio error: ${e.response?.statusCode} - ${e.response?.data}');
+        print('Dio error: ${e.response?.statusCode} - ${e.response?.data}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Error: ${e.response?.data['message'] ?? 'Failed to post'}',
+            ),
+          ),
+        );
       } else {
-        print(' Unexpected error: $e');
+        print('Unexpected error: $e');
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Unexpected error occurred.')));
       }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -139,239 +167,277 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Create ad',
-              style: GoogleFonts.brawler(
-                textStyle: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w800,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Text(
+                  'Create ad',
+                  style: GoogleFonts.brawler(
+                    textStyle: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w800,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors
+                                  .orangeAccent // custom color for dark mode
+                              : Colors.black,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Category Dropdown
-            DropdownButtonFormField<String>(
-              hint: Text('Category'),
-              value: ref.watch(selectedCategoryProvider),
-              items:
-                  categories.map((cat) {
-                    return DropdownMenuItem<String>(
-                      value: cat['id'],
-                      child: Text(
-                        cat['name'],
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    );
-                  }).toList(),
-              onChanged: (value) {
-                ref.read(selectedCategoryProvider.notifier).state = value;
-              },
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey.shade200,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Post Type Dropdown
-            DropdownButtonFormField<String>(
-              hint: Text('Post Type'),
-              value: selectedPostType,
-              items:
-                  ['Lost', 'Found'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value, style: const TextStyle(fontSize: 20)),
-                    );
-                  }).toList(),
-              onChanged: (value) => setState(() => selectedPostType = value),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey.shade200,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Title TextField
-            textfield(controller: _title, hintText: 'Title'),
-            const SizedBox(height: 20),
-
-            // Description TextField
-            textfield(controller: _description, hintText: 'Description'),
-            const SizedBox(height: 20),
-
-            // Village Dropdown
-            DropdownButtonFormField<String>(
-              hint: Text('Village'),
-              value: selectedLocation,
-              items:
-                  villages.isNotEmpty
-                      ? villages.map((village) {
+                const SizedBox(height: 30),
+                DropdownButtonFormField<String>(
+                  hint: Text(
+                    'Category',
+                    style: TextStyle(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.blueGrey,
+                    ),
+                  ),
+                  value: selectedCategory,
+                  items:
+                      categories.map((cat) {
                         return DropdownMenuItem<String>(
-                          value: village['id'],
+
+                          value: cat['id'],
                           child: Text(
-                            village['name'],
+                            cat['name'],
                             style: const TextStyle(fontSize: 20),
                           ),
                         );
-                      }).toList()
-                      : [],
-              onChanged: (value) {
-                setState(() {
-                  selectedLocation = value;
-                });
-              },
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey.shade200,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 12,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-
-            // Image Upload Section
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Upload Image',
-                  style: GoogleFonts.brawler(
-                    textStyle: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+                      }).toList(),
+                  onChanged: (value) {
+                    ref.read(selectedCategoryProvider.notifier).state = value;
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade200,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => _pickImage(_image1 == null ? 1 : 2),
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.purple.shade100,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.purple, width: 2),
+                const SizedBox(height: 20),
+                DropdownButtonFormField<String>(
+                  hint: Text(
+                    'Post Type',
+                    style: TextStyle(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.black
+                              : Colors.blueGrey,
                     ),
-                    child: Center(
-                      child: Icon(
-                        Icons.add_a_photo,
-                        size: 30,
-                        color: Colors.purple.shade700,
+                  ),
+                  value: selectedPostType,
+                  items:
+                      ['Lost', 'Found'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        );
+                      }).toList(),
+                  onChanged:
+                      (value) => setState(() => selectedPostType = value),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey.shade200,
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 12,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                textfield(controller: _title, hintText: 'Title'),
+                const SizedBox(height: 20),
+                textfield(controller: _description, hintText: 'Description'),
+                const SizedBox(height: 20),
+
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    widthFactor: 1,
+                    child: DropdownButtonFormField<String>(
+                      hint: const Text('Village'),
+                      value: selectedLocation,
+                      items: villages.map((village) {
+                            return DropdownMenuItem<String>(
+                              value: village['id'],
+                              child: Text(
+                                village['name'],
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            );
+                          }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedLocation = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey.shade200,
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 12,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
+
+                // Image Upload Section
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Upload Image',
+                      style: GoogleFonts.brawler(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => _pickImage(_image1 == null ? 1 : 2),
+                      child: Container(
+                        height: 60,
+                        width: 60,
+                        decoration: BoxDecoration(
+                          color: Colors.purple.shade100,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.purple, width: 2),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.add_a_photo,
+                            size: 30,
+                            color: Colors.purple.shade700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Image Previews
+                Row(
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.purple.shade200),
+                      ),
+                      child:
+                          _image1 != null
+                              ? ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  _image1!,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              )
+                              : Center(
+                                child: Text(
+                                  'No image selected',
+                                  style: TextStyle(color: Colors.grey.shade700),
+                                ),
+                              ),
+                    ),
+                    const SizedBox(width: 20),
+                    Container(
+                      height: 150,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.purple.shade200),
+                      ),
+                      child:
+                          _image2 != null
+                              ? ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.file(
+                                  _image2!,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              )
+                              : Center(
+                                child: Text(
+                                  'Press that Icon 👆',
+                                  style: TextStyle(color: Colors.grey.shade700),
+                                ),
+                              ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Submit Button
+                button(
+                  text: 'Done',
+                  onPressed: () {
+                    if (selectedPostType == null || selectedLocation == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please fill all fields')),
+                      );
+                      return;
+                    }
+
+                    CreateAd createAdData = CreateAd(
+                      selectedCategory: selectedCategory ?? '',
+                      post_type: selectedPostType == 'Lost' ? 'lost' : 'found',
+                      title: _title.text.trim(),
+                      description: _description.text.trim(),
+                      location: [selectedLocation!],
+                      villageId: selectedLocation!,
+                      image1: _image1,
+                      image2: _image2,
+                    );
+
+                    save(createAdData, context);
+                  },
+                ),
+                const SizedBox(height: 40),
               ],
             ),
-            const SizedBox(height: 10),
-            const SizedBox(height: 20),
+          ),
 
-            // Image Preview Section
-            Row(
-              children: [
-                Container(
-                  height: 150,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.purple.shade200),
-                  ),
-                  child:
-                      _image1 != null
-                          ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.file(
-                              _image1!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                          )
-                          : Center(
-                            child: Text(
-                              'No image selected',
-                              style: TextStyle(color: Colors.grey.shade700),
-                            ),
-                          ),
-                ),
-                const SizedBox(width: 20),
-                Container(
-                  height: 150,
-                  width: 180,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.purple.shade200),
-                  ),
-                  child:
-                      _image2 != null
-                          ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.file(
-                              _image2!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                          )
-                          : Center(
-                            child: Text(
-                              'Press that Icon 👆',
-                              style: TextStyle(color: Colors.grey.shade700),
-                            ),
-                          ),
-                ),
-              ],
+          // Loading Overlay
+          if (_isLoading)
+            Container(
+              color: Colors.black45,
+              child: const Center(child: CircularProgressIndicator()),
             ),
-            const SizedBox(height: 20),
-
-            // Done Button
-            button(
-              text: 'Done',
-              onPressed: () {
-                String? villageId = selectedLocation;
-
-                CreateAd createAdData = CreateAd(
-                  selectedCategory: selectedCategory ?? '',
-                  post_type: selectedPostType == 'Lost' ? 'lost' : 'found',
-                  title: _title.text.trim(),
-                  description: _description.text.trim(),
-                  location: selectedLocation != null ? [selectedLocation!] : [],
-                  villageId: villageId!,
-                  image1: _image1,
-                  image2: _image2,
-                );
-                save(createAdData);
-              },
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
