@@ -6,8 +6,6 @@ import 'package:lost_and_found/widgets/drawer.dart';
 
 import '../../providers/userProvider.dart';
 
-
-
 class homepage extends ConsumerWidget {
   const homepage({super.key});
 
@@ -16,8 +14,7 @@ class homepage extends ConsumerWidget {
     final nameAsyncValue = ref.watch(nameeProvider);
 
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       drawer: drawer(),
       body: nameAsyncValue.when(
         loading: () => Center(child: CircularProgressIndicator()),
@@ -29,24 +26,32 @@ class homepage extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hello,',
-                      style: GoogleFonts.brawler(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
+                    Row(
+                      children: [
+                        Text(
+                          'Hello',
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 30,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium?.color,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    Text(
-                      name, // Using dynamic name
-                      style: GoogleFonts.brawler(
-                        textStyle: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 30,
+                        SizedBox(width: 15),
+                        Text(
+                          name, // Using dynamic name
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 30,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
+
                     SizedBox(height: 30),
                     GestureDetector(
                       onTap: () => context.push('/create_add'),
@@ -69,7 +74,9 @@ class homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
-                                  ),
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.orangeAccent
+                                        : Colors.black,                                  ),
                                 ),
                               ),
                               SizedBox(height: 5),
@@ -78,7 +85,10 @@ class homepage extends ConsumerWidget {
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 13,
-                                    fontWeight: FontWeight.w100,
+                                    fontWeight: FontWeight.w400,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.black
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -88,6 +98,9 @@ class homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w100,
                                     fontSize: 13,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                      ? Colors.black // custom color for dark mode
+                                      : Colors.black,
                                   ),
                                 ),
                               ),
@@ -120,8 +133,7 @@ class homepage extends ConsumerWidget {
                                   ),
                                   Icon(
                                     Icons.umbrella,
-                                    color: Colors.yellow.shade800,
-                                    size: 40,
+                                    color: Colors.orange.shade300,                                     size: 40,
                                   ),
                                 ],
                               ),
@@ -132,15 +144,29 @@ class homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors
+                                                .orangeAccent
+                                            : Colors
+                                                .black,
                                   ),
                                 ),
                               ),
+
                               SizedBox(height: 10),
                               Text(
                                 'Go through the lost and',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
+                                  color:
+                                      Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors
+                                              .black
+                                          : Colors.black,
                                 ),
                               ),
                               Text(
@@ -149,6 +175,12 @@ class homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors
+                                                .black
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
@@ -172,22 +204,40 @@ class homepage extends ConsumerWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Icon(Icons.manage_search_rounded, size: 60),
+                              Icon(
+                                Icons.manage_search_rounded,
+                                size: 60,
+                                color:
+                                    Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors
+                                            .orangeAccent
+                                        : Colors.blueGrey,
+                              ),
                               Text(
                                 'Search on map',
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 20,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors
+                                                .orangeAccent // custom color for dark mode
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
                               Text(
-                                'Search for Items on locations',
+                                'Search for lost FoundItems on locations',
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 13,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.black
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
@@ -197,6 +247,9 @@ class homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 13,
+                                    color: Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.black // custom color for dark mode
+                                        : Colors.black,
                                   ),
                                 ),
                               ),
