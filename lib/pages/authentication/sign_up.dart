@@ -7,25 +7,54 @@ import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/SignUpModel.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
-import '../../providers/districtsNotifier.dart';
+import '../../providers/VillagesNotifier.dart';
+import '../../widgets/PassworldTextfield.dart';
 
-class sign_up extends ConsumerWidget {
+class sign_up extends ConsumerStatefulWidget {
   const sign_up({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<sign_up> createState() => _SignUpState();
+}
+
+class _SignUpState extends ConsumerState<sign_up> {
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController phoneController;
+  late TextEditingController passController;
+  late TextEditingController passConfController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    phoneController = TextEditingController();
+    passController = TextEditingController();
+    passConfController = TextEditingController();
+
+    Future.microtask(() {
+      final villages = ref.read(villageProvider);
+      if (villages.isEmpty) {
+        ref.read(villageProvider.notifier).fetchVillages();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passController.dispose();
+    passConfController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final villages = ref.watch(villageProvider);
     final selectedVillage = ref.watch(selectedVillageProvider);
-
-    final nameController = TextEditingController();
-    final emailController = TextEditingController();
-    final phoneController = TextEditingController();
-    final passController = TextEditingController();
-    final passConfController = TextEditingController();
-
-    if (villages.isEmpty) {
-      ref.read(villageProvider.notifier).fetchVillages();
-    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -40,6 +69,10 @@ class sign_up extends ConsumerWidget {
                 style: GoogleFonts.brawler(
                   fontSize: 50,
                   fontWeight: FontWeight.w800,
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.orangeAccent
+                          : Colors.black,
                 ),
               ),
             ),
@@ -51,15 +84,12 @@ class sign_up extends ConsumerWidget {
             textfield(controller: emailController),
             const SizedBox(height: 30),
             _buildLabel('PASSWORD'),
-            _passwordField(passController),
+            PasswordField(controller: passController),
             const SizedBox(height: 30),
             _buildLabel('PASSWORD CONFIRMATION'),
-            _passwordField(passConfController),
+            PasswordField(controller: passConfController),
             const SizedBox(height: 30),
             _buildLabel('PHONE'),
-
-
-
             textfield(controller: phoneController),
             const SizedBox(height: 30),
             _buildLabel('VILLAGE'),
@@ -69,12 +99,15 @@ class sign_up extends ConsumerWidget {
                 labelText: "Select a Village",
                 border: OutlineInputBorder(),
               ),
-              items: villages
-                  .map((village) => DropdownMenuItem(
-                value: village['id'].toString(),
-                child: Text(village['name']),
-              ))
-                  .toList(),
+              items:
+                  villages
+                      .map(
+                        (village) => DropdownMenuItem(
+                          value: village['id'].toString(),
+                          child: Text(village['name']),
+                        ),
+                      )
+                      .toList(),
               onChanged: (value) {
                 ref.read(selectedVillageProvider.notifier).state = value;
               },
@@ -82,24 +115,59 @@ class sign_up extends ConsumerWidget {
             const SizedBox(height: 40),
             button(
               text: 'Sign Up',
-                onPressed: () {
-                  final selectedVillageId = ref.read(selectedVillageProvider);
-                  print("Selected village ID: $selectedVillageId");
+              onPressed: () {
+                final selectedVillageId = ref.read(selectedVillageProvider);
+                print("Selected village ID: $selectedVillageId");
 
-                  final signUpData = SignUpModel(
-                    name: nameController.text.trim(),
-                    email: emailController.text.trim(),
-                    password: passController.text.trim(),
-                    passwordConfirmation: passConfController.text.trim(),
-                    phone: phoneController.text.trim(),
-                    village: selectedVillageId,
-                  );
+                final signUpData = SignUpModel(
+                  name: nameController.text.trim(),
+                  email: emailController.text.trim(),
+                  password: passController.text.trim(),
+                  passwordConfirmation: passConfController.text.trim(),
+                  phone: phoneController.text.trim(),
+                  village: selectedVillageId,
+                );
 
-                  if (_validateInputs(signUpData, context)) {
-                    _signUp(signUpData, context);
-                  }
+                if (_validateInputs(signUpData, context)) {
+                  _signUp(signUpData, context);
                 }
-
+              },
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Already have an account?",
+                  style: GoogleFonts.brawler(
+                    textStyle: TextStyle(
+                      fontSize: 15,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors
+                                  .orangeAccent // custom color for dark mode
+                              : Colors.blueGrey,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => context.go('/login'),
+                  child: Text(
+                    'Login',
+                    style: GoogleFonts.brawler(
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors
+                                    .orangeAccent // custom color for dark mode
+                                : Colors.blueGrey,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -112,28 +180,15 @@ class sign_up extends ConsumerWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         text,
-        style: GoogleFonts.brawler(fontSize: 20, fontWeight: FontWeight.w600),
-      ),
-    );
-  }
-
-  Widget _passwordField(TextEditingController controller) {
-    return TextFormField(
-      controller: controller,
-      obscureText: true,
-      style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.grey.shade200,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 10,
-          horizontal: 12,
+        style: GoogleFonts.brawler(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color:
+              Theme.of(context).brightness == Brightness.dark
+                  ? Colors
+                      .orangeAccent // custom color for dark mode
+                  : Colors.black,
         ),
-        suffixIcon: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.remove_red_eye),
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
       ),
     );
   }
@@ -152,9 +207,9 @@ class sign_up extends ConsumerWidget {
     }
 
     if (data.password != data.passwordConfirmation) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Passwords do not match.')));
       return false;
     }
 
@@ -193,21 +248,19 @@ class sign_up extends ConsumerWidget {
         final firstErrorKey = errors.keys.first;
         final firstErrorMsg = errors[firstErrorKey][0];
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(firstErrorMsg)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(firstErrorMsg)));
       } else {
-        print('👀${response.statusMessage}');
         ScaffoldMessenger.of(context).showSnackBar(
-          
           SnackBar(content: Text('Error: ${response.statusMessage}')),
         );
       }
     } catch (e) {
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Something went wrong: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Something went wrong: $e')));
     }
   }
 }

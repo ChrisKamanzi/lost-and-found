@@ -9,13 +9,16 @@ class report extends StatefulWidget {
   State<report> createState() => _SearchPageState();
 }
 
+
+
+
 class _SearchPageState extends State<report> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
   final pages = [
     {
-      'title': 'Report Found or Lost Items',
+      'title': 'Report Found',
       'description':
           'An item lost and found can easily be reported or an ad could be created',
       'icon': Icons.report,
