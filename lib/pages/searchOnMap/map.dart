@@ -2,80 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:dio/dio.dart';
-import 'package:lost_and_found/constant/api.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/MapNotifier.dart';
 
-class map extends StatefulWidget {
-  const map({super.key});
+class MapScreen extends ConsumerStatefulWidget {
+  const MapScreen({super.key});
 
   @override
-  State<map> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<map> {
+class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
   final TextEditingController _latController = TextEditingController();
   final TextEditingController _lngController = TextEditingController();
 
-  LatLng? _currentLocation;
-  List<LatLng> _nearbyLocations = [];
-  List<String> _nearbyNames = [];
-
-  bool _loading = true;
-
   @override
-  void initState() {
-    super.initState();
-    _fetchLocationData();
-  }
-
-  Future<void> _fetchLocationData() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('authToken');
-    try {
-      final dio = Dio();
-      final response = await dio.get(
-        '$apiUrl/user/near-by-locations',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-
-      final data = response.data['near-locations'];
-
-      final currentCoordinates = data['current_location']['coordinates'];
-      final LatLng currentPos = LatLng(
-        currentCoordinates['lat'],
-        currentCoordinates['lng'],
-      );
-
-      List<dynamic> nearby = data['nearby_locations'];
-      List<LatLng> nearbyCoords = [];
-      List<String> names = [];
-
-      for (var loc in nearby) {
-        final coords = loc['coordinates'];
-        nearbyCoords.add(LatLng(coords['lat'], coords['lng']));
-        names.add(loc['name']);
-      }
-
-      setState(() {
-        _currentLocation = currentPos;
-        _nearbyLocations = nearbyCoords;
-        _nearbyNames = names;
-        _loading = false;
-      });
-
-      _mapController.move(currentPos, 15.0);
-    } catch (e) {
-      print('Error fetching locations: $e');
-      setState(() {
-        _loading = false;
-      });
+  void didUpdateWidget(covariant MapScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final state = ref.read(mapProvider);
+    if (state.currentLocation != null) {
+      _mapController.move(state.currentLocation!, 15.0);
     }
   }
 
@@ -85,9 +32,7 @@ class _MapScreenState extends State<map> {
 
     if (lat != null && lng != null) {
       final newPosition = LatLng(lat, lng);
-      setState(() {
-        _currentLocation = newPosition;
-      });
+      ref.read(mapProvider.notifier).goToCoordinates(newPosition);
       _mapController.move(newPosition, 15.0);
     } else {
       ScaffoldMessenger.of(
@@ -98,6 +43,8 @@ class _MapScreenState extends State<map> {
 
   @override
   Widget build(BuildContext context) {
+    final mapState = ref.watch(mapProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -111,7 +58,7 @@ class _MapScreenState extends State<map> {
         ),
       ),
       body:
-          _loading
+          mapState.loading
               ? const Center(child: CircularProgressIndicator())
               : Column(
                 children: [
@@ -120,7 +67,8 @@ class _MapScreenState extends State<map> {
                       mapController: _mapController,
                       options: MapOptions(
                         initialZoom: 15.0,
-                        initialCenter: _currentLocation ?? const LatLng(0, 0),
+                        initialCenter:
+                            mapState.currentLocation ?? const LatLng(0, 0),
                       ),
                       children: [
                         TileLayer(
@@ -130,9 +78,9 @@ class _MapScreenState extends State<map> {
                         ),
                         MarkerLayer(
                           markers: [
-                            if (_currentLocation != null)
+                            if (mapState.currentLocation != null)
                               Marker(
-                                point: _currentLocation!,
+                                point: mapState.currentLocation!,
                                 width: 80,
                                 height: 80,
                                 child: const Icon(
@@ -141,9 +89,13 @@ class _MapScreenState extends State<map> {
                                   size: 40,
                                 ),
                               ),
-                            for (int i = 0; i < _nearbyLocations.length; i++)
+                            for (
+                              int i = 0;
+                              i < mapState.nearbyLocations.length;
+                              i++
+                            )
                               Marker(
-                                point: _nearbyLocations[i],
+                                point: mapState.nearbyLocations[i],
                                 width: 80,
                                 height: 80,
                                 child: Column(
@@ -154,10 +106,9 @@ class _MapScreenState extends State<map> {
                                       size: 35,
                                     ),
                                     Text(
-                                      _nearbyNames[i],
+                                      mapState.nearbyNames[i],
                                       style: const TextStyle(
                                         fontSize: 10,
-                                        color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                       overflow: TextOverflow.ellipsis,
