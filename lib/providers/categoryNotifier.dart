@@ -23,8 +23,7 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
       final response = await dio.get('$apiUrl/categories', options: options);
       if (response.statusCode == 200) {
         final List<dynamic> categories = response.data['categories'];
-        state =
-            categories
+        state = categories
                 .map((cat) => {'id': cat['id'], 'name': cat['name']})
                 .toList();
       } else {

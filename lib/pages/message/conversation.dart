@@ -10,8 +10,9 @@ class ChatHistoryScreen extends ConsumerWidget {
     final chatHistories = ref.watch(chatHistoryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Chat Histories')),
+      appBar: AppBar(title: const Text('CHAT')),
       body: chatHistories == null
+
               ? const Center(child: CircularProgressIndicator())
               : chatHistories.isEmpty
               ? const Center(child: Text('No chat histories found.'))
@@ -47,7 +48,9 @@ class ChatHistoryScreen extends ConsumerWidget {
                           ),
                       ],
                     ),
-                    onTap: () {},
+                    onTap: () {
+
+                    },
                   );
                 },
               ),

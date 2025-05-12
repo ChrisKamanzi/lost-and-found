@@ -13,6 +13,7 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
   Future<void> loadConversation(int receiverId, String itemId) async {
     state = const AsyncLoading();
     try {
+
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
       if (token == null) throw Exception('Token not found');
