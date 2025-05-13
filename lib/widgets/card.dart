@@ -107,7 +107,6 @@ class LostFoundCard extends StatelessWidget {
                   ),
                 ),
               ),
-              //  const SizedBox(height: 5),
               Text(
                 '$daysAgo ago',
                 style: TextStyle(
@@ -129,7 +128,7 @@ class LostFoundCard extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: Colors.orange.shade700,
                     foregroundColor: Colors.white,
                   ),
                 ),

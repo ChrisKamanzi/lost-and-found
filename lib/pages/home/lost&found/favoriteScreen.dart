@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../providers/favoriteNotifier.dart';
 
 class FavoriteScreen extends ConsumerWidget {
@@ -10,7 +11,16 @@ class FavoriteScreen extends ConsumerWidget {
     final favoritesAsync = ref.watch(favoritesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('My Favorites')),
+      appBar: AppBar(
+        title: const Text(
+          'My Favorites',
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.orange,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
 
       body: favoritesAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -45,23 +55,53 @@ class FavoriteScreen extends ConsumerWidget {
                         children: [
                           Text(
                             item.title,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 25),
+                            ),
                           ),
                           const SizedBox(height: 8),
-                          Text(item.description),
-                          const SizedBox(height: 8),
-                          Text('Category: ${item.category}'),
-                          Text('Posted: ${item.postedAt}'),
+                          Text(
+                            item.description,
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
+                          ),
                           const SizedBox(height: 8),
                           Text(
-                            'Location: ${item.location.village}, ${item.location.cell}, ${item.location.sector}, ${item.location.district}',
+                            'Category: ${item.category}',
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          Text(
+                            'Posted: ${item.postedAt}',
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Location: ${item.location.village}, '
+                            '${item.location.cell}, '
+                            '${item.location.sector},'
+                            ' ${item.location.district}',
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
                           ),
                           const Divider(),
                           Text(
                             'Posted By: ${item.postedBy.name} (${item.postedBy.telephone})',
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
                           ),
                           Text(
-                            'From: ${item.postedBy.location.district}, ${item.postedBy.location.sector}',
+                            'From: ${item.postedBy.location.district},'
+                            ' ${item.postedBy.location.sector}',
+                            style: GoogleFonts.brawler(
+                              textStyle: TextStyle(fontSize: 15),
+                            ),
                           ),
                         ],
                       ),

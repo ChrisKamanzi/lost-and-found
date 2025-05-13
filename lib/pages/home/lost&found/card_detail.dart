@@ -107,23 +107,25 @@ class _CardDetailScreenState extends State<cardDetail> {
 
           return Scaffold(
             backgroundColor: Colors.grey.shade100,
-            appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+            appBar: AppBar(
+              title: Text(
+                'Found Item',
+                style: GoogleFonts.brawler(
+                  textStyle: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+            ),
             body: SingleChildScrollView(
               padding: EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Found Item',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-
+                  SizedBox(height: 25),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
@@ -133,7 +135,11 @@ class _CardDetailScreenState extends State<cardDetail> {
                       fit: BoxFit.cover,
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.orange.shade700,
+                          ),
+                        );
                       },
                       errorBuilder: (context, error, stackTrace) {
                         print(
@@ -151,8 +157,8 @@ class _CardDetailScreenState extends State<cardDetail> {
                     decoration: BoxDecoration(
                       color:
                           item.postType.toLowerCase() == 'found'
-                              ? Colors.green.shade600
-                              : Colors.red,
+                              ? Colors.orange.shade600
+                              : Colors.orange.shade600,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -161,9 +167,11 @@ class _CardDetailScreenState extends State<cardDetail> {
                         textStyle: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.black
-                              : Colors.blueGrey,                        ),
+                          color:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black
+                                  : Colors.blueGrey,
+                        ),
                       ),
                     ),
                   ),
@@ -237,7 +245,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                     decoration: BoxDecoration(
-                      color: Colors.yellow.shade600,
+                      color: Colors.orange.shade600,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
