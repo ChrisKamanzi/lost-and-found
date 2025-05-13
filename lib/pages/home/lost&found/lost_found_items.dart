@@ -1,27 +1,30 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
+import 'package:lost_and_found/providers/providers.dart';
 import 'package:lost_and_found/widgets/card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class lostFoundItems extends StatefulWidget {
-  const lostFoundItems({super.key});
+class LostFoundItemsScreen extends ConsumerStatefulWidget {
+  const LostFoundItemsScreen({super.key});
 
   @override
-  State<lostFoundItems> createState() => _LostFoundItemsState();
+  ConsumerState<LostFoundItemsScreen> createState() =>
+      _LostFoundItemsScreenState();
 }
 
-class _LostFoundItemsState extends State<lostFoundItems>
+class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<Map<String, String>> categories = [];
-  late List<Future<List<lostFound>>> categoryFutures;
+  late List<Future<List<LostFound>>> categoryFutures;
   String searchQuery = '';
   TextEditingController searchController = TextEditingController();
 
-  Future<List<lostFound>> fetchItems({String query = ''}) async {
+  Future<List<LostFound>> fetchItems({String query = ''}) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
 
@@ -30,7 +33,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
     }
 
     final url =
-    query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
+        query.isNotEmpty ? '$apiUrl/items?search=$query' : '$apiUrl/items';
 
     Dio dio = Dio();
     dio.options.headers = {
@@ -43,7 +46,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
 
       if (response.statusCode == 200) {
         final data = response.data['items'] as List<dynamic>;
-        return data.map((item) => lostFound.fromJson(item)).toList();
+        return data.map((item) => LostFound.fromJson(item)).toList();
       } else {
         throw Exception('Failed to load items ${response.statusCode}');
       }
@@ -53,9 +56,10 @@ class _LostFoundItemsState extends State<lostFoundItems>
     }
   }
 
-  // Fetch items by category using the category ID
-  Future<List<lostFound>> fetchItemsByCategory(
-      String categoryId, {String query = ''}) async {
+  Future<List<LostFound>> fetchItemsByCategory(
+    String categoryId, {
+    String query = '',
+  }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
 
@@ -70,7 +74,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
     };
 
     final queryParameters = {
-      'category': categoryId,  // Passing the category ID here (e.g., "01jsvj6p7hjb4rzyw9efsqr49n")
+      'category': categoryId,
       if (query.isNotEmpty) 'search': query,
     };
 
@@ -82,7 +86,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
 
       if (response.statusCode == 200) {
         final data = response.data['items'] as List<dynamic>;
-        return data.map((item) => lostFound.fromJson(item)).toList();
+        return data.map((item) => LostFound.fromJson(item)).toList();
       } else {
         throw Exception('Failed to load items for category $categoryId');
       }
@@ -92,7 +96,6 @@ class _LostFoundItemsState extends State<lostFoundItems>
     }
   }
 
-  // Fetch categories with their IDs
   Future<List<Map<String, String>>> fetchCategories() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
@@ -113,10 +116,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
       if (response.statusCode == 200) {
         final data = response.data['categories'] as List<dynamic>;
         return data.map<Map<String, String>>((category) {
-          return {
-            'name': category['name'],
-            'id': category['id'],
-          };
+          return {'name': category['name'], 'id': category['id']};
         }).toList();
       } else {
         throw Exception('Failed to fetch categories');
@@ -149,6 +149,9 @@ class _LostFoundItemsState extends State<lostFoundItems>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(lostFoundItemsProvider.notifier).fetchItems();
+    });
     fetchCategories().then((fetchedCategories) {
       setState(() {
         categories = fetchedCategories;
@@ -171,7 +174,6 @@ class _LostFoundItemsState extends State<lostFoundItems>
     super.dispose();
   }
 
-  // Build tabs
   List<Tab> buildTabs() {
     return [
       const Tab(text: 'All'),
@@ -181,11 +183,11 @@ class _LostFoundItemsState extends State<lostFoundItems>
 
   List<Widget> buildTabViews() {
     return categoryFutures.map((future) {
-      return FutureBuilder<List<lostFound>>(
+      return FutureBuilder<List<LostFound>>(
         future: future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(color: Colors.orange,));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -221,6 +223,7 @@ class _LostFoundItemsState extends State<lostFoundItems>
 
   @override
   Widget build(BuildContext context) {
+    var items = ref.watch(lostFoundItemsProvider);
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
@@ -242,25 +245,25 @@ class _LostFoundItemsState extends State<lostFoundItems>
           onSubmitted: searchItems,
         ),
         bottom:
-        categories.isEmpty
-            ? null
-            : TabBar(
-          controller: _tabController,
-          labelColor: Colors.black,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.orange,
-          indicatorWeight: 3,
-          tabs: buildTabs(),
-        ),
+            categories.isEmpty
+                ? null
+                : TabBar(
+                  controller: _tabController,
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  indicatorColor: Colors.orange,
+                  indicatorWeight: 3,
+                  tabs: buildTabs(),
+                ),
         elevation: 1,
       ),
       body:
-      categories.isEmpty
-          ? const Center(child: CircularProgressIndicator())
-          : TabBarView(
-        controller: _tabController,
-        children: buildTabViews(),
-      ),
+          categories.isEmpty
+              ? const Center(child: CircularProgressIndicator(color: Colors.orange,))
+              : TabBarView(
+                controller: _tabController,
+                children: buildTabViews(),
+              ),
     );
   }
 }

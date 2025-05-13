@@ -35,7 +35,7 @@ final categoriesProvider = FutureProvider<List<Map<String, String>>>((
 });
 
 final itemsProvider =
-    FutureProvider.family<List<lostFound>, Map<String, dynamic>>((
+    FutureProvider.family<List<LostFound>, Map<String, dynamic>>((
       ref,
       params,
     ) async {
@@ -65,7 +65,7 @@ final itemsProvider =
 
       if (response.statusCode == 200) {
         final data = response.data['items'] as List<dynamic>;
-        return data.map((item) => lostFound.fromJson(item)).toList();
+        return data.map((item) => LostFound.fromJson(item)).toList();
       } else {
         throw Exception('Failed to load items');
       }

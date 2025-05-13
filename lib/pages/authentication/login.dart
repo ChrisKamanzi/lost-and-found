@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lost_and_found/constant/api.dart';
-import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/login_model.dart';
+import 'package:lost_and_found/widgets/text_field.dart';
+import 'package:lost_and_found/widgets/elevated_button.dart';
 import '../../providers/login_loading.dart';
-import '../../widgets/elevated_button.dart';
-import 'package:dio/dio.dart';
+import '../../providers/loginProvider.dart';
 
 class login extends ConsumerWidget {
   const login({super.key});
@@ -21,53 +19,28 @@ class login extends ConsumerWidget {
   ) async {
     ref.read(loginLoadingProvider.notifier).state = true;
 
-    LoginModel loginData = LoginModel(email: email, password: password);
-    String loginUrl = "$apiUrl/login";
-    Dio dio = Dio();
-
     try {
-      final response = await dio.post(
-        loginUrl,
-        data: loginData.toMap(),
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          followRedirects: false,
-          validateStatus: (status) => status != null && status < 500,
-        ),
-      );
+      await ref.read(loginProvider.notifier).login(email, password);
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('authToken');
+      final userId = prefs.getInt('userId');
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final data = response.data;
-        final token = data['token'];
-        final int? userId = data['user']?['id'];
-
-        if (token != null && userId != null) {
-          await saveToken(token, userId);
-          context.go('/homepage');
-        }
+      if (token != null && userId != null) {
+        print('${token}');
+        context.go('/homepage');
       } else {
-        print('Login failed with status: ${response.statusCode}');
+        print('Login successful but token/userId not found in storage.');
       }
     } catch (e) {
-      print('Error: $e');
+      print('Login exception: $e');
     } finally {
-      ref.read(loginLoadingProvider.notifier).state = false; // 👈 Stop loading
+      ref.read(loginLoadingProvider.notifier).state = false;
     }
-  }
-
-  Future<void> saveToken(String token, int userId) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('authToken', token);
-    await prefs.setInt('userId', userId);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(loginLoadingProvider);
-
     final TextEditingController _email = TextEditingController();
     final TextEditingController _password = TextEditingController();
 
@@ -87,40 +60,51 @@ class login extends ConsumerWidget {
                       textStyle: TextStyle(
                         fontSize: 60,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.orangeAccent
+                                : Colors.black,
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 Text(
                   'Email',
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors
+                                  .orangeAccent
+                              : Colors.black,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 textfield(controller: _email),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Password',
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 20,
-                      color: Colors.black,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors
+                                  .orangeAccent
+                              : Colors.black,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 TextFormField(
                   controller: _password,
                   obscureText: true,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
                     color: Colors.black,
@@ -128,11 +112,11 @@ class login extends ConsumerWidget {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: EdgeInsets.symmetric(
+                    contentPadding: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 12,
                     ),
-                    suffixIcon: Icon(Icons.remove_red_eye),
+                    suffixIcon: const Icon(Icons.remove_red_eye),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -145,12 +129,18 @@ class login extends ConsumerWidget {
                     child: Text(
                       'Forgot Password',
                       style: GoogleFonts.brawler(
-                        textStyle: TextStyle(fontWeight: FontWeight.w700),
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.orange.shade700
+                                  : Colors.blueGrey,
+                        ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Align(
                   alignment: Alignment.topRight,
                   child: button(
@@ -162,20 +152,8 @@ class login extends ConsumerWidget {
                     },
                   ),
                 ),
-                SizedBox(height: 60),
-                Center(
-                  child: Text(
-                    'OR SIGN IN WITH',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 100),
+
+                const SizedBox(height: 100),
                 Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -185,7 +163,11 @@ class login extends ConsumerWidget {
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 15,
-                            color: Colors.black,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors
+                                        .orangeAccent
+                                    : Colors.black,
                           ),
                         ),
                       ),
@@ -197,6 +179,12 @@ class login extends ConsumerWidget {
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w300,
                               fontSize: 15,
+                              color:
+                                  Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors
+                                          .orangeAccent
+                                      : Colors.black,
                             ),
                           ),
                         ),
@@ -207,11 +195,10 @@ class login extends ConsumerWidget {
               ],
             ),
           ),
-
           if (isLoading)
             Container(
               color: Colors.black.withOpacity(0.4),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(color: Colors.deepPurple),
               ),
             ),

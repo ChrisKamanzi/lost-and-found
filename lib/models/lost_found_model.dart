@@ -1,4 +1,4 @@
-class lostFound {
+class LostFound {
   final String id;
   final String title;
   final String description;
@@ -12,7 +12,7 @@ class lostFound {
   final String imagePath;
   final int userId;
 
-  lostFound({
+  LostFound({
     required this.id,
     required this.title,
     required this.description,
@@ -27,7 +27,7 @@ class lostFound {
     required this.userId,
   });
 
-  factory lostFound.fromJson(Map<dynamic, dynamic> json) {
+  factory LostFound.fromJson(Map<dynamic, dynamic> json) {
     final postedBy = json['posted_by'] ?? {};
     final images = json['itemImages'] as List<dynamic>? ?? [];
 
@@ -38,7 +38,7 @@ class lostFound {
             : 'https://5e45-2c0f-eb68-206-7c00-b118-81c3-6929-916c.ngrok-free.app/${rawImagePath.startsWith('/') ? rawImagePath : '/$rawImagePath'}'
                 .trim();
 
-    return lostFound(
+    return LostFound(
       id: json['id'] ?? '',
       title: json['title'] ?? '',
       description: json['description'] ?? '',
