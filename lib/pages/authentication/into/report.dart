@@ -50,7 +50,7 @@ class _SearchPageState extends State<report> {
                 style: GoogleFonts.brawler(
                   color: Colors.grey,
                   fontWeight: FontWeight.w500,
-                  fontSize: 25,
+                  fontSize: 20,
                 ),
               ),
             ),
@@ -76,21 +76,28 @@ class _SearchPageState extends State<report> {
                       Icon(
                         page['icon'] as IconData,
                         size: 100,
-                        color: Colors.blue,
+                        color: Colors.orange.shade700,
                       ),
                       const SizedBox(height: 30),
                       Text(
                         page['title'] as String,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: GoogleFonts.brawler(
+                          textStyle: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold
+                          )
+                        )
                       ),
                       const SizedBox(height: 10),
                       Text(
                         page['description'] as String,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 16),
+                        style: GoogleFonts.brawler(
+                          textStyle: TextStyle(
+                            fontSize: 15,
+
+                          )
+                        ),
                       ),
                     ],
                   ),
@@ -109,13 +116,13 @@ class _SearchPageState extends State<report> {
                 width: _currentPage == index ? 12 : 8,
                 height: _currentPage == index ? 12 : 8,
                 decoration: BoxDecoration(
-                  color: _currentPage == index ? Colors.blue : Colors.grey,
+                  color: _currentPage == index ? Colors.orange.shade600 : Colors.grey,
                   shape: BoxShape.circle,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 30),
+        SizedBox(height: 30),
         ],
       ),
     );

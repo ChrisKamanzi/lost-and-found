@@ -63,8 +63,9 @@ class TokenPage extends StatelessWidget {
                     textStyle: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.w800,
-                      color: Colors.black,
-                    ),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.orangeAccent // custom color for dark mode
+                          : Colors.black,                    ),
                   ),
                 ),
               ),
@@ -74,8 +75,9 @@ class TokenPage extends StatelessWidget {
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.orangeAccent // custom color for dark mode
+                        : Colors.black,                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -88,8 +90,9 @@ class TokenPage extends StatelessWidget {
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.orangeAccent // custom color for dark mode
+                        : Colors.black,                        fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -102,8 +105,9 @@ class TokenPage extends StatelessWidget {
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.orangeAccent // custom color for dark mode
+                        : Colors.black,                        fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -116,8 +120,9 @@ class TokenPage extends StatelessWidget {
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.orangeAccent // custom color for dark mode
+                        : Colors.black,                        fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

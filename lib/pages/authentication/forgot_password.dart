@@ -16,10 +16,7 @@ class forgotPassword extends StatelessWidget {
     Dio dio = Dio();
 
     try {
-      final response = await dio.post(
-        loginUrl,
-        data: {'email': email},
-      );
+      final response = await dio.post(loginUrl, data: {'email': email});
 
       print('Response body: ${response.data}');
       if (response.statusCode == 200) {
@@ -54,7 +51,11 @@ class forgotPassword extends StatelessWidget {
                   textStyle: TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w800,
-                    color: Colors.black,
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors
+                                .orangeAccent // custom color for dark mode
+                            : Colors.black,
                   ),
                 ),
               ),
@@ -65,7 +66,11 @@ class forgotPassword extends StatelessWidget {
               style: GoogleFonts.brawler(
                 textStyle: TextStyle(
                   fontSize: 20,
-                  color: Colors.black,
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors
+                              .orangeAccent // custom color for dark mode
+                          : Colors.blueGrey,
                   fontWeight: FontWeight.w700,
                 ),
               ),
