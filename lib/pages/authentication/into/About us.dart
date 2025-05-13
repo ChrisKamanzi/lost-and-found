@@ -15,21 +15,15 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-
     _slideController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 800),
     );
-
     _slideAnimations = List.generate(3, (index) {
       return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero).animate(
         CurvedAnimation(
           parent: _slideController,
-          curve: Interval(
-            index * 0.2, // delay for each
-            1.0,
-            curve: Curves.easeOut,
-          ),
+          curve: Interval(index * 0.2, 1.0, curve: Curves.easeOut),
         ),
       );
     });
@@ -52,13 +46,13 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
     ];
 
     final colors = [
-      Colors.orange.shade400,
+      Colors.orange.shade700,
       Colors.blue.shade200,
-      Colors.deepPurpleAccent.shade200,
+      Colors.purple.shade200,
     ];
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.orange.shade400),
+      appBar: AppBar(backgroundColor: Colors.orange.shade700),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 50, left: 15, right: 15),
@@ -82,13 +76,13 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                   height: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.amberAccent,
+                    color: Colors.orange.shade700,
                   ),
                   child: Text(
                     ' We believe in the power of community and compassion. '
                     'Our platform connects people who have lost valuable items with those who’ve found them,'
                     ' making it easier than ever to reunite lost belongings with their rightful owners. ',
-                    style: GoogleFonts.roboto(
+                    style: GoogleFonts.brawler(
                       textStyle: TextStyle(fontSize: 18, color: Colors.black),
                     ),
                   ),
@@ -97,7 +91,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
               SizedBox(height: 30),
               Text(
                 'FEATURES',
-                style: GoogleFonts.roboto(
+                style: GoogleFonts.brawler(
                   textStyle: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w700,
@@ -123,13 +117,15 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                             alignment: Alignment.center,
                             child: Text(
                               featureTexts[index],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                height: 1.3,
+
+                              style: GoogleFonts.brawler(
+                                textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.3,
+                                )
                               ),
-                              textAlign: TextAlign.center,
                             ),
                           ),
                           SizedBox(width: 20),

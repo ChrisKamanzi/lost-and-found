@@ -21,7 +21,11 @@ class account extends ConsumerWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.person, size: 150, color: Colors.grey),
+                Icon(
+                    Icons.person,
+                    size: 150,
+                    color: Colors.orange.shade600
+                ),
                 name.when(
                   data:
                       (name) => Text(
@@ -41,7 +45,7 @@ class account extends ConsumerWidget {
             SizedBox(height: 60),
 
             SizedBox(
-              height: 280,
+              height: 200,
               width: double.infinity,
               child: Padding(
                 padding: const EdgeInsets.only(left: 50, right: 50),
@@ -49,14 +53,14 @@ class account extends ConsumerWidget {
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey,
+                        color: Colors.purpleAccent,
                         blurRadius: 10,
                         spreadRadius: 2,
                         offset: Offset(0, 4),
                       ),
                     ],
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: Colors.orange.shade700,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(

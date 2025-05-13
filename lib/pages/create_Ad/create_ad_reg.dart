@@ -21,7 +21,6 @@ class CreateAdReg extends ConsumerStatefulWidget {
 }
 
 class _CreateAdRegState extends ConsumerState<CreateAdReg> {
-
   File? _image1;
   File? _image2;
   String? selectedLocation;
@@ -66,16 +65,16 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
 
       if (token == null || userId == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('You are not authenticated.')),
+           SnackBar(content: Text('You are not authenticated.')),
         );
         return;
       }
 
       final selectedCategory = ref.read(selectedCategoryProvider);
-
       FormData formData = FormData();
 
       formData.fields.addAll([
+
         MapEntry('title', createAdData.title),
         MapEntry('description', createAdData.description),
         MapEntry('post_type', createAdData.post_type),
@@ -85,8 +84,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
           MapEntry('village_id', createAdData.villageId),
         if (createAdData.location.isNotEmpty)
           MapEntry('location', createAdData.location.first),
-      ]
-      );
+      ]);
 
       if (createAdData.image1 != null) {
         formData.files.add(
@@ -127,7 +125,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
           const SnackBar(content: Text('Ad successfully created!')),
         );
 
-        // Clear form after success
         setState(() {
           _title.clear();
           _description.clear();
@@ -183,8 +180,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       fontWeight: FontWeight.w800,
                       color:
                           Theme.of(context).brightness == Brightness.dark
-                              ? Colors
-                                  .orangeAccent // custom color for dark mode
+                              ? Colors.orangeAccent
                               : Colors.black,
                     ),
                   ),
@@ -204,7 +200,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   items:
                       categories.map((cat) {
                         return DropdownMenuItem<String>(
-
                           value: cat['id'],
                           child: Text(
                             cat['name'],
@@ -277,7 +272,8 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     child: DropdownButtonFormField<String>(
                       hint: const Text('Village'),
                       value: selectedLocation,
-                      items: villages.map((village) {
+                      items:
+                          villages.map((village) {
                             return DropdownMenuItem<String>(
                               value: village['id'],
                               child: Text(
@@ -307,7 +303,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                 ),
                 SizedBox(height: 20),
 
-                // Image Upload Section
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -326,24 +321,22 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                          color: Colors.purple.shade100,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.purple, width: 2),
+                          color: Colors.orange.shade700,                           shape: BoxShape.circle,
+                          border: Border.all(color: Colors.purpleAccent, width: 2),
                         ),
                         child: Center(
                           child: Icon(
                             Icons.add_a_photo,
                             size: 30,
-                            color: Colors.purple.shade700,
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                // Image Previews
                 Row(
                   children: [
                     Container(
@@ -352,7 +345,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.purple.shade200),
+                        border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
                           _image1 != null
@@ -371,14 +364,14 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                                 ),
                               ),
                     ),
-                    const SizedBox(width: 20),
+               SizedBox(width: 20),
                     Container(
                       height: 150,
                       width: 180,
                       decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: Colors.purple.shade200),
+                        border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
                           _image2 != null
@@ -399,15 +392,15 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                // Submit Button
                 button(
                   text: 'Done',
                   onPressed: () {
                     if (selectedPostType == null || selectedLocation == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
+
+                        SnackBar(content: Text('Please fill all fields')),
                       );
                       return;
                     }
@@ -426,16 +419,15 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     save(createAdData, context);
                   },
                 ),
-                const SizedBox(height: 40),
+                SizedBox(height: 40),
               ],
             ),
           ),
 
-          // Loading Overlay
           if (_isLoading)
             Container(
               color: Colors.black45,
-              child: const Center(child: CircularProgressIndicator()),
+              child: Center(child: CircularProgressIndicator()),
             ),
         ],
       ),
