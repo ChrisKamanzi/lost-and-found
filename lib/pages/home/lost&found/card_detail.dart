@@ -204,7 +204,6 @@ class _CardDetailScreenState extends State<cardDetail> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 8),
                   Row(
                     children: [
@@ -310,7 +309,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                   Row(
                     children: [
                       Text(
-                        'Ad posted by ',
+                        'Ad posted by',
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w700,
