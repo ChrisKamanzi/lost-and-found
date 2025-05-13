@@ -17,7 +17,7 @@ class homepage extends ConsumerWidget {
       appBar: AppBar(),
       drawer: drawer(),
       body: nameAsyncValue.when(
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading: () => Center(child: CircularProgressIndicator(color: Colors.orange.shade700,)),
         error: (e, _) => Center(child: Text('Failed to load name: $e')),
         data:
             (name) => SingleChildScrollView(
@@ -41,7 +41,7 @@ class homepage extends ConsumerWidget {
                         ),
                         SizedBox(width: 15),
                         Text(
-                          name, // Using dynamic name
+                          name,
                           style: GoogleFonts.brawler(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w800,
@@ -116,7 +116,7 @@ class homepage extends ConsumerWidget {
                         height: 200,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.yellow.shade100,
+                          color: Colors.orange.shade600,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(

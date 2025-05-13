@@ -11,7 +11,7 @@ class button extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.amber.shade300,
+          backgroundColor: Colors.orange.shade600,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
