@@ -11,16 +11,13 @@ void main() {
     final container = ProviderContainer(
       overrides: [loginLoadingProvider.overrideWith((ref) => false)],
     );
-
     await tester.pumpWidget(
       ProviderScope(parent: container, child: const MaterialApp(home: login())),
     );
-
     final emailField = find.byType(TextField).first;
     final passwordField = find.byType(TextFormField);
     final loginButton = find.text('Log In');
-
-    await tester.enterText(emailField, 'test@example.com');
+    await tester.enterText(emailField, 'chris@gmail.com');
     await tester.enterText(passwordField, 'password123');
 
     await tester.tap(loginButton);
