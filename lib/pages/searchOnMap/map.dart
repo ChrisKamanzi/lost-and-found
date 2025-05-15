@@ -37,29 +37,27 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     } else {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid coordinates')));
+      ).showSnackBar(SnackBar(content: Text('Invalid coordinates')));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapProvider);
-
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange.shade700,
         title: Text(
           'MAP',
           style: GoogleFonts.brawler(
-            textStyle: const TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.w800,
-            ),
+            textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
           ),
         ),
       ),
+
       body:
           mapState.loading
-              ? const Center(child: CircularProgressIndicator())
+              ? Center(child: CircularProgressIndicator())
               : Column(
                 children: [
                   Expanded(
@@ -67,8 +65,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       mapController: _mapController,
                       options: MapOptions(
                         initialZoom: 15.0,
-                        initialCenter:
-                            mapState.currentLocation ?? const LatLng(0, 0),
+                        initialCenter: mapState.currentLocation ?? LatLng(0, 0),
                       ),
                       children: [
                         TileLayer(
@@ -83,7 +80,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                 point: mapState.currentLocation!,
                                 width: 80,
                                 height: 80,
-                                child: const Icon(
+                                child: Icon(
                                   Icons.location_pin,
                                   color: Colors.red,
                                   size: 40,
@@ -100,14 +97,14 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                                 height: 80,
                                 child: Column(
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.place,
                                       color: Colors.blue,
                                       size: 35,
                                     ),
                                     Text(
                                       mapState.nearbyNames[i],
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                       ),

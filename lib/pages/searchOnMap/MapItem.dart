@@ -37,7 +37,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
     } else {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid coordinates')));
+      ).showSnackBar( SnackBar(content: Text('Invalid coordinates')));
     }
   }
 
@@ -50,7 +50,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
         title: Text(
           'MAP Item',
           style: GoogleFonts.brawler(
-            textStyle: const TextStyle(
+            textStyle:  TextStyle(
               fontSize: 25,
               fontWeight: FontWeight.w800,
             ),
@@ -59,7 +59,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
       ),
       body:
       mapState.loading
-          ? const Center(child: CircularProgressIndicator())
+          ?  Center(child: CircularProgressIndicator())
           : Column(
         children: [
           Expanded(
@@ -68,7 +68,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
               options: MapOptions(
                 initialZoom: 15.0,
                 initialCenter:
-                mapState.currentLocation ?? const LatLng(0, 0),
+                mapState.currentLocation ??  LatLng(0, 0),
               ),
               children: [
                 TileLayer(
@@ -83,7 +83,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
                         point: mapState.currentLocation!,
                         width: 80,
                         height: 80,
-                        child: const Icon(
+                        child:  Icon(
                           Icons.location_pin,
                           color: Colors.red,
                           size: 40,
@@ -100,14 +100,14 @@ class _MapScreenState extends ConsumerState<MapItem> {
                         height: 80,
                         child: Column(
                           children: [
-                            const Icon(
+                             Icon(
                               Icons.place,
                               color: Colors.blue,
                               size: 35,
                             ),
                             Text(
                               mapState.nearbyNames[i],
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),

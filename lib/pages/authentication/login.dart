@@ -48,7 +48,7 @@ class login extends ConsumerWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.all(30),
+            padding: EdgeInsets.all(30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -68,7 +68,7 @@ class login extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: 50),
                 Text(
                   'Email',
                   style: GoogleFonts.brawler(
@@ -76,16 +76,15 @@ class login extends ConsumerWidget {
                       fontSize: 20,
                       color:
                           Theme.of(context).brightness == Brightness.dark
-                              ? Colors
-                                  .orangeAccent
+                              ? Colors.orangeAccent
                               : Colors.black,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 textfield(controller: _email),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 Text(
                   'Password',
                   style: GoogleFonts.brawler(
@@ -93,18 +92,17 @@ class login extends ConsumerWidget {
                       fontSize: 20,
                       color:
                           Theme.of(context).brightness == Brightness.dark
-                              ? Colors
-                                  .orangeAccent
+                              ? Colors.orangeAccent
                               : Colors.black,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 TextFormField(
                   controller: _password,
                   obscureText: true,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 20,
                     color: Colors.black,
@@ -112,11 +110,11 @@ class login extends ConsumerWidget {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 12,
                     ),
-                    suffixIcon: const Icon(Icons.remove_red_eye),
+                    suffixIcon: Icon(Icons.remove_red_eye),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -140,7 +138,7 @@ class login extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
                 Align(
                   alignment: Alignment.topRight,
                   child: button(
@@ -153,7 +151,7 @@ class login extends ConsumerWidget {
                   ),
                 ),
 
-                const SizedBox(height: 100),
+                SizedBox(height: 100),
                 Center(
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -165,8 +163,7 @@ class login extends ConsumerWidget {
                             fontSize: 15,
                             color:
                                 Theme.of(context).brightness == Brightness.dark
-                                    ? Colors
-                                        .orangeAccent
+                                    ? Colors.orangeAccent
                                     : Colors.black,
                           ),
                         ),
@@ -182,8 +179,7 @@ class login extends ConsumerWidget {
                               color:
                                   Theme.of(context).brightness ==
                                           Brightness.dark
-                                      ? Colors
-                                          .orangeAccent
+                                      ? Colors.orangeAccent
                                       : Colors.black,
                             ),
                           ),
@@ -198,7 +194,8 @@ class login extends ConsumerWidget {
           if (isLoading)
             Container(
               color: Colors.black.withOpacity(0.4),
-              child: const Center(
+              child:
+              Center(
                 child: CircularProgressIndicator(color: Colors.deepPurple),
               ),
             ),
