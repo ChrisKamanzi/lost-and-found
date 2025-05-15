@@ -118,7 +118,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                 ),
               ),
               elevation: 0,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.orange.shade700,
             ),
             body: SingleChildScrollView(
               padding: EdgeInsets.all(20),
@@ -157,7 +157,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                     decoration: BoxDecoration(
                       color:
                           item.postType.toLowerCase() == 'found'
-                              ? Colors.orange.shade600
+                              ? Colors.purple.shade200
                               : Colors.orange.shade600,
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -169,8 +169,8 @@ class _CardDetailScreenState extends State<cardDetail> {
                           fontWeight: FontWeight.bold,
                           color:
                               Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.black
-                                  : Colors.blueGrey,
+                                  ? Colors.white54
+                                  : Colors.white,
                         ),
                       ),
                     ),
@@ -188,21 +188,24 @@ class _CardDetailScreenState extends State<cardDetail> {
                   ),
 
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(Icons.lock_clock, color: Colors.grey),
-                      SizedBox(width: 6),
-                      Text(
-                        item.postedAt,
-                        style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey.shade700,
-                            fontWeight: FontWeight.w700,
+                  Padding(
+                    padding:  EdgeInsets.only(left: 15),
+                    child: Row(
+                      children: [
+                        Icon(Icons.lock_clock, color: Colors.grey),
+                        SizedBox(width: 6),
+                        Text(
+                          item.postedAt,
+                          style: GoogleFonts.brawler(
+                            textStyle: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey.shade700,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: 8),
                   Row(

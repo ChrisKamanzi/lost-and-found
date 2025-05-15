@@ -26,12 +26,12 @@ class ConversationScreen extends ConsumerWidget {
         title: Text(
           name ?? 'Chat',
           style: GoogleFonts.brawler(
-            textStyle: const TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
+            textStyle: TextStyle(fontWeight: FontWeight.w800, fontSize: 30),
           ),
         ),
       ),
       body: conversationAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () =>  Center(child: CircularProgressIndicator()),
         error: (err, _) => Center(child: Text('Error: $err')),
         data: (conversation) {
           final messages = conversation.messages;
@@ -49,14 +49,14 @@ class ConversationScreen extends ConsumerWidget {
                     return Align(
                       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                       child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        padding: const EdgeInsets.all(12),
+                        margin:  EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding:  EdgeInsets.all(12),
                         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
                         decoration: BoxDecoration(
                           color: isMe ? Colors.green[300] : Colors.blue[300],
                           borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(12),
-                            topRight: const Radius.circular(12),
+                            topLeft:  Radius.circular(12),
+                            topRight:Radius.circular(12),
                             bottomLeft: Radius.circular(isMe ? 12 : 0),
                             bottomRight: Radius.circular(isMe ? 0 : 12),
                           ),
@@ -66,12 +66,12 @@ class ConversationScreen extends ConsumerWidget {
                           children: [
                             Text(
                               msg.message,
-                              style: const TextStyle(color: Colors.white, fontSize: 16),
+                              style: TextStyle(color: Colors.white, fontSize: 16),
                             ),
-                            const SizedBox(height: 5),
+                          SizedBox(height: 5),
                             Text(
                               msg.messagedAt,
-                              style: const TextStyle(color: Colors.white70, fontSize: 10),
+                              style: TextStyle(color: Colors.white70, fontSize: 10),
                             ),
                           ],
                         ),
@@ -82,20 +82,20 @@ class ConversationScreen extends ConsumerWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 50),
+                padding:  EdgeInsets.symmetric(horizontal: 15, vertical: 50),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: messageController,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
                           hintText: 'Type your message...',
                           border: OutlineInputBorder(),
                         ),
                       ),
                     ),
                     IconButton(
-                      icon: const Icon(Icons.send),
+                      icon: Icon(Icons.send),
                       onPressed: () {
                         final text = messageController.text.trim();
                         if (text.isNotEmpty) {

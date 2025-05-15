@@ -10,18 +10,18 @@ class ChatHistoryScreen extends ConsumerWidget {
     final chatHistories = ref.watch(chatHistoryProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('CHAT')),
-      body: chatHistories == null
-
-              ? const Center(child: CircularProgressIndicator())
+      appBar: AppBar(title: Text('CHAT')),
+      body:
+          chatHistories == null
+              ? Center(child: CircularProgressIndicator())
               : chatHistories.isEmpty
-              ? const Center(child: Text('No chat histories found.'))
+              ? Center(child: Text('No chat histories found.'))
               : ListView.builder(
                 itemCount: chatHistories.length,
                 itemBuilder: (context, index) {
                   final chatHistory = chatHistories[index];
                   return ListTile(
-                    leading: const Icon(Icons.person),
+                    leading: Icon(Icons.person),
                     title: Text(chatHistory.receiver.name),
                     subtitle: Text(chatHistory.latestMessage),
                     trailing: Column(
@@ -29,17 +29,17 @@ class ChatHistoryScreen extends ConsumerWidget {
                       children: [
                         Text(
                           chatHistory.updatedAt,
-                          style: const TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 12),
                         ),
                         if (chatHistory.unreadCount > 0)
                           Padding(
-                            padding: const EdgeInsets.only(top: 4),
+                            padding: EdgeInsets.only(top: 4),
                             child: CircleAvatar(
                               radius: 10,
                               backgroundColor: Colors.red,
                               child: Text(
                                 chatHistory.unreadCount.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 10,
                                   color: Colors.white,
                                 ),
@@ -48,9 +48,7 @@ class ChatHistoryScreen extends ConsumerWidget {
                           ),
                       ],
                     ),
-                    onTap: () {
-
-                    },
+                    onTap: () {},
                   );
                 },
               ),
@@ -58,7 +56,7 @@ class ChatHistoryScreen extends ConsumerWidget {
         onPressed: () {
           ref.read(chatHistoryProvider.notifier).fetchChatHistories();
         },
-        child: const Icon(Icons.refresh),
+        child: Icon(Icons.refresh),
       ),
     );
   }

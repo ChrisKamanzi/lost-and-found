@@ -70,11 +70,10 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
         '$apiUrl/message',
         data: {'conversation_id': convId, 'message': messageText},
       );
-
       if (response.statusCode == 200) {
         await loadConversation(receiverId, itemId);
       } else {
-        throw Exception('Failed to send message');
+        print('error');
       }
     } catch (e, st) {
       state = AsyncError(e, st);
