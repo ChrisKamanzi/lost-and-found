@@ -116,7 +116,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/account',
         builder: (BuildContext context, GoRouterState state) {
-          return account();
+          return Account();
         },
       ),
       GoRoute(

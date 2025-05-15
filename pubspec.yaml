@@ -38,7 +38,6 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_riverpod: ^2.4.0
   image_picker: ^1.1.2
-  http: ^1.3.0
   animated_page_reveal: ^1.0.0
   shared_preferences: ^2.3.5
   flutter_map: ^8.1.1
