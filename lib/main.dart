@@ -25,14 +25,14 @@ final lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
-  textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.black)),
+  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.black)),
 );
 
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
 );
 
 void main() {

@@ -22,7 +22,7 @@ class homepage extends ConsumerWidget {
         data:
             (name) => SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -63,7 +63,7 @@ class homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 30, left: 50),
+                          padding:  EdgeInsets.only(top: 30, left: 50),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -120,7 +120,7 @@ class homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 30, left: 30),
+                          padding:  EdgeInsets.only(top: 30, left: 30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -200,7 +200,7 @@ class homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 30, top: 30),
+                          padding:  EdgeInsets.only(left: 30, top: 30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

@@ -11,7 +11,7 @@ final myItemsNotifierProvider =
     );
 
 class MyItemsNotifier extends StateNotifier<AsyncValue<List<MyItem>>> {
-  MyItemsNotifier() : super(const AsyncLoading()) {
+  MyItemsNotifier() : super(AsyncLoading()) {
     fetchMyItems();
   }
 

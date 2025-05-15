@@ -196,9 +196,9 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
 
           final items = snapshot.data!;
           return GridView.builder(
-            padding: const EdgeInsets.all(15),
+            padding:  EdgeInsets.all(15),
             itemCount: items.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 12,
               mainAxisSpacing: 10,
@@ -235,12 +235,12 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
             hintStyle: const TextStyle(color: Colors.grey),
             border: InputBorder.none,
             suffixIcon: IconButton(
-              icon: const Icon(Icons.search, color: Colors.black),
+              icon:  Icon(Icons.search, color: Colors.black),
               onPressed: () => searchItems(searchController.text),
             ),
           ),
           style: GoogleFonts.brawler(
-            textStyle: const TextStyle(fontSize: 18, color: Colors.black87),
+            textStyle:  TextStyle(fontSize: 18, color: Colors.black87),
           ),
           onSubmitted: searchItems,
         ),
@@ -259,7 +259,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
       ),
       body:
           categories.isEmpty
-              ? const Center(child: CircularProgressIndicator(color: Colors.orange,))
+              ?  Center(child: CircularProgressIndicator(color: Colors.orange,))
               : TabBarView(
                 controller: _tabController,
                 children: buildTabViews(),

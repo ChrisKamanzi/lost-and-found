@@ -64,9 +64,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       final userId = prefs.getInt('userId');
 
       if (token == null || userId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-           SnackBar(content: Text('You are not authenticated.')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('You are not authenticated.')));
         return;
       }
 
@@ -74,7 +74,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       FormData formData = FormData();
 
       formData.fields.addAll([
-
         MapEntry('title', createAdData.title),
         MapEntry('description', createAdData.description),
         MapEntry('post_type', createAdData.post_type),
@@ -121,9 +120,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ad successfully created!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Ad successfully created!')));
 
         setState(() {
           _title.clear();
@@ -167,11 +166,11 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Text(
                   'Create ad',
                   style: GoogleFonts.brawler(
@@ -185,7 +184,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
                 DropdownButtonFormField<String>(
                   hint: Text(
                     'Category',
@@ -203,7 +202,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                           value: cat['id'],
                           child: Text(
                             cat['name'],
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         );
                       }).toList(),
@@ -213,7 +212,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 12,
                     ),
@@ -222,7 +221,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   hint: Text(
                     'Post Type',
@@ -238,10 +237,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       ['Lost', 'Found'].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(
-                            value,
-                            style: const TextStyle(fontSize: 20),
-                          ),
+                          child: Text(value, style: TextStyle(fontSize: 20)),
                         );
                       }).toList(),
                   onChanged:
@@ -249,7 +245,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.grey.shade200,
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding: EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 12,
                     ),
@@ -258,19 +254,19 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 textfield(controller: _title, hintText: 'Title'),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 textfield(controller: _description, hintText: 'Description'),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
                 Align(
                   alignment: Alignment.centerLeft,
                   child: FractionallySizedBox(
                     widthFactor: 1,
                     child: DropdownButtonFormField<String>(
-                      hint: const Text('Village'),
+                      hint: Text('Village'),
                       value: selectedLocation,
                       items:
                           villages.map((village) {
@@ -321,8 +317,12 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         height: 60,
                         width: 60,
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade700,                           shape: BoxShape.circle,
-                          border: Border.all(color: Colors.purpleAccent, width: 2),
+                          color: Colors.orange.shade700,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.purpleAccent,
+                            width: 2,
+                          ),
                         ),
                         child: Center(
                           child: Icon(
@@ -364,7 +364,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                                 ),
                               ),
                     ),
-               SizedBox(width: 20),
+                    SizedBox(width: 20),
                     Container(
                       height: 150,
                       width: 180,
@@ -399,7 +399,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   onPressed: () {
                     if (selectedPostType == null || selectedLocation == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-
                         SnackBar(content: Text('Please fill all fields')),
                       );
                       return;
