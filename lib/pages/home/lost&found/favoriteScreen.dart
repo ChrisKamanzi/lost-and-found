@@ -12,7 +12,7 @@ class FavoriteScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           'My Favorites',
           style: TextStyle(
             fontSize: 25,
@@ -23,18 +23,19 @@ class FavoriteScreen extends ConsumerWidget {
       ),
 
       body: favoritesAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () =>  Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Error: $err')),
         data: (items) {
           if (items.isEmpty) {
-            return const Center(child: Text('No favorite items found.'));
+            return Center(child: Text('No favorite items found.'));
           }
           return ListView.builder(
             itemCount: items.length,
             itemBuilder: (context, index) {
               final item = items[index];
               return Card(
-                margin: const EdgeInsets.all(12),
+                margin:
+                EdgeInsets.all(12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -49,7 +50,7 @@ class FavoriteScreen extends ConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding:  EdgeInsets.all(12.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -59,14 +60,14 @@ class FavoriteScreen extends ConsumerWidget {
                               textStyle: TextStyle(fontSize: 25),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                       SizedBox(height: 8),
                           Text(
                             item.description,
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                      SizedBox(height: 8),
                           Text(
                             'Category: ${item.category}',
                             style: GoogleFonts.brawler(
@@ -79,7 +80,7 @@ class FavoriteScreen extends ConsumerWidget {
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
-                          const SizedBox(height: 8),
+                  SizedBox(height: 8),
                           Text(
                             'Location: ${item.location.village}, '
                             '${item.location.cell}, '
@@ -89,7 +90,7 @@ class FavoriteScreen extends ConsumerWidget {
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
-                          const Divider(),
+            Divider(),
                           Text(
                             'Posted By: ${item.postedBy.name} (${item.postedBy.telephone})',
                             style: GoogleFonts.brawler(

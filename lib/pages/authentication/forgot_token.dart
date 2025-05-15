@@ -50,13 +50,13 @@ class TokenPage extends StatelessWidget {
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding:  EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10, left: 20),
+                padding:EdgeInsets.only(top: 10, left: 20),
                 child: Text(
                   'RESET PASSWORD',
                   style: GoogleFonts.brawler(
@@ -64,7 +64,7 @@ class TokenPage extends StatelessWidget {
                       fontSize: 40,
                       fontWeight: FontWeight.w800,
                       color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.orangeAccent // custom color for dark mode
+                          ? Colors.orangeAccent
                           : Colors.black,                    ),
                   ),
                 ),
@@ -76,7 +76,7 @@ class TokenPage extends StatelessWidget {
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.orangeAccent // custom color for dark mode
+                        ? Colors.orangeAccent
                         : Colors.black,                    fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -91,7 +91,7 @@ class TokenPage extends StatelessWidget {
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.orangeAccent // custom color for dark mode
+                        ? Colors.orangeAccent
                         : Colors.black,                        fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -106,7 +106,7 @@ class TokenPage extends StatelessWidget {
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.orangeAccent // custom color for dark mode
+                        ? Colors.orangeAccent
                         : Colors.black,                        fontWeight: FontWeight.w700,
                   ),
                 ),

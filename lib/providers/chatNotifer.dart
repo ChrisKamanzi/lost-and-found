@@ -36,6 +36,7 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
   Future<void> sendMessage(String convId, String messageText, int receiverId,
       String itemId) async {
     try {
+
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
       if (token == null) throw Exception('Token not found');

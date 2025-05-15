@@ -38,13 +38,13 @@ class forgotPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 10, left: 20),
+              padding:  EdgeInsets.only(top: 10, left: 20),
               child: Text(
                 'Forgot Password',
                 style: GoogleFonts.brawler(
@@ -54,7 +54,7 @@ class forgotPassword extends StatelessWidget {
                     color:
                         Theme.of(context).brightness == Brightness.dark
                             ? Colors
-                                .orangeAccent // custom color for dark mode
+                                .orangeAccent
                             : Colors.black,
                   ),
                 ),
@@ -69,7 +69,7 @@ class forgotPassword extends StatelessWidget {
                   color:
                       Theme.of(context).brightness == Brightness.dark
                           ? Colors
-                              .orangeAccent // custom color for dark mode
+                              .orangeAccent
                           : Colors.blueGrey,
                   fontWeight: FontWeight.w700,
                 ),

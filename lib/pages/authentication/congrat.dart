@@ -5,7 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 
 class congrat extends StatelessWidget {
-  const congrat({super.key});
+   congrat({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class congrat extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
+            padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -24,29 +24,29 @@ class congrat extends StatelessWidget {
                   repeat: true,
                   animate: true,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Text(
                   'Congrats!',
                   style: GoogleFonts.brawler(
-                    textStyle: const TextStyle(
+                    textStyle:  TextStyle(
                       fontSize: 42,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+             SizedBox(height: 16),
                 Text(
                   'Your sign-up is complete 🎉',
                   style: GoogleFonts.brawler(
-                    textStyle: const TextStyle(
+                    textStyle:TextStyle(
                       fontSize: 22,
                       color: Colors.white70,
                     ),
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 80),
+            SizedBox(height: 80),
                 button(
                   text: 'CONTINUE',
                   onPressed: () => context.go('/login'),

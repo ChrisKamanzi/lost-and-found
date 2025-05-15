@@ -11,7 +11,7 @@ import '../../providers/VillagesNotifier.dart';
 import '../../widgets/PassworldTextfield.dart';
 
 class sign_up extends ConsumerStatefulWidget {
-  const sign_up({super.key});
+sign_up({super.key});
 
   @override
   ConsumerState<sign_up> createState() => _SignUpState();
@@ -58,10 +58,10 @@ class _SignUpState extends ConsumerState<sign_up> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(30),
+        padding: EdgeInsets.all(30),
         child: Column(
           children: [
-            const SizedBox(height: 100),
+           SizedBox(height: 100),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -76,26 +76,26 @@ class _SignUpState extends ConsumerState<sign_up> {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
             _buildLabel('NAME'),
             textfield(controller: nameController),
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
             _buildLabel('EMAIL'),
             textfield(controller: emailController),
-            const SizedBox(height: 30),
+          SizedBox(height: 30),
             _buildLabel('PASSWORD'),
             PasswordField(controller: passController),
-            const SizedBox(height: 30),
+           SizedBox(height: 30),
             _buildLabel('PASSWORD CONFIRMATION'),
             PasswordField(controller: passConfController),
-            const SizedBox(height: 30),
+             SizedBox(height: 30),
             _buildLabel('PHONE'),
             textfield(controller: phoneController),
-            const SizedBox(height: 30),
+         SizedBox(height: 30),
             _buildLabel('VILLAGE'),
             DropdownButtonFormField<String>(
               value: selectedVillage,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 labelText: "Select a Village",
                 border: OutlineInputBorder(),
               ),
@@ -112,7 +112,7 @@ class _SignUpState extends ConsumerState<sign_up> {
                 ref.read(selectedVillageProvider.notifier).state = value;
               },
             ),
-            const SizedBox(height: 40),
+             SizedBox(height: 40),
             button(
               text: 'Sign Up',
               onPressed: () {
@@ -133,7 +133,7 @@ class _SignUpState extends ConsumerState<sign_up> {
                 }
               },
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -201,7 +201,7 @@ class _SignUpState extends ConsumerState<sign_up> {
         data.phone.isEmpty ||
         data.village == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields.')),
+    SnackBar(content: Text('Please fill in all fields.')),
       );
       return false;
     }
@@ -209,7 +209,7 @@ class _SignUpState extends ConsumerState<sign_up> {
     if (data.password != data.passwordConfirmation) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Passwords do not match.')));
+      ).showSnackBar(SnackBar(content: Text('Passwords do not match.')));
       return false;
     }
 
@@ -222,7 +222,7 @@ class _SignUpState extends ConsumerState<sign_up> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
+      builder: (context) =>  Center(child: CircularProgressIndicator()),
     );
 
     try {
