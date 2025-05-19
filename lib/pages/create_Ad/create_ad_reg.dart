@@ -73,17 +73,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       final selectedCategory = ref.read(selectedCategoryProvider);
       FormData formData = FormData();
 
-      formData.fields.addAll([
-        MapEntry('title', createAdData.title),
-        MapEntry('description', createAdData.description),
-        MapEntry('post_type', createAdData.post_type),
-        MapEntry('user_id', userId.toString()),
-        if (selectedCategory != null) MapEntry('category_id', selectedCategory),
-        if (createAdData.villageId.isNotEmpty)
-          MapEntry('village_id', createAdData.villageId),
-        if (createAdData.location.isNotEmpty)
-          MapEntry('location', createAdData.location.first),
-      ]);
 
       if (createAdData.image1 != null) {
         formData.files.add(
