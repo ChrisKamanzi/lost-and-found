@@ -9,9 +9,6 @@ class report extends StatefulWidget {
   State<report> createState() => _SearchPageState();
 }
 
-
-
-
 class _SearchPageState extends State<report> {
   final PageController _pageController = PageController();
   int _currentPage = 0;

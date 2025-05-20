@@ -121,8 +121,9 @@ class TokenPage extends StatelessWidget {
                   textStyle: TextStyle(
                     fontSize: 20,
                     color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.orangeAccent // custom color for dark mode
-                        : Colors.black,                        fontWeight: FontWeight.w700,
+                        ? Colors.orangeAccent
+                        : Colors.black,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

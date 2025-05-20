@@ -73,7 +73,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
       final selectedCategory = ref.read(selectedCategoryProvider);
       FormData formData = FormData();
 
-
       if (createAdData.image1 != null) {
         formData.files.add(
           MapEntry(

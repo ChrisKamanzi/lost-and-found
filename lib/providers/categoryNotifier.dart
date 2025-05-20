@@ -19,7 +19,6 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
           'Authorization': token != null ? 'Bearer $token' : '',
         },
       );
-
       final response = await dio.get('$apiUrl/categories', options: options);
       if (response.statusCode == 200) {
         final List<dynamic> categories = response.data['categories'];
@@ -44,8 +43,7 @@ final dioProvider = Provider((ref) {
   return Dio(BaseOptions(headers: {'Accept': 'application/json'}));
 });
 
-final categoryProvider =
-    StateNotifierProvider<CategoryNotifier, List<Map<String, dynamic>>>((ref) {
+final categoryProvider = StateNotifierProvider<CategoryNotifier, List<Map<String, dynamic>>>((ref) {
       final dio = ref.watch(dioProvider);
       return CategoryNotifier(dio);
     });

@@ -35,17 +35,17 @@ class LostFoundCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child:
-                    imagePath.startsWith('file://')
-                        ? Image.file(File(imagePath))
-                        : Image.network(
-                          imagePath,
-                          fit: BoxFit.cover,
-                          errorBuilder:
-                              (context, error, stackTrace) =>
-                                  const Icon(Icons.image_not_supported),
-                          width: 120,
-                          height: 120,
-                        ),
+                imagePath.startsWith('file://')
+                    ? Image.file(File(imagePath))
+                    : Image.network(
+                  imagePath,
+                  fit: BoxFit.cover,
+                  errorBuilder:
+                      (context, error, stackTrace) =>
+                  const Icon(Icons.image_not_supported),
+                  width: 120,
+                  height: 120,
+                ),
               ),
               const SizedBox(height: 5),
               Row(
@@ -68,9 +68,11 @@ class LostFoundCard extends StatelessWidget {
                   Icon(
                     Icons.location_on_rounded,
                     color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Colors.white54
-                            : Colors.blueGrey,
+                    Theme
+                        .of(context)
+                        .brightness == Brightness.dark
+                        ? Colors.white54
+                        : Colors.blueGrey,
                   ),
                   const SizedBox(width: 5),
                   Expanded(
@@ -79,9 +81,11 @@ class LostFoundCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 14,
                         color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.blueGrey,
+                        Theme
+                            .of(context)
+                            .brightness == Brightness.dark
+                            ? Colors.white
+                            : Colors.blueGrey,
                       ),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -112,9 +116,11 @@ class LostFoundCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                   color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.blueGrey,
+                  Theme
+                      .of(context)
+                      .brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.blueGrey,
                 ),
               ),
               const SizedBox(height: 1),
