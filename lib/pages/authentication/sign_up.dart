@@ -145,7 +145,7 @@ class _SignUpState extends ConsumerState<sign_up> {
                       color:
                           Theme.of(context).brightness == Brightness.dark
                               ? Colors
-                                  .orangeAccent // custom color for dark mode
+                                  .orangeAccent
                               : Colors.blueGrey,
                     ),
                   ),
@@ -161,7 +161,7 @@ class _SignUpState extends ConsumerState<sign_up> {
                         color:
                             Theme.of(context).brightness == Brightness.dark
                                 ? Colors
-                                    .orangeAccent // custom color for dark mode
+                                    .orangeAccent
                                 : Colors.blueGrey,
                       ),
                     ),
@@ -186,7 +186,7 @@ class _SignUpState extends ConsumerState<sign_up> {
           color:
               Theme.of(context).brightness == Brightness.dark
                   ? Colors
-                      .orangeAccent // custom color for dark mode
+                      .orangeAccent
                   : Colors.black,
         ),
       ),

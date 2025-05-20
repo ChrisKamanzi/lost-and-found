@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../providers/chatProvider.dart';
 
 class ConversationScreen extends ConsumerWidget {
+
   final int receiverId;
   final String itemId;
   final String? name;
@@ -17,9 +18,12 @@ class ConversationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+
     final conversationAsync = ref.watch(conversationProvider((receiverId, itemId)));
     final notifier = ref.read(conversationProvider((receiverId, itemId)).notifier);
     final messageController = TextEditingController();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +50,7 @@ class ConversationScreen extends ConsumerWidget {
 
                     final msg = messages[messages.length - 1 - index];
                     final isMe = msg.sender == receiverId ? false : true;
+
                     return Align(
                       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                       child: Container(
@@ -77,10 +82,10 @@ class ConversationScreen extends ConsumerWidget {
                         ),
                       ),
                     );
-
-                  },
+                    },
                 ),
               ),
+
               Padding(
                 padding:  EdgeInsets.symmetric(horizontal: 15, vertical: 50),
                 child: Row(

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,11 +11,11 @@ class forgotPassword extends StatelessWidget {
 
   Future<void> _forgotPassword(String email, BuildContext context) async {
     String loginUrl = "$apiUrl/forgot-password";
+
     Dio dio = Dio();
 
     try {
       final response = await dio.post(loginUrl, data: {'email': email});
-
       print('Response body: ${response.data}');
       if (response.statusCode == 200) {
         final data = response.data;
@@ -33,6 +31,7 @@ class forgotPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     TextEditingController _email = TextEditingController();
 
     return Scaffold(
@@ -44,7 +43,7 @@ class forgotPassword extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:  EdgeInsets.only(top: 10, left: 20),
+              padding: EdgeInsets.only(top: 10, left: 20),
               child: Text(
                 'Forgot Password',
                 style: GoogleFonts.brawler(
@@ -53,8 +52,7 @@ class forgotPassword extends StatelessWidget {
                     fontWeight: FontWeight.w800,
                     color:
                         Theme.of(context).brightness == Brightness.dark
-                            ? Colors
-                                .orangeAccent
+                            ? Colors.orangeAccent
                             : Colors.black,
                   ),
                 ),
@@ -68,8 +66,7 @@ class forgotPassword extends StatelessWidget {
                   fontSize: 20,
                   color:
                       Theme.of(context).brightness == Brightness.dark
-                          ? Colors
-                              .orangeAccent
+                          ? Colors.orangeAccent
                           : Colors.blueGrey,
                   fontWeight: FontWeight.w700,
                 ),
@@ -77,7 +74,6 @@ class forgotPassword extends StatelessWidget {
             ),
             SizedBox(height: 30),
             textfield(controller: _email),
-
             SizedBox(height: 40),
             Align(
               alignment: Alignment.topRight,

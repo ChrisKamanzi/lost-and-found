@@ -4,20 +4,14 @@ class textfield extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
 
-  // final Function(String) onChanged;
-
-
-  const textfield({ super.key,
-    required this.controller,
-    this.hintText
-    //required this.onChanged
-  });
+  const textfield({super.key, required this.controller, this.hintText});
 
   @override
   State<textfield> createState() => _textfieldState();
 }
 
 class _textfieldState extends State<textfield> {
+
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -35,27 +29,26 @@ class _textfieldState extends State<textfield> {
         ],
       ),
       child: TextFormField(
-
         controller: widget.controller,
         style: TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 20,
           color: Colors.black,
         ),
-        validator: (value){
-          if(value == null || value.isEmpty){
+
+        validator: (value) {
+          if (value == null || value.isEmpty) {
             return 'You cant leave this empty';
           }
           return null;
         },
+
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
           contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20)
-          ),
-          hintText: widget.hintText
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+          hintText: widget.hintText,
         ),
       ),
     );

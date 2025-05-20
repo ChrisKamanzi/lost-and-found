@@ -10,6 +10,7 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 
   Future<void> fetchCategories() async {
     try {
+
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('authToken');
 
@@ -19,12 +20,14 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
           'Authorization': token != null ? 'Bearer $token' : '',
         },
       );
+
       final response = await dio.get('$apiUrl/categories', options: options);
       if (response.statusCode == 200) {
         final List<dynamic> categories = response.data['categories'];
         state = categories
                 .map((cat) => {'id': cat['id'], 'name': cat['name']})
                 .toList();
+
       } else {
         print('Failed to load categories. Status code: ${response.statusCode}');
       }

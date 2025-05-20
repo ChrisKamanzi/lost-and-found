@@ -12,11 +12,12 @@ class FavoriteScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.orange,
         title: Text(
           'My Favorites',
           style: TextStyle(
             fontSize: 25,
-            color: Colors.orange,
+          //  color: Colors.orange,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -34,8 +35,10 @@ class FavoriteScreen extends ConsumerWidget {
               final item = items[index];
               return Card(
                 margin: EdgeInsets.all(12),
+                color: Colors.orange[50],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.orange, width: 1),
                 ),
                 elevation: 4,
                 child: Column(
@@ -55,7 +58,7 @@ class FavoriteScreen extends ConsumerWidget {
                           Text(
                             item.title,
                             style: GoogleFonts.brawler(
-                              textStyle: TextStyle(fontSize: 25),
+                              textStyle: TextStyle(fontSize: 25, color: Colors.deepOrange),
                             ),
                           ),
                           SizedBox(height: 8),
@@ -81,14 +84,14 @@ class FavoriteScreen extends ConsumerWidget {
                           SizedBox(height: 8),
                           Text(
                             'Location: ${item.location.village}, '
-                            '${item.location.cell}, '
-                            '${item.location.sector},'
-                            ' ${item.location.district}',
+                                '${item.location.cell}, '
+                                '${item.location.sector}, '
+                                '${item.location.district}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
-                          Divider(),
+                          Divider(color: Colors.orange),
                           Text(
                             'Posted By: ${item.postedBy.name} (${item.postedBy.telephone})',
                             style: GoogleFonts.brawler(
@@ -96,8 +99,8 @@ class FavoriteScreen extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            'From: ${item.postedBy.location.district},'
-                            ' ${item.postedBy.location.sector}',
+                            'From: ${item.postedBy.location.district}, '
+                                '${item.postedBy.location.sector}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),

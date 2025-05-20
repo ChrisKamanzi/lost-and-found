@@ -19,8 +19,10 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 800),
     );
+
     _slideAnimations = List.generate(3, (index) {
-      return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero).animate(
+      return Tween<Offset>(begin: const Offset(1.5, 0), end: Offset.zero)
+          .animate(
         CurvedAnimation(
           parent: _slideController,
           curve: Interval(index * 0.2, 1.0, curve: Curves.easeOut),
@@ -45,94 +47,124 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
       'Instant Messaging',
     ];
 
-    final colors = [
-      Colors.orange.shade700,
-      Colors.blue.shade200,
-      Colors.purple.shade200,
+    final featureColors = [
+      Colors.orange.shade600,
+      Colors.orange.shade400,
+      Colors.orange.shade300,
     ];
 
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.orange.shade700),
+      appBar: AppBar(
+        backgroundColor: Colors.orange.shade700,
+        title: Text(
+          'About Us',
+          style: GoogleFonts.lato(
+            textStyle: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
+          ),
+        ),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 50, left: 15, right: 15),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'ABOUT US',
                 style: GoogleFonts.lato(
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 45,
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36,
+                    color: Colors.deepOrange,
                   ),
                 ),
               ),
-              SizedBox(height: 40),
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 10),
-                child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  width: double.infinity,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.orange.shade700,
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.orange.shade300, Colors.orange.shade100],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  child: Text(
-                    ' We believe in the power of community and compassion. '
-                    'Our platform connects people who have lost valuable items with those who’ve found them,'
-                    ' making it easier than ever to reunite lost belongings with their rightful owners. ',
-                    style: GoogleFonts.brawler(
-                      textStyle: TextStyle(fontSize: 18, color: Colors.black),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.orange.shade200,
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  'We believe in the power of community and compassion. Our platform connects people who have lost valuable items with those who’ve found them — making it easier than ever to reunite lost belongings with their rightful owners.',
+                  style: GoogleFonts.brawler(
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      height: 1.5,
+                      color: Colors.black87,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Text(
                 'FEATURES',
-                style: GoogleFonts.brawler(
-                  textStyle: TextStyle(
-                    fontSize: 30,
+                style: GoogleFonts.lato(
+                  textStyle: const TextStyle(
+                    fontSize: 28,
                     fontWeight: FontWeight.w700,
+                    color: Colors.deepOrange,
                   ),
                 ),
               ),
-              SizedBox(height: 30),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(3, (index) {
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 320,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: featureTexts.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 20),
+                  itemBuilder: (context, index) {
                     return SlideTransition(
                       position: _slideAnimations[index],
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 300,
-                            height: 300,
-                            decoration: BoxDecoration(
-                              color: colors[index],
-                              shape: BoxShape.circle,
+                      child: Container(
+                        width: 280,
+                        decoration: BoxDecoration(
+                          color: featureColors[index],
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: featureColors[index].withOpacity(0.4),
+                              blurRadius: 10,
+                              offset: const Offset(0, 6),
                             ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              featureTexts[index],
-
-                              style: GoogleFonts.brawler(
-                                textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.3,
-                                )
-                              ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(24),
+                        alignment: Alignment.center,
+                        child: Text(
+                          featureTexts[index],
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.brawler(
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              height: 1.3,
                             ),
                           ),
-                          SizedBox(width: 20),
-                        ],
+                        ),
                       ),
                     );
-                  }),
+                  },
                 ),
               ),
             ],
