@@ -1,30 +1,30 @@
 class LostFound {
-  final String id;
-  final String title;
-  final String description;
+  final String? id;
+  final String? title;
+  final String? description;
   final Map<String, String> location;
-  final String postType;
-  final String postedAt;
-  final String categoryName;
-  final String name;
-  final String email;
-  final String telephone;
-  final String imagePath;
-  final int userId;
+  final String? postType;
+  final String? postedAt;
+  final String? categoryName;
+  final String? name;
+  final String? email;
+  final String? telephone;
+  final String? imagePath;
+  final int? userId;
 
   LostFound({
-    required this.id,
-    required this.title,
-    required this.description,
+    this.id,
+    this.title,
+    this.description,
     required this.location,
-    required this.postType,
-    required this.postedAt,
-    required this.categoryName,
-    required this.name,
-    required this.email,
-    required this.telephone,
-    required this.imagePath,
-    required this.userId,
+    this.postType,
+    this.postedAt,
+    this.categoryName,
+    this.name,
+    this.email,
+    this.telephone,
+    this.imagePath,
+    this.userId,
   });
 
   factory LostFound.fromJson(Map<dynamic, dynamic> json) {

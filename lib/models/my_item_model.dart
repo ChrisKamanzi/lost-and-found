@@ -1,18 +1,18 @@
 class MyItem {
-  final String id;
-  final String title;
-  final String description;
-  final String postType;
-  final String postedAt;
-  final String imageUrl;
+  final String? id;
+  final String? title;
+  final String? description;
+  final String? postType;
+  final String? postedAt;
+  final String? imageUrl;
 
   MyItem({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.postType,
-    required this.postedAt,
-    required this.imageUrl,
+    this.id,
+    this.title,
+    this.description,
+    this.postType,
+    this.postedAt,
+    this.imageUrl,
   });
 
   factory MyItem.fromJson(Map<String, dynamic> json) {
@@ -22,9 +22,8 @@ class MyItem {
       description: json['description'],
       postType: json['post_type'],
       postedAt: json['posted_at'],
-      imageUrl: json['itemImages'].isNotEmpty
-          ? json['itemImages'][0]['url']
-          : '',
+      imageUrl:
+          json['itemImages'].isNotEmpty ? json['itemImages'][0]['url'] : '',
     );
   }
 }

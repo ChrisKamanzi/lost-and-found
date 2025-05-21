@@ -1,10 +1,10 @@
 class LoginModel {
-  String email;
-  String password;
+  String? email;
+  String? password;
 
-  LoginModel({required this.email, required this.password});
+  LoginModel({this.email,  this.password});
 
   Map<String, String> toJson() {
-    return {'email': email, 'password': password};
+    return {'email': email ?? '', 'password': password ?? ''};
   }
 }

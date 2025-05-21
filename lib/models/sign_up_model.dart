@@ -1,17 +1,17 @@
 class SignUpModel {
-  final String name;
-  final String email;
-  final String password;
-  final String passwordConfirmation;
-  final String phone;
+  final String? name;
+  final String? email;
+  final String? password;
+  final String? passwordConfirmation;
+  final String? phone;
   final String? village;
 
   SignUpModel({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.passwordConfirmation,
-    required this.phone,
+    this.name,
+    this.email,
+    this.password,
+    this.passwordConfirmation,
+    this.phone,
     this.village,
   });
 

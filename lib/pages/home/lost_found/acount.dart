@@ -138,17 +138,17 @@ class Account extends ConsumerWidget {
                         margin:  EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           leading: Image.network(
-                            item.imageUrl,
+                            item.imageUrl!,
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
                           ),
-                          title: Text(item.title),
+                          title: Text(item.title!),
                           subtitle: Text(
                             '${item.description}\n${item.postedAt}',
                           ),
                           trailing: Text(
-                            item.postType.toUpperCase(),
+                            item.postType!.toUpperCase(),
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),

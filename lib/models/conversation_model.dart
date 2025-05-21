@@ -5,28 +5,25 @@ class Receiver {
   Receiver({required this.id, required this.name});
 
   factory Receiver.fromJson(Map<String, dynamic> json) {
-    return Receiver(
-      id: json['id'],
-      name: json['name'],
-    );
+    return Receiver(id: json['id'], name: json['name']);
   }
 }
 
 class ChatHistory {
   final String convId;
-  final Receiver receiver;
-  final String itemId;
-  final String latestMessage;
-  final int unreadCount;
-  final String updatedAt;
+  final Receiver  receiver;
+  final String? itemId;
+  final String? latestMessage;
+  final int? unreadCount;
+  final String? updatedAt;
 
   ChatHistory({
     required this.convId,
-    required this.receiver,
-    required this.itemId,
-    required this.latestMessage,
-    required this.unreadCount,
-    required this.updatedAt,
+   required this.receiver,
+    this.itemId,
+    this.latestMessage,
+    this.unreadCount,
+    this.updatedAt,
   });
 
   factory ChatHistory.fromJson(Map<String, dynamic> json) {

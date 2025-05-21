@@ -1,18 +1,18 @@
 class FavoriteItem {
-  final String id, title, description, postType, postedAt, category, imageUrl;
-  final Location location;
-  final Poster postedBy;
+  final String? id, title, description, postType, postedAt, category, imageUrl;
+  final Location? location;
+  final Poster? postedBy;
 
   FavoriteItem({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.postType,
-    required this.postedAt,
-    required this.category,
-    required this.imageUrl,
-    required this.location,
-    required this.postedBy,
+    this.id,
+    this.title,
+    this.description,
+    this.postType,
+    this.postedAt,
+    this.category,
+    this.imageUrl,
+    this.location,
+    this.postedBy,
   });
 
   factory FavoriteItem.fromJson(Map<String, dynamic> json) {
@@ -32,7 +32,14 @@ class FavoriteItem {
 
 class Location {
   final String village, cell, sector, district;
-  Location({required this.village, required this.cell, required this.sector, required this.district});
+
+  Location({
+    required this.village,
+    required this.cell,
+    required this.sector,
+    required this.district,
+  });
+
   factory Location.fromJson(Map<String, dynamic> json) => Location(
     village: json['village'],
     cell: json['cell'],

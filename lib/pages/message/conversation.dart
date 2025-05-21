@@ -23,22 +23,22 @@ class ChatHistoryScreen extends ConsumerWidget {
         itemBuilder: (context, index) {
           final chatHistory = chatHistories[index];
           return ListTile(
-            leading: const Icon(Icons.person, color: Colors.orange),
+            leading:  Icon(Icons.person, color: Colors.orange),
             title: Text(
               chatHistory.receiver.name,
               style: const TextStyle(color: Colors.black),
             ),
-            subtitle: Text(chatHistory.latestMessage),
+            subtitle: Text(chatHistory.latestMessage ?? ''),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  chatHistory.updatedAt,
+                  chatHistory.updatedAt ?? '',
                   style: const TextStyle(fontSize: 12),
                 ),
-                if (chatHistory.unreadCount > 0)
+                if ((chatHistory.unreadCount ?? 0)  > 0)
                   const SizedBox(height: 4),
-                if (chatHistory.unreadCount > 0)
+                if ( (chatHistory.unreadCount ?? 0) > 0)
                   CircleAvatar(
                     radius: 10,
                     backgroundColor: Colors.red,

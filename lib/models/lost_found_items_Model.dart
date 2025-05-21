@@ -1,23 +1,23 @@
 class LostFoundItems {
-  String id;
-  String title;
-  String description;
+  String? id;
+  String? title;
+  String? description;
   Location? location;
-  String postType;
-  String postedAt;
-  String category;
-  PostedBy postedBy;
+  String? postType;
+  String? postedAt;
+  String? category;
+  PostedBy? postedBy;
   List itemImage;
 
   LostFoundItems({
-    required this.id,
-    required this.title,
-    required this.description,
+    this.id,
+    this.title,
+    this.description,
     this.location,
-    required this.postType,
-    required this.postedAt,
-    required this.category,
-    required this.postedBy,
+    this.postType,
+    this.postedAt,
+    this.category,
+    this.postedBy,
     required this.itemImage,
   });
 

@@ -194,27 +194,28 @@ class _SignUpState extends ConsumerState<sign_up> {
   }
 
   bool validateInputs(SignUpModel data, BuildContext context) {
-    if (data.name.isEmpty ||
-        data.email.isEmpty ||
-        data.password.isEmpty ||
-        data.passwordConfirmation.isEmpty ||
-        data.phone.isEmpty ||
+    if ((data.name?.isEmpty ?? true) ||
+        (data.email?.isEmpty ?? true) ||
+        (data.password?.isEmpty ?? true) ||
+        (data.passwordConfirmation?.isEmpty ?? true) ||
+        (data.phone?.isEmpty ?? true) ||
         data.village == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Please fill in all fields.')),
+        const SnackBar(content: Text('Please fill in all fields.')),
       );
       return false;
     }
 
     if (data.password != data.passwordConfirmation) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Passwords do not match.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match.')),
+      );
       return false;
     }
 
     return true;
   }
+
 
   Future<void> signUp(SignUpModel signUpData, BuildContext context) async {
     final registerUrl = "$apiUrl/register";

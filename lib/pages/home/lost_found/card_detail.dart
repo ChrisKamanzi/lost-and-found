@@ -129,7 +129,7 @@ class _CardDetailScreenState extends State<CardDetail> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.network(
-                      item.imagePath,
+                      item.imagePath ?? '',
                       height: 350,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -156,13 +156,13 @@ class _CardDetailScreenState extends State<CardDetail> {
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color:
-                          item.postType.toLowerCase() == 'found'
+                          item.postType?.toLowerCase() == 'found'
                               ? Colors.purple.shade200
                               : Colors.orange.shade600,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      item.postType,
+                      item.postType ?? '',
                       style: GoogleFonts.brawler(
                         textStyle: TextStyle(
                           fontSize: 14,
@@ -178,7 +178,7 @@ class _CardDetailScreenState extends State<CardDetail> {
 
                   SizedBox(height: 20),
                   Text(
-                    item.title,
+                    item.title ?? '',
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
                         fontSize: 22,
@@ -195,7 +195,7 @@ class _CardDetailScreenState extends State<CardDetail> {
                         Icon(Icons.lock_clock, color: Colors.grey),
                         SizedBox(width: 6),
                         Text(
-                          item.postedAt,
+                          item.postedAt ?? '',
                           style: GoogleFonts.brawler(
                             textStyle: TextStyle(
                               fontSize: 15,
@@ -259,9 +259,9 @@ class _CardDetailScreenState extends State<CardDetail> {
                     ),
                     child: Column(
                       children: [
-                        infoRow('Brand', item.title),
+                        infoRow('Brand', item.title ?? ''),
                         SizedBox(height: 10),
-                        infoRow('Posted', item.postedAt),
+                        infoRow('Posted', item.postedAt ?? ''),
                       ],
                     ),
                   ),
@@ -286,7 +286,7 @@ class _CardDetailScreenState extends State<CardDetail> {
                       children: [
                         Icon(Icons.email, size: 28, color: Colors.deepPurple),
                         GestureDetector(
-                          onTap: () => toggleFavorite(item.id),
+                          onTap: () => toggleFavorite(item.id ?? ''),
                           child: Icon(
                             isFavorited
                                 ? Icons.favorite
@@ -322,7 +322,7 @@ class _CardDetailScreenState extends State<CardDetail> {
                         ),
                       ),
                       Text(
-                        item.name,
+                        item.name ?? '',
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontWeight: FontWeight.w800,
@@ -347,7 +347,7 @@ class _CardDetailScreenState extends State<CardDetail> {
                         MaterialPageRoute(
                           builder:
                               (context) => ConversationScreen(
-                                itemId: item.id,
+                                itemId: item.id ?? '',
                                 receiverId: item.userId,
                                 name: item.name,
                               ),

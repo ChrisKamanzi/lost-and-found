@@ -1,16 +1,15 @@
-
 class Message {
-  final String messageId;
-  final String message;
-  final String sender;
-  final String messagedAt;
+  final String? messageId;
+  final String? message;
+  final String? sender;
+  final String? messagedAt;
   final String? readAt;
 
   Message({
-    required this.messageId,
-    required this.message,
-    required this.sender,
-    required this.messagedAt,
+    this.messageId,
+    this.message,
+    this.sender,
+    this.messagedAt,
     this.readAt,
   });
 
@@ -48,8 +47,3 @@ class Conversation {
     );
   }
 }
-
-
-
-
-

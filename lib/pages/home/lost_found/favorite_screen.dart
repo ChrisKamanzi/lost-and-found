@@ -15,11 +15,7 @@ class FavoriteScreen extends ConsumerWidget {
         backgroundColor: Colors.orange,
         title: Text(
           'My Favorites',
-          style: TextStyle(
-            fontSize: 25,
-            //  color: Colors.orange,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),
       body: favoritesAsync.when(
@@ -45,7 +41,7 @@ class FavoriteScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.network(
-                      item.imageUrl,
+                      item.imageUrl ?? '',
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -56,7 +52,7 @@ class FavoriteScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            item.title,
+                            item.title ?? '',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(
                                 fontSize: 25,
@@ -66,7 +62,7 @@ class FavoriteScreen extends ConsumerWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            item.description,
+                            item.description ?? '',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
@@ -86,24 +82,25 @@ class FavoriteScreen extends ConsumerWidget {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            'Location: ${item.location.village}, '
-                            '${item.location.cell}, '
-                            '${item.location.sector}, '
-                            '${item.location.district}',
+                            'Location: ${item.location?.village ?? ''}, '
+                            '${item.location?.cell ?? ''}, '
+                            '${item.location?.sector ?? ''}, '
+                            '${item.location?.district ?? ''}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
+
                           Divider(color: Colors.orange),
                           Text(
-                            'Posted By: ${item.postedBy.name} (${item.postedBy.telephone})',
+                            'Posted By: ${item.postedBy?.name} (${item.postedBy?.telephone})',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
                           ),
                           Text(
-                            'From: ${item.postedBy.location.district}, '
-                            '${item.postedBy.location.sector}',
+                            'From: ${item.postedBy?.location.district}, '
+                            '${item.postedBy?.location.sector}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),

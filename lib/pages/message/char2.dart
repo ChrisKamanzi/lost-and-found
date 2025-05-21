@@ -5,21 +5,21 @@ import '../../providers/chat_provider.dart';
 
 class ConversationScreen extends ConsumerWidget {
 
-  final int receiverId;
+  final int? receiverId;
   final String itemId;
   final String? name;
 
   const ConversationScreen({
     super.key,
-    required this.receiverId,
+    this.receiverId,
     required this.itemId,
     this.name,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final conversationAsync = ref.watch(conversationProvider((receiverId, itemId)));
-    final notifier = ref.read(conversationProvider((receiverId, itemId)).notifier);
+    final conversationAsync = ref.watch(conversationProvider((receiverId!, itemId)));
+    final notifier = ref.read(conversationProvider((receiverId!, itemId)).notifier);
     final messageController = TextEditingController();
 
 
@@ -68,12 +68,12 @@ class ConversationScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              msg.message,
+                              msg.message ?? '',
                               style: TextStyle(color: Colors.white, fontSize: 16),
                             ),
                           SizedBox(height: 5),
                             Text(
-                              msg.messagedAt,
+                              msg.messagedAt ?? '',
                               style: TextStyle(color: Colors.white70, fontSize: 10),
                             ),
                           ],
@@ -102,7 +102,7 @@ class ConversationScreen extends ConsumerWidget {
                       onPressed: () {
                         final text = messageController.text.trim();
                         if (text.isNotEmpty) {
-                          notifier.sendMessage(conversation.convId, text, receiverId, itemId);
+                          notifier.sendMessage(conversation.convId, text, receiverId!, itemId);
                           messageController.clear();
                         }
                       },

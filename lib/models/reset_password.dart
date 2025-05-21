@@ -1,14 +1,14 @@
 class ResetPasswordModel {
-  final String token;
-  final String email;
-  final String password;
-  final String passwordConfirmation;
+  final String? token;
+  final String? email;
+  final String? password;
+  final String? passwordConfirmation;
 
   ResetPasswordModel({
-    required this.token,
-    required this.email,
-    required this.password,
-    required this.passwordConfirmation,
+    this.token,
+    this.email,
+    this.password,
+    this.passwordConfirmation,
   });
 
   Map<String, dynamic> toJson() {

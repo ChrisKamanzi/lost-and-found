@@ -3,21 +3,21 @@ import 'dart:io';
 import 'package:go_router/go_router.dart';
 
 class LostFoundCard extends StatelessWidget {
-  final String itemId;
-  final String title;
-  final String imagePath;
-  final String location;
-  final String lostStatus;
-  final String daysAgo;
+  final String? itemId;
+  final String? title;
+  final String? imagePath;
+  final String? location;
+  final String? lostStatus;
+  final String? daysAgo;
 
   const LostFoundCard({
     Key? key,
-    required this.itemId,
-    required this.title,
-    required this.imagePath,
-    required this.location,
-    required this.lostStatus,
-    required this.daysAgo,
+    this.itemId,
+    this.title,
+    this.imagePath,
+    this.location,
+    this.lostStatus,
+    this.daysAgo,
   }) : super(key: key);
 
   @override
@@ -35,10 +35,10 @@ class LostFoundCard extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child:
-                    imagePath.startsWith('file://')
-                        ? Image.file(File(imagePath))
+                    imagePath!.startsWith('file://')
+                        ? Image.file(File(imagePath!))
                         : Image.network(
-                          imagePath,
+                          imagePath!,
                           fit: BoxFit.cover,
                           errorBuilder:
                               (context, error, stackTrace) =>
@@ -53,7 +53,7 @@ class LostFoundCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      title,
+                      title ?? '',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class LostFoundCard extends StatelessWidget {
                   SizedBox(width: 5),
                   Expanded(
                     child: Text(
-                      location,
+                      location ?? ' ',
                       style: TextStyle(
                         fontSize: 14,
                         color:
@@ -97,7 +97,7 @@ class LostFoundCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  lostStatus,
+                  lostStatus ?? '',
                   style: TextStyle(
                     color: Colors.redAccent,
                     fontWeight: FontWeight.bold,

@@ -207,7 +207,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
             itemBuilder: (context, index) {
               final item = items[index];
               return LostFoundCard(
-                itemId: item.id,
+                itemId: item.id ,
                 title: item.title,
                 imagePath: item.imagePath,
                 location: "${item.location['district']}",
