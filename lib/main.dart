@@ -73,7 +73,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/signUp',
         builder: (BuildContext context, GoRouterState state) {
-          return sign_up();
+          return SignUp();
         },
       ),
       GoRoute(
