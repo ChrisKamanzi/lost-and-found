@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../providers/chatProvider.dart';
+import '../../providers/chat_provider.dart';
 
 class ConversationScreen extends ConsumerWidget {
 
@@ -15,10 +15,8 @@ class ConversationScreen extends ConsumerWidget {
     required this.itemId,
     this.name,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
 
     final conversationAsync = ref.watch(conversationProvider((receiverId, itemId)));
     final notifier = ref.read(conversationProvider((receiverId, itemId)).notifier);

@@ -18,7 +18,7 @@ class LostFoundItemsScreen extends ConsumerStatefulWidget {
 
 class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late TabController tabController;
   List<Map<String, String>> categories = [];
   late List<Future<List<LostFound>>> categoryFutures;
   String searchQuery = '';
@@ -128,7 +128,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
   }
 
   void searchItems(String query) {
-    final selectedIndex = _tabController.index;
+    final selectedIndex = tabController.index;
     final isAllTab = selectedIndex == 0;
 
     setState(() {
@@ -155,7 +155,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     fetchCategories().then((fetchedCategories) {
       setState(() {
         categories = fetchedCategories;
-        _tabController = TabController(
+        tabController = TabController(
           length: categories.length + 1,
           vsync: this,
         );
@@ -169,7 +169,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
 
   @override
   void dispose() {
-    _tabController.dispose();
+    tabController.dispose();
     searchController.dispose();
     super.dispose();
   }
@@ -248,7 +248,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
             categories.isEmpty
                 ? null
                 : TabBar(
-                  controller: _tabController,
+                  controller: tabController,
                   labelColor: Colors.black,
                   unselectedLabelColor: Colors.grey,
                   indicatorColor: Colors.orange,
@@ -261,7 +261,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
           categories.isEmpty
               ?  Center(child: CircularProgressIndicator(color: Colors.orange,))
               : TabBarView(
-                controller: _tabController,
+                controller: tabController,
                 children: buildTabViews(),
               ),
     );

@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constant/api.dart';
-import '../models/conversationModel.dart';
+import '../models/conversation_model.dart';
 
 class ChatHistoryNotifier extends StateNotifier<List<ChatHistory>?> {
   ChatHistoryNotifier() : super(null);

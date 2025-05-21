@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/providers/userProvider.dart';
-
-import '../../../providers/MyItemNotifier.dart';
+import 'package:lost_and_found/providers/user_provider.dart';
+import '../../../providers/my_item_notifier.dart';
 
 class Account extends ConsumerWidget {
    Account({super.key});

@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/MapItemNotifier.dart';
+import '../../providers/map_item_notifier.dart';
 
 class MapItem extends ConsumerStatefulWidget {
   const MapItem({super.key});
@@ -13,31 +13,16 @@ class MapItem extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapItem> {
-  final MapController _mapController = MapController();
-  final TextEditingController _latController = TextEditingController();
-  final TextEditingController _lngController = TextEditingController();
+  final MapController mapController = MapController();
+  final TextEditingController latController = TextEditingController();
+  final TextEditingController lngController = TextEditingController();
 
   @override
   void didUpdateWidget(covariant MapItem oldWidget) {
     super.didUpdateWidget(oldWidget);
     final state = ref.read(mapItemProvider);
     if (state.currentLocation != null) {
-      _mapController.move(state.currentLocation!, 15.0);
-    }
-  }
-
-  void _goToCoordinates() {
-    final lat = double.tryParse(_latController.text);
-    final lng = double.tryParse(_lngController.text);
-
-    if (lat != null && lng != null) {
-      final newPosition = LatLng(lat, lng);
-      ref.read(mapItemProvider.notifier).goToCoordinates(newPosition);
-      _mapController.move(newPosition, 15.0);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar( SnackBar(content: Text('Invalid coordinates')));
+      mapController.move(state.currentLocation!, 15.0);
     }
   }
 
@@ -64,7 +49,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
         children: [
           Expanded(
             child: FlutterMap(
-              mapController: _mapController,
+              mapController: mapController,
               options: MapOptions(
                 initialZoom: 15.0,
                 initialCenter:
@@ -89,11 +74,7 @@ class _MapScreenState extends ConsumerState<MapItem> {
                           size: 40,
                         ),
                       ),
-                    for (
-                    int i = 0;
-                    i < mapState.nearbyLocations.length;
-                    i++
-                    )
+                    for (int i = 0; i < mapState.nearbyLocations.length; i++)
                       Marker(
                         point: mapState.nearbyLocations[i],
                         width: 80,

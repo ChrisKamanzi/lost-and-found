@@ -14,8 +14,7 @@ final categoriesProvider = FutureProvider<List<Map<String, String>>>((
   final token = prefs.getString('authToken');
   if (token == null) throw Exception('Token not found in local storage');
 
-  final dio =
-      Dio()
+  final dio = Dio()
         ..options.headers = {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -43,8 +42,7 @@ final itemsProvider =
       final token = prefs.getString('authToken');
       if (token == null) throw Exception('Token not found in local storage');
 
-      final dio =
-          Dio()
+      final dio = Dio()
             ..options.headers = {
               'Authorization': 'Bearer $token',
               'Content-Type': 'application/json',

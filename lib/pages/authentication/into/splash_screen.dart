@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class splash_Screen extends StatefulWidget {
-  const splash_Screen({super.key});
+class splashScreen extends StatefulWidget {
+  const splashScreen({super.key});
 
   @override
-  State<splash_Screen> createState() => _splash_ScreenState();
+  State<splashScreen> createState() => _splashScreenState();
 }
 
-class _splash_ScreenState extends State<splash_Screen> {
+class _splashScreenState extends State<splashScreen> {
   @override
   void initState() {
     // TODO: implement initState

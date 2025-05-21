@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/MyItemModel.dart';
+import '../models/my_item_model.dart';
 
 final myItemsNotifierProvider =
     StateNotifierProvider<MyItemsNotifier, AsyncValue<List<MyItem>>>(

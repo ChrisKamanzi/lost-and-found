@@ -8,16 +8,16 @@ import '../../../models/lost_found_model.dart';
 import '../../../widgets/elevated_button.dart';
 import '../../message/char2.dart';
 
-class cardDetail extends StatefulWidget {
+class CardDetail extends StatefulWidget {
   final String itemId;
 
-  cardDetail({super.key, required this.itemId});
+  CardDetail({super.key, required this.itemId});
 
   @override
-  State<cardDetail> createState() => _CardDetailScreenState();
+  State<CardDetail> createState() => _CardDetailScreenState();
 }
 
-class _CardDetailScreenState extends State<cardDetail> {
+class _CardDetailScreenState extends State<CardDetail> {
   late Future<LostFound> itemFuture;
   bool isFavorited = false;
 
@@ -259,9 +259,9 @@ class _CardDetailScreenState extends State<cardDetail> {
                     ),
                     child: Column(
                       children: [
-                        _infoRow('Brand', item.title),
+                        infoRow('Brand', item.title),
                         SizedBox(height: 10),
-                        _infoRow('Posted', item.postedAt),
+                        infoRow('Posted', item.postedAt),
                       ],
                     ),
                   ),
@@ -335,7 +335,7 @@ class _CardDetailScreenState extends State<cardDetail> {
                   ),
 
                   SizedBox(height: 30),
-                  button(
+                  Button(
                     text: 'Send Message',
                     onPressed: () {
                       print('[ACTION] Chat button pressed');
@@ -364,7 +364,7 @@ class _CardDetailScreenState extends State<cardDetail> {
     );
   }
 
-  Widget _infoRow(String title, String value) {
+  Widget infoRow(String title, String value) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

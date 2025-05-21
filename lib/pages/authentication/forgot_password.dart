@@ -32,7 +32,7 @@ class forgotPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController _email = TextEditingController();
+    TextEditingController email = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(),
@@ -73,14 +73,14 @@ class forgotPassword extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            textfield(controller: _email),
+            Textfield(controller: email),
             SizedBox(height: 40),
             Align(
               alignment: Alignment.topRight,
-              child: button(
+              child: Button(
                 text: 'Reset Password',
                 onPressed: () {
-                  _forgotPassword(_email.text, context);
+                  _forgotPassword(email.text, context);
                 },
               ),
             ),

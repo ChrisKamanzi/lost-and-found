@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/MapNotifier.dart';
+import '../../providers/map_notifier.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -13,31 +13,16 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  final MapController _mapController = MapController();
-  final TextEditingController _latController = TextEditingController();
-  final TextEditingController _lngController = TextEditingController();
+  final MapController mapController = MapController();
+  final TextEditingController latController = TextEditingController();
+  final TextEditingController lngController = TextEditingController();
 
   @override
   void didUpdateWidget(covariant MapScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     final state = ref.read(mapProvider);
     if (state.currentLocation != null) {
-      _mapController.move(state.currentLocation!, 15.0);
-    }
-  }
-
-  void _goToCoordinates() {
-    final lat = double.tryParse(_latController.text);
-    final lng = double.tryParse(_lngController.text);
-
-    if (lat != null && lng != null) {
-      final newPosition = LatLng(lat, lng);
-      ref.read(mapProvider.notifier).goToCoordinates(newPosition);
-      _mapController.move(newPosition, 15.0);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Invalid coordinates')));
+      mapController.move(state.currentLocation!, 15.0);
     }
   }
 
@@ -62,7 +47,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 children: [
                   Expanded(
                     child: FlutterMap(
-                      mapController: _mapController,
+                      mapController: mapController,
                       options: MapOptions(
                         initialZoom: 15.0,
                         initialCenter: mapState.currentLocation ?? LatLng(0, 0),

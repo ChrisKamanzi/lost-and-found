@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/chatScreenProvider.dart';
+import '../../providers/chat_screen_provider.dart';
 
 class ChatHistoryScreen extends ConsumerWidget {
   const ChatHistoryScreen({super.key});
@@ -8,12 +8,12 @@ class ChatHistoryScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final chatHistories = ref.watch(chatHistoryProvider);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('CHAT'),
         backgroundColor: Colors.orange,
       ),
+
       body: chatHistories == null
           ? const Center(child: CircularProgressIndicator())
           : chatHistories.isEmpty
@@ -52,8 +52,8 @@ class ChatHistoryScreen extends ConsumerWidget {
                   ),
               ],
             ),
-            onTap: () {
-            },
+            onTap: () {},
+            
           );
         },
       ),

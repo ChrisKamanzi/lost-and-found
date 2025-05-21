@@ -1,4 +1,4 @@
-class Items {
+class LostFoundItems {
   String id;
   String title;
   String description;
@@ -9,7 +9,7 @@ class Items {
   PostedBy postedBy;
   List itemImage;
 
-  Items({
+  LostFoundItems({
     required this.id,
     required this.title,
     required this.description,
@@ -21,7 +21,7 @@ class Items {
     required this.itemImage,
   });
 
-  factory Items.fromJson(Map<String, dynamic> json) => Items(
+  factory LostFoundItems.fromJson(Map<String, dynamic> json) => LostFoundItems(
     id: json['id'],
     title: json['title'],
     description: json['description'],

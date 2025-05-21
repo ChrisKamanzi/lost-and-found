@@ -61,24 +61,24 @@ class MapItemNotifier extends StateNotifier<MapState> {
 
       final data = response.data['near-locations'];
 
-      // Parse current location
       final currentCoords = data['current_location']['coordinates'];
       final LatLng currentPos = LatLng(
         (currentCoords['lat'] as num).toDouble(),
         (currentCoords['lng'] as num).toDouble(),
       );
 
-      // Parse nearby locations
       final List<dynamic> nearbyList = data['nearby_locations'];
       final List<LatLng> nearbyCoords = [];
       final List<String> names = [];
 
       for (var location in nearbyList) {
         final coords = location['coordinates'];
-        nearbyCoords.add(LatLng(
-          (coords['lat'] as num).toDouble(),
-          (coords['lng'] as num).toDouble(),
-        ));
+        nearbyCoords.add(
+          LatLng(
+            (coords['lat'] as num).toDouble(),
+            (coords['lng'] as num).toDouble(),
+          ),
+        );
         names.add(location['name'] ?? 'Unknown');
       }
 
@@ -99,4 +99,6 @@ class MapItemNotifier extends StateNotifier<MapState> {
   }
 }
 
-final mapItemProvider = StateNotifierProvider<MapItemNotifier, MapState>((ref) => MapItemNotifier());
+final mapItemProvider = StateNotifierProvider<MapItemNotifier, MapState>(
+  (ref) => MapItemNotifier(),
+);

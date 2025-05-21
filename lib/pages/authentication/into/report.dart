@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class report extends StatefulWidget {
-  const report({super.key});
+class Report extends StatefulWidget {
+  const Report({super.key});
 
   @override
-  State<report> createState() => _SearchPageState();
+  State<Report> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<report> {
-  final PageController _pageController = PageController();
-  int _currentPage = 0;
+class _SearchPageState extends State<Report> {
+  final PageController pageController = PageController();
+  int currentPage = 0;
 
   final pages = [
     {
@@ -58,10 +58,10 @@ class _SearchPageState extends State<report> {
         children: [
           Expanded(
             child: PageView.builder(
-              controller: _pageController,
+              controller: pageController,
               itemCount: pages.length,
               onPageChanged: (index) {
-                setState(() => _currentPage = index);
+                setState(() => currentPage = index);
               },
               itemBuilder: (context, index) {
                 final page = pages[index];
@@ -102,7 +102,7 @@ class _SearchPageState extends State<report> {
               },
             ),
           ),
-          const SizedBox(height: 20),
+ SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -110,10 +110,10 @@ class _SearchPageState extends State<report> {
               (index) => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 margin: const EdgeInsets.symmetric(horizontal: 6),
-                width: _currentPage == index ? 12 : 8,
-                height: _currentPage == index ? 12 : 8,
+                width: currentPage == index ? 12 : 8,
+                height: currentPage == index ? 12 : 8,
                 decoration: BoxDecoration(
-                  color: _currentPage == index ? Colors.orange.shade600 : Colors.grey,
+                  color: currentPage == index ? Colors.orange.shade600 : Colors.grey,
                   shape: BoxShape.circle,
                 ),
               ),

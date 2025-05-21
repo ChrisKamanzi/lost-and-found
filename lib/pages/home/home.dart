@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/widgets/drawer.dart';
 
-import '../../providers/userProvider.dart';
+import '../../providers/user_provider.dart';
 
-class homepage extends ConsumerWidget {
-  const homepage({super.key});
+class Homepage extends ConsumerWidget {
+  const Homepage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,7 +15,7 @@ class homepage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(),
-      drawer: drawer(),
+      drawer: Drawer(),
       body: nameAsyncValue.when(
         loading: () => Center(child: CircularProgressIndicator(color: Colors.orange.shade700,)),
         error: (e, _) => Center(child: Text('Failed to load name: $e')),
@@ -154,7 +154,6 @@ class homepage extends ConsumerWidget {
                                   ),
                                 ),
                               ),
-
                               SizedBox(height: 10),
                               Text(
                                 'Go through the lost and',

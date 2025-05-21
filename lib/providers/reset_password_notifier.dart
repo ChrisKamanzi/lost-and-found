@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lost_and_found/models/ResetPassword.dart';
+import 'package:lost_and_found/models/reset_password.dart';
 import 'package:go_router/go_router.dart';
 
 import '../constant/api.dart';

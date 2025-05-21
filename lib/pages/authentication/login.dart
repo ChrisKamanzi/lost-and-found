@@ -6,12 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import '../../providers/login_loading.dart';
-import '../../providers/loginProvider.dart';
+import '../../providers/login_provider.dart';
 
-class login extends ConsumerWidget {
-  const login({super.key});
+class Login extends ConsumerWidget {
+  const Login({super.key});
 
-  Future<void> _login(
+  Future<void> loginMethod(
     WidgetRef ref,
     String email,
     String password,
@@ -41,8 +41,8 @@ class login extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(loginLoadingProvider);
-    final TextEditingController _email = TextEditingController();
-    final TextEditingController _password = TextEditingController();
+    final TextEditingController email = TextEditingController();
+    final TextEditingController password = TextEditingController();
 
     return Scaffold(
       body: Stack(
@@ -83,7 +83,7 @@ class login extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                textfield(controller: _email),
+                Textfield(controller: email),
                 SizedBox(height: 10),
                 Text(
                   'Password',
@@ -100,7 +100,7 @@ class login extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
-                  controller: _password,
+                  controller: password,
                   obscureText: true,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -141,11 +141,11 @@ class login extends ConsumerWidget {
                 SizedBox(height: 30),
                 Align(
                   alignment: Alignment.topRight,
-                  child: button(
+                  child: Button(
                     text: 'Log In',
                     onPressed: () {
                       if (!isLoading) {
-                        _login(ref, _email.text, _password.text, context);
+                        loginMethod(ref, email.text, password.text, context);
                       }
                     },
                   ),

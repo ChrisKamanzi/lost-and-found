@@ -10,8 +10,8 @@ import '../../constant/api.dart';
 import '../../models/create_ad_model.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../providers/categoryNotifier.dart';
-import '../../providers/VillagesNotifier.dart';
+import '../../providers/category_notifier.dart';
+import '../../providers/villages_notifier.dart';
 
 class CreateAdReg extends ConsumerStatefulWidget {
   const CreateAdReg({super.key});
@@ -21,14 +21,14 @@ class CreateAdReg extends ConsumerStatefulWidget {
 }
 
 class _CreateAdRegState extends ConsumerState<CreateAdReg> {
-  File? _image1;
-  File? _image2;
+  File? image1;
+  File? image2;
   String? selectedLocation;
   String? selectedPostType;
-  bool _isLoading = false;
+  bool isLoading = false;
 
-  final TextEditingController _title = TextEditingController();
-  final TextEditingController _description = TextEditingController();
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController();
 
   @override
   void initState() {
@@ -44,9 +44,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
     if (pickedFile != null) {
       setState(() {
         if (imageNumber == 1) {
-          _image1 = File(pickedFile.path);
+          image1 = File(pickedFile.path);
         } else {
-          _image2 = File(pickedFile.path);
+          image2 = File(pickedFile.path);
         }
       });
     }
@@ -57,7 +57,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
     Dio dio = Dio();
 
     try {
-      setState(() => _isLoading = true);
+      setState(() => isLoading = true);
 
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
@@ -113,10 +113,10 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         ).showSnackBar(SnackBar(content: Text('Ad successfully created!')));
 
         setState(() {
-          _title.clear();
-          _description.clear();
-          _image1 = null;
-          _image2 = null;
+          title.clear();
+          description.clear();
+          image1 = null;
+          image2 = null;
           selectedPostType = null;
           selectedLocation = null;
           ref.read(selectedCategoryProvider.notifier).state = null;
@@ -139,7 +139,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
         ).showSnackBar(SnackBar(content: Text('Unexpected error occurred.')));
       }
     } finally {
-      setState(() => _isLoading = false);
+      setState(() => isLoading = false);
     }
   }
 
@@ -244,9 +244,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                 ),
                 SizedBox(height: 20),
 
-                textfield(controller: _title, hintText: 'Title'),
+                Textfield(controller: title, hintText: 'Title'),
                 SizedBox(height: 20),
-                textfield(controller: _description, hintText: 'Description'),
+                Textfield(controller: description, hintText: 'Description'),
                 SizedBox(height: 20),
 
                 Align(
@@ -300,7 +300,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => _pickImage(_image1 == null ? 1 : 2),
+                      onTap: () => _pickImage(image1 == null ? 1 : 2),
                       child: Container(
                         height: 60,
                         width: 60,
@@ -324,7 +324,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   ],
                 ),
                 SizedBox(height: 20),
-
                 Row(
                   children: [
                     Container(
@@ -336,11 +335,11 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          _image1 != null
+                          image1 != null
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.file(
-                                  _image1!,
+                                  image1!,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
                                 ),
@@ -362,11 +361,11 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          _image2 != null
+                          image2 != null
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.file(
-                                  _image2!,
+                                  image2!,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
                                 ),
@@ -381,8 +380,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   ],
                 ),
                 SizedBox(height: 20),
-
-                button(
+                Button(
                   text: 'Done',
                   onPressed: () {
                     if (selectedPostType == null || selectedLocation == null) {
@@ -395,12 +393,12 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     CreateAd createAdData = CreateAd(
                       selectedCategory: selectedCategory ?? '',
                       post_type: selectedPostType == 'Lost' ? 'lost' : 'found',
-                      title: _title.text.trim(),
-                      description: _description.text.trim(),
+                      title: title.text.trim(),
+                      description: description.text.trim(),
                       location: [selectedLocation!],
                       villageId: selectedLocation!,
-                      image1: _image1,
-                      image2: _image2,
+                      image1: image1,
+                      image2: image2,
                     );
 
                     save(createAdData, context);
@@ -411,7 +409,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
             ),
           ),
 
-          if (_isLoading)
+          if (isLoading)
             Container(
               color: Colors.black45,
               child: Center(child: CircularProgressIndicator()),

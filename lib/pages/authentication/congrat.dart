@@ -47,7 +47,7 @@ class congrat extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
             SizedBox(height: 80),
-                button(
+                Button(
                   text: 'CONTINUE',
                   onPressed: () => context.go('/login'),
                 ),

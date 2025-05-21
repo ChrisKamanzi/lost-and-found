@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../providers/favoriteNotifier.dart';
+import '../../../providers/favorite_notifier.dart';
 
 class FavoriteScreen extends ConsumerWidget {
   const FavoriteScreen({super.key});
@@ -17,7 +17,7 @@ class FavoriteScreen extends ConsumerWidget {
           'My Favorites',
           style: TextStyle(
             fontSize: 25,
-          //  color: Colors.orange,
+            //  color: Colors.orange,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -58,7 +58,10 @@ class FavoriteScreen extends ConsumerWidget {
                           Text(
                             item.title,
                             style: GoogleFonts.brawler(
-                              textStyle: TextStyle(fontSize: 25, color: Colors.deepOrange),
+                              textStyle: TextStyle(
+                                fontSize: 25,
+                                color: Colors.deepOrange,
+                              ),
                             ),
                           ),
                           SizedBox(height: 8),
@@ -84,9 +87,9 @@ class FavoriteScreen extends ConsumerWidget {
                           SizedBox(height: 8),
                           Text(
                             'Location: ${item.location.village}, '
-                                '${item.location.cell}, '
-                                '${item.location.sector}, '
-                                '${item.location.district}',
+                            '${item.location.cell}, '
+                            '${item.location.sector}, '
+                            '${item.location.district}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),
@@ -100,7 +103,7 @@ class FavoriteScreen extends ConsumerWidget {
                           ),
                           Text(
                             'From: ${item.postedBy.location.district}, '
-                                '${item.postedBy.location.sector}',
+                            '${item.postedBy.location.sector}',
                             style: GoogleFonts.brawler(
                               textStyle: TextStyle(fontSize: 15),
                             ),

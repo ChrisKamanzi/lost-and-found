@@ -21,24 +21,22 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
     );
 
     _slideAnimations = List.generate(3, (index) {
-      return Tween<Offset>(begin: const Offset(1.5, 0), end: Offset.zero)
+      return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero)
           .animate(
         CurvedAnimation(
           parent: _slideController,
           curve: Interval(index * 0.2, 1.0, curve: Curves.easeOut),
         ),
       );
-    });
-
+    }
+    );
     _slideController.forward();
   }
-
   @override
   void dispose() {
     _slideController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final featureTexts = [
@@ -59,7 +57,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
         title: Text(
           'About Us',
           style: GoogleFonts.lato(
-            textStyle: const TextStyle(
+            textStyle: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -71,23 +69,23 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+          padding:  EdgeInsets.symmetric(vertical: 30, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'ABOUT US',
                 style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 36,
                     color: Colors.deepOrange,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+         SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Colors.orange.shade300, Colors.orange.shade100],
@@ -99,14 +97,14 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                     BoxShadow(
                       color: Colors.orange.shade200,
                       blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      offset:  Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Text(
                   'We believe in the power of community and compassion. Our platform connects people who have lost valuable items with those who’ve found them — making it easier than ever to reunite lost belongings with their rightful owners.',
                   style: GoogleFonts.brawler(
-                    textStyle: const TextStyle(
+                    textStyle:  TextStyle(
                       fontSize: 18,
                       height: 1.5,
                       color: Colors.black87,
@@ -114,24 +112,24 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+           SizedBox(height: 30),
               Text(
                 'FEATURES',
                 style: GoogleFonts.lato(
-                  textStyle: const TextStyle(
+                  textStyle:  TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
                     color: Colors.deepOrange,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+            SizedBox(height: 20),
               SizedBox(
                 height: 320,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: featureTexts.length,
-                  separatorBuilder: (_, __) => const SizedBox(width: 20),
+                  separatorBuilder: (_, __) =>  SizedBox(width: 20),
                   itemBuilder: (context, index) {
                     return SlideTransition(
                       position: _slideAnimations[index],
@@ -144,17 +142,17 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                             BoxShadow(
                               color: featureColors[index].withOpacity(0.4),
                               blurRadius: 10,
-                              offset: const Offset(0, 6),
+                              offset: Offset(0, 6),
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(24),
+                        padding: EdgeInsets.all(24),
                         alignment: Alignment.center,
                         child: Text(
                           featureTexts[index],
                           textAlign: TextAlign.center,
                           style: GoogleFonts.brawler(
-                            textStyle: const TextStyle(
+                            textStyle:  TextStyle(
                               color: Colors.white,
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

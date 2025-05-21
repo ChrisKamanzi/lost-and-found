@@ -12,7 +12,7 @@ void main() {
       overrides: [loginLoadingProvider.overrideWith((ref) => false)],
     );
     await tester.pumpWidget(
-      ProviderScope(parent: container, child: const MaterialApp(home: login())),
+      ProviderScope(parent: container, child: const MaterialApp(home: Login())),
     );
     final emailField = find.byType(TextField).first;
     final passwordField = find.byType(TextFormField);

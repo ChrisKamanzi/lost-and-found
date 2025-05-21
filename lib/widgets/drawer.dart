@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/constant/api.dart';
-import 'package:lost_and_found/providers/themNotifier.dart';
+import 'package:lost_and_found/providers/them_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/userProvider.dart';
+import '../providers/user_provider.dart';
 
-class drawer extends ConsumerWidget {
-  const drawer({super.key});
+class Draweer extends ConsumerWidget {
+  const Draweer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

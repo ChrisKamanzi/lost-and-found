@@ -4,22 +4,22 @@ import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/pages/authentication/congrat.dart';
 import 'package:lost_and_found/pages/authentication/forgot_password.dart';
 import 'package:lost_and_found/pages/authentication/forgot_token.dart';
-import 'package:lost_and_found/pages/authentication/into/About%20us.dart';
+import 'package:lost_and_found/pages/authentication/into/about_us.dart';
 import 'package:lost_and_found/pages/authentication/into/report.dart';
 import 'package:lost_and_found/pages/authentication/into/splash_screen.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
-import 'package:lost_and_found/pages/home/lost&found/acount.dart';
-import 'package:lost_and_found/pages/home/lost&found/card_detail.dart';
 import 'package:lost_and_found/pages/home/home.dart';
-import 'package:lost_and_found/pages/home/lost&found/favoriteScreen.dart';
-import 'package:lost_and_found/pages/home/lost&found/lost_found_items.dart';
+import 'package:lost_and_found/pages/home/lost_found/acount.dart';
+import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
+import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
+import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
 import 'package:lost_and_found/pages/message/char2.dart';
 import 'package:lost_and_found/pages/message/conversation.dart';
-import 'package:lost_and_found/pages/searchOnMap/MapItem.dart';
+import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
-import 'package:lost_and_found/providers/themNotifier.dart';
+import 'package:lost_and_found/providers/them_notifier.dart';
 
 final lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -61,13 +61,13 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/splash',
         builder: (BuildContext context, GoRouterState state) {
-          return splash_Screen();
+          return splashScreen();
         },
       ),
       GoRoute(
         path: '/login',
         builder: (BuildContext context, GoRouterState state) {
-          return login();
+          return Login();
         },
       ),
       GoRoute(
@@ -79,7 +79,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/homepage',
         builder: (BuildContext context, GoRouterState state) {
-          return homepage();
+          return Homepage();
         },
       ),
       GoRoute(
@@ -128,14 +128,14 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/report',
         builder: (BuildContext context, GoRouterState state) {
-          return report();
+          return Report();
         },
       ),
       GoRoute(
         path: '/cardDetail/:itemId',
         builder: (BuildContext context, GoRouterState state) {
           final itemId = state.pathParameters['itemId']!;
-          return cardDetail(itemId: itemId);
+          return CardDetail(itemId: itemId);
         },
       ),
       GoRoute(

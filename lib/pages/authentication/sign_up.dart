@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/constant/api.dart';
-import 'package:lost_and_found/models/SignUpModel.dart';
+import 'package:lost_and_found/models/sign_up_model.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
-import '../../providers/VillagesNotifier.dart';
-import '../../widgets/PassworldTextfield.dart';
+import '../../providers/villages_notifier.dart';
+import '../../widgets/passworld_textfield.dart';
 
 class sign_up extends ConsumerStatefulWidget {
 sign_up({super.key});
@@ -77,22 +77,22 @@ class _SignUpState extends ConsumerState<sign_up> {
               ),
             ),
             SizedBox(height: 30),
-            _buildLabel('NAME'),
-            textfield(controller: nameController),
+            buildLabel('NAME'),
+            Textfield(controller: nameController),
             SizedBox(height: 30),
-            _buildLabel('EMAIL'),
-            textfield(controller: emailController),
+            buildLabel('EMAIL'),
+            Textfield(controller: emailController),
           SizedBox(height: 30),
-            _buildLabel('PASSWORD'),
+            buildLabel('PASSWORD'),
             PasswordField(controller: passController),
            SizedBox(height: 30),
-            _buildLabel('PASSWORD CONFIRMATION'),
+            buildLabel('PASSWORD CONFIRMATION'),
             PasswordField(controller: passConfController),
              SizedBox(height: 30),
-            _buildLabel('PHONE'),
-            textfield(controller: phoneController),
+            buildLabel('PHONE'),
+            Textfield(controller: phoneController),
          SizedBox(height: 30),
-            _buildLabel('VILLAGE'),
+            buildLabel('VILLAGE'),
             DropdownButtonFormField<String>(
               value: selectedVillage,
               decoration:  InputDecoration(
@@ -113,7 +113,7 @@ class _SignUpState extends ConsumerState<sign_up> {
               },
             ),
              SizedBox(height: 40),
-            button(
+            Button(
               text: 'Sign Up',
               onPressed: () {
                 final selectedVillageId = ref.read(selectedVillageProvider);
@@ -128,8 +128,8 @@ class _SignUpState extends ConsumerState<sign_up> {
                   village: selectedVillageId,
                 );
 
-                if (_validateInputs(signUpData, context)) {
-                  _signUp(signUpData, context);
+                if (validateInputs(signUpData, context)) {
+                  signUp(signUpData, context);
                 }
               },
             ),
@@ -175,7 +175,7 @@ class _SignUpState extends ConsumerState<sign_up> {
     );
   }
 
-  Widget _buildLabel(String text) {
+  Widget buildLabel(String text) {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
@@ -193,7 +193,7 @@ class _SignUpState extends ConsumerState<sign_up> {
     );
   }
 
-  bool _validateInputs(SignUpModel data, BuildContext context) {
+  bool validateInputs(SignUpModel data, BuildContext context) {
     if (data.name.isEmpty ||
         data.email.isEmpty ||
         data.password.isEmpty ||
@@ -216,7 +216,7 @@ class _SignUpState extends ConsumerState<sign_up> {
     return true;
   }
 
-  Future<void> _signUp(SignUpModel signUpData, BuildContext context) async {
+  Future<void> signUp(SignUpModel signUpData, BuildContext context) async {
     final registerUrl = "$apiUrl/register";
 
     showDialog(
