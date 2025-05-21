@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../services/pages.dart';
+
 class Report extends StatefulWidget {
   const Report({super.key});
 
@@ -13,25 +15,6 @@ class _SearchPageState extends State<Report> {
   final PageController pageController = PageController();
   int currentPage = 0;
 
-  final pages = [
-    {
-      'title': 'Report Found',
-      'description':
-          'An item lost and found can easily be reported or an ad could be created',
-      'icon': Icons.report,
-    },
-    {
-      'title': 'Search Map',
-      'description':
-          'Search for found items or found close to your location be showed on the map',
-      'icon': Icons.map,
-    },
-    {
-      'title': 'Messaging',
-      'description': 'last app allows interaction between users',
-      'icon': Icons.message,
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {

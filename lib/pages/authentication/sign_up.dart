@@ -1,23 +1,23 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/constant/api.dart';
-import 'package:lost_and_found/models/sign_up_model.dart';
+import 'package:lost_and_found/providers/sign_up_notifier.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import '../../providers/villages_notifier.dart';
+import '../../widgets/build_label.dart';
 import '../../widgets/passworld_textfield.dart';
 
-class sign_up extends ConsumerStatefulWidget {
-sign_up({super.key});
+class SignUp extends ConsumerStatefulWidget {
+  const SignUp({super.key});
 
   @override
-  ConsumerState<sign_up> createState() => _SignUpState();
+  ConsumerState<SignUp> createState() => _SignUpScreenState();
 }
 
-class _SignUpState extends ConsumerState<sign_up> {
+class _SignUpScreenState extends ConsumerState<SignUp> {
+
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController phoneController;
@@ -53,15 +53,18 @@ class _SignUpState extends ConsumerState<sign_up> {
 
   @override
   Widget build(BuildContext context) {
+
     final villages = ref.watch(villageProvider);
     final selectedVillage = ref.watch(selectedVillageProvider);
+    final signUpNotifier = ref.read(signUpProvider.notifier);
+    final isLoading = ref.watch(loadingProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         child: Column(
           children: [
-           SizedBox(height: 100),
+            const SizedBox(height: 100),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -69,71 +72,64 @@ class _SignUpState extends ConsumerState<sign_up> {
                 style: GoogleFonts.brawler(
                   fontSize: 50,
                   fontWeight: FontWeight.w800,
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.orangeAccent
-                          : Colors.black,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.orangeAccent
+                      : Colors.black,
                 ),
               ),
             ),
-            SizedBox(height: 30),
-            buildLabel('NAME'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'NAME'),
             Textfield(controller: nameController),
-            SizedBox(height: 30),
-            buildLabel('EMAIL'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'EMAIL'),
             Textfield(controller: emailController),
-          SizedBox(height: 30),
-            buildLabel('PASSWORD'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'PASSWORD'),
             PasswordField(controller: passController),
-           SizedBox(height: 30),
-            buildLabel('PASSWORD CONFIRMATION'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'PASSWORD CONFIRMATION'),
             PasswordField(controller: passConfController),
-             SizedBox(height: 30),
-            buildLabel('PHONE'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'PHONE'),
             Textfield(controller: phoneController),
-         SizedBox(height: 30),
-            buildLabel('VILLAGE'),
+            const SizedBox(height: 30),
+            buildLabel(context, 'VILLAGE'),
             DropdownButtonFormField<String>(
               value: selectedVillage,
-              decoration:  InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Select a Village",
                 border: OutlineInputBorder(),
               ),
-              items:
-                  villages
-                      .map(
-                        (village) => DropdownMenuItem(
-                          value: village['id'].toString(),
-                          child: Text(village['name']),
-                        ),
-                      )
-                      .toList(),
+              items: villages
+                  .map((village) => DropdownMenuItem(
+                value: village['id'].toString(),
+                child: Text(village['name']),
+              ))
+                  .toList(),
               onChanged: (value) {
                 ref.read(selectedVillageProvider.notifier).state = value;
               },
             ),
-             SizedBox(height: 40),
-            Button(
+            const SizedBox(height: 40),
+            isLoading
+                ? const CircularProgressIndicator()
+                : Button(
               text: 'Sign Up',
-              onPressed: () {
-                final selectedVillageId = ref.read(selectedVillageProvider);
-                print("Selected village ID: $selectedVillageId");
-
-                final signUpData = SignUpModel(
-                  name: nameController.text.trim(),
-                  email: emailController.text.trim(),
-                  password: passController.text.trim(),
-                  passwordConfirmation: passConfController.text.trim(),
-                  phone: phoneController.text.trim(),
-                  village: selectedVillageId,
+              onPressed: () async {
+                signUpNotifier.updateField(
+                  name: nameController.text,
+                  email: emailController.text,
+                  password: passController.text,
+                  passwordConfirmation: passConfController.text,
+                  phone: phoneController.text,
+                  village: selectedVillage,
                 );
 
-                if (validateInputs(signUpData, context)) {
-                  signUp(signUpData, context);
-                }
+                await signUpNotifier.signUp(context, ref);
               },
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -142,11 +138,9 @@ class _SignUpState extends ConsumerState<sign_up> {
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 15,
-                      color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors
-                                  .orangeAccent
-                              : Colors.blueGrey,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.orangeAccent
+                          : Colors.blueGrey,
                     ),
                   ),
                 ),
@@ -159,10 +153,9 @@ class _SignUpState extends ConsumerState<sign_up> {
                         fontWeight: FontWeight.w300,
                         fontSize: 15,
                         color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors
-                                    .orangeAccent
-                                : Colors.blueGrey,
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors.orangeAccent
+                            : Colors.blueGrey,
                       ),
                     ),
                   ),
@@ -175,93 +168,5 @@ class _SignUpState extends ConsumerState<sign_up> {
     );
   }
 
-  Widget buildLabel(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: GoogleFonts.brawler(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color:
-              Theme.of(context).brightness == Brightness.dark
-                  ? Colors
-                      .orangeAccent
-                  : Colors.black,
-        ),
-      ),
-    );
-  }
 
-  bool validateInputs(SignUpModel data, BuildContext context) {
-    if ((data.name?.isEmpty ?? true) ||
-        (data.email?.isEmpty ?? true) ||
-        (data.password?.isEmpty ?? true) ||
-        (data.passwordConfirmation?.isEmpty ?? true) ||
-        (data.phone?.isEmpty ?? true) ||
-        data.village == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields.')),
-      );
-      return false;
-    }
-
-    if (data.password != data.passwordConfirmation) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match.')),
-      );
-      return false;
-    }
-
-    return true;
-  }
-
-
-  Future<void> signUp(SignUpModel signUpData, BuildContext context) async {
-    final registerUrl = "$apiUrl/register";
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) =>  Center(child: CircularProgressIndicator()),
-    );
-
-    try {
-      final response = await Dio().post(
-        registerUrl,
-        data: signUpData.toJson(),
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-          followRedirects: false,
-          validateStatus: (status) => status != null && status < 500,
-        ),
-      );
-
-      Navigator.of(context).pop();
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        context.go('/congrat');
-      } else if (response.statusCode == 422) {
-        final errors = response.data['errors'];
-        final firstErrorKey = errors.keys.first;
-        final firstErrorMsg = errors[firstErrorKey][0];
-
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(firstErrorMsg)));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.statusMessage}')),
-        );
-      }
-    } catch (e) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Something went wrong: $e')));
-    }
-  }
 }

@@ -1,50 +1,26 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/constant/api.dart';
+import 'package:lost_and_found/providers/reset_password_notifier.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../models/reset_password.dart';
 import '../../widgets/elevated_button.dart';
 
-class TokenPage extends StatelessWidget {
+class TokenPage extends ConsumerWidget {
   const TokenPage({super.key});
 
-  Future<void> Token(
-    ResetPasswordModel resetPasswordData,
-    BuildContext context,
-  ) async {
-    String loginUrl = "$apiUrl/reset-password";
-    Dio dio = Dio();
-
-    try {
-      final response = await dio.post(
-        loginUrl,
-        data: resetPasswordData.toJson(),
-      );
-
-      print('Response body: ${response.data}');
-      if (response.statusCode == 200) {
-        final data = response.data;
-        print('Success: $data');
-        context.go('/homepage');
-      } else {
-        print(
-          'Login reset password failed with status: ${response.statusCode}',
-        );
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     TextEditingController token = TextEditingController();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
     TextEditingController passwordConfirmation = TextEditingController();
+
+    final notifier = ref.watch(resetProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(),
@@ -86,7 +62,7 @@ class TokenPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Textfield(controller: token),
+              Textfield(controller: token, onChanged: notifier.updateToken),
 
               SizedBox(height: 20),
               Text(
@@ -103,7 +79,7 @@ class TokenPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Textfield(controller: email),
+              Textfield(controller: email, onChanged: notifier.updateEmail),
 
               SizedBox(height: 20),
               Text(
@@ -120,7 +96,10 @@ class TokenPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Textfield(controller: password),
+              Textfield(
+                controller: password,
+                onChanged: notifier.updatePassword,
+              ),
 
               SizedBox(height: 20),
               Text(
@@ -137,7 +116,10 @@ class TokenPage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20),
-              Textfield(controller: passwordConfirmation),
+              Textfield(
+                controller: passwordConfirmation,
+                onChanged: notifier.updatePasswordConfirmation,
+              ),
 
               SizedBox(height: 20),
               Align(
@@ -152,7 +134,7 @@ class TokenPage extends StatelessWidget {
                       passwordConfirmation: passwordConfirmation.text.trim(),
                     );
 
-                    Token(resetPasswordData, context);
+                    notifier.resetPassword(context);
                   },
                 ),
               ),

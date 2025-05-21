@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../services/featureTextAndColors.dart';
+
 class AboutUs extends StatefulWidget {
   const AboutUs({super.key});
 
@@ -39,17 +41,6 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
   }
   @override
   Widget build(BuildContext context) {
-    final featureTexts = [
-      'Report Lost Item',
-      'Locate Found Item',
-      'Instant Messaging',
-    ];
-
-    final featureColors = [
-      Colors.orange.shade600,
-      Colors.orange.shade400,
-      Colors.orange.shade300,
-    ];
 
     return Scaffold(
       appBar: AppBar(

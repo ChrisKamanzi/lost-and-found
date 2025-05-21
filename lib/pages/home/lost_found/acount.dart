@@ -7,8 +7,10 @@ import '../../../providers/my_item_notifier.dart';
 class Account extends ConsumerWidget {
    Account({super.key});
 
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final name = ref.watch(nameeProvider);
     final phone = ref.watch(phoneProvider);
     final email = ref.watch(EmailProvider);

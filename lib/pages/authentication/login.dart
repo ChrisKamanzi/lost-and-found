@@ -9,41 +9,17 @@ import '../../providers/login_loading.dart';
 import '../../providers/login_provider.dart';
 
 class Login extends ConsumerWidget {
-  const Login({super.key});
+  Login({super.key});
 
-  Future<void> loginMethod(
-    WidgetRef ref,
-    String email,
-    String password,
-    BuildContext context,
-  ) async {
-    ref.read(loginLoadingProvider.notifier).state = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-    try {
-      await ref.read(loginProvider.notifier).login(email, password);
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('authToken');
-      final userId = prefs.getInt('userId');
-
-      if (token != null && userId != null) {
-        print('${token}');
-        context.go('/homepage');
-      } else {
-        print('Login successful but token/userId not found in storage.');
-      }
-    } catch (e) {
-      print('Login exception: $e');
-    } finally {
-      ref.read(loginLoadingProvider.notifier).state = false;
-    }
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isLoading = ref.watch(loginLoadingProvider);
-    final TextEditingController email = TextEditingController();
-    final TextEditingController password = TextEditingController();
 
+    final isLoading = ref.watch(loginLoadingProvider);
+    final loginNotifier = ref.watch(loginProvider.notifier);
 
     return Scaffold(
       body: Stack(
@@ -84,7 +60,7 @@ class Login extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                Textfield(controller: email),
+                Textfield(controller: emailController),
                 SizedBox(height: 10),
                 Text(
                   'Password',
@@ -101,7 +77,7 @@ class Login extends ConsumerWidget {
                 ),
                 SizedBox(height: 10),
                 TextFormField(
-                  controller: password,
+                  controller: passwordController,
                   obscureText: true,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -144,9 +120,12 @@ class Login extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   child: Button(
                     text: 'Log In',
-                    onPressed: () {
+                    onPressed: () async {
                       if (!isLoading) {
-                        loginMethod(ref, email.text, password.text, context);
+                        final email = emailController.text.trim();
+                        final password = passwordController.text.trim();
+                        await loginNotifier.login(email, password);
+                        context.go('/homepage');
                       }
                     },
                   ),
@@ -195,8 +174,7 @@ class Login extends ConsumerWidget {
           if (isLoading)
             Container(
               color: Colors.black.withOpacity(0.4),
-              child:
-              Center(
+              child: Center(
                 child: CircularProgressIndicator(color: Colors.deepPurple),
               ),
             ),

@@ -1,36 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../providers/reset_password_notifier.dart';
 import '../../widgets/elevated_button.dart';
 
-class forgotPassword extends StatelessWidget {
+class forgotPassword extends ConsumerWidget {
   const forgotPassword({super.key});
 
-  Future<void> _forgotPassword(String email, BuildContext context) async {
-    String loginUrl = "$apiUrl/forgot-password";
-
-    Dio dio = Dio();
-
-    try {
-      final response = await dio.post(loginUrl, data: {'email': email});
-      print('Response body: ${response.data}');
-      if (response.statusCode == 200) {
-        final data = response.data;
-        print('Success: $data');
-        context.go('/token');
-      } else {
-        print('Forgot password failed with status: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(resetProvider.notifier);
 
     TextEditingController email = TextEditingController();
 
@@ -73,15 +56,13 @@ class forgotPassword extends StatelessWidget {
               ),
             ),
             SizedBox(height: 30),
-            Textfield(controller: email),
+            Textfield(controller: email, onChanged: notifier.updateEmail),
             SizedBox(height: 40),
             Align(
               alignment: Alignment.topRight,
               child: Button(
                 text: 'Reset Password',
-                onPressed: () {
-                  _forgotPassword(email.text, context);
-                },
+                onPressed: () => notifier.resetPassword(context),
               ),
             ),
           ],

@@ -1,34 +1,82 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lost_and_found/models/reset_password.dart';
+import '../models/reset_password.dart';
 import 'package:go_router/go_router.dart';
-
 import '../constant/api.dart';
 
 class ResetNotifier extends StateNotifier<ResetPasswordModel> {
-  ResetNotifier(super.state);
+  ResetNotifier()
+      : super(ResetPasswordModel(
+    token: null,
+    email: null,
+    password: null,
+    passwordConfirmation: null,
+  ));
 
-  Future<void> _forgotPassword(
-    ResetPasswordModel model,
-    BuildContext context,
-  ) async {
-    String loginUrl = "$apiUrl/forgot-password";
-    Dio dio = Dio();
+  void updateEmail(String value) {
+    state = ResetPasswordModel(
+      token: state.token,
+      email: value,
+      password: state.password,
+      passwordConfirmation: state.passwordConfirmation,
+    );
+  }
+
+  void updateToken(String value) {
+    state = ResetPasswordModel(
+      token: value,
+      email: state.email,
+      password: state.password,
+      passwordConfirmation: state.passwordConfirmation,
+    );
+  }
+
+  void updatePassword(String value) {
+    state = ResetPasswordModel(
+      token: state.token,
+      email: state.email,
+      password: value,
+      passwordConfirmation: state.passwordConfirmation,
+    );
+  }
+
+  void updatePasswordConfirmation(String value) {
+    state = ResetPasswordModel(
+      token: state.token,
+      email: state.email,
+      password: state.password,
+      passwordConfirmation: value,
+    );
+  }
+
+  Future<void> resetPassword(BuildContext context) async {
+    final url = "$apiUrl/reset-password";
+    final dio = Dio();
 
     try {
-      final response = await dio.post(loginUrl, data: model.toJson());
+      final response = await dio.post(url, data: state.toJson());
 
-      print('Response body: ${response.data}');
       if (response.statusCode == 200) {
-        final data = response.data;
-        print('Success: $data');
-        context.go('/token');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Password reset successfully!')),
+        );
+        context.go('/login');
       } else {
-        print('Forgot password failed with status: ${response.statusCode}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Reset failed. Please try again.')),
+        );
       }
     } catch (e) {
-      print('Error: $e');
+      print('Reset error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('An error occurred.')),
+      );
     }
   }
 }
+
+final resetProvider = StateNotifierProvider<ResetNotifier, ResetPasswordModel>(
+      (ref) => ResetNotifier(),
+);
+

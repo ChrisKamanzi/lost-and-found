@@ -21,6 +21,7 @@ class LoginNotifier extends StateNotifier<LoginModel> {
         final token = response.data['token'];
         final userId = response.data['user']['id'];
 
+
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('authToken', token);
         await prefs.setInt('userId', userId);
