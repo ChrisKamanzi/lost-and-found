@@ -18,7 +18,6 @@ class FavoritesNotifier extends AsyncNotifier<List<FavoriteItem>> {
     if (token == null) {
       throw Exception('No token found');
     }
-
     final response = await dio.get(
       '$apiUrl/favorites',
       options: Options(

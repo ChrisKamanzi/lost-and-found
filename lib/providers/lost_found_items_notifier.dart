@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
-import '../models/heloll.dart';
+import '../pages/services/lost_found_repo.dart';
 import '../pages/services/lost_found_state.dart';
 
 final lostFoundRepositoryProvider = Provider((ref) => LostFoundRepository());
