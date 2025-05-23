@@ -10,13 +10,11 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
   Future<void> fetchItem(String itemId) async {
     try {
       state = const AsyncValue.loading();
-
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
       if (token == null) {
         throw Exception('Token not found');
       }
-
       final dio = Dio();
       dio.options.headers = {
         'Authorization': 'Bearer $token',
@@ -46,7 +44,6 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
       final token = prefs.getString('authToken');
 
       if (token == null) {
-        print('[ERROR] No token');
         return;
       }
       final dio = Dio();
@@ -56,13 +53,11 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
       };
       final response = await dio.post('$apiUrl/items/$itemId/favorite');
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("succesfully toggled");
         await fetchItem(itemId);
       } else {
-        print('[ERROR] Failed to toggle favorite: ${response.statusCode}');
       }
     } catch (e) {
-      print('[ERROR] toggleFavorite: $e');
+
     }
   }
 }

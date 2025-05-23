@@ -13,6 +13,7 @@ class CardDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final itemAsyncValue = ref.watch(cardDetailProvider(itemId));
     final notifier = ref.read(cardDetailProvider(itemId).notifier);
 
@@ -24,6 +25,7 @@ class CardDetail extends ConsumerWidget {
 
         return Scaffold(
           backgroundColor: Colors.grey.shade100,
+
           appBar: AppBar(
             title: Text(
               'Found Item',
@@ -34,6 +36,7 @@ class CardDetail extends ConsumerWidget {
             elevation: 0,
             backgroundColor: Colors.orange.shade700,
           ),
+
           body: SingleChildScrollView(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -56,8 +59,6 @@ class CardDetail extends ConsumerWidget {
                       );
                     },
                     errorBuilder: (context, error, stackTrace) {
-                      print('[IMAGE ERROR] Failed to load: ${item.imagePath}');
-                      print('[STACK TRACE] $stackTrace');
                       return Icon(Icons.broken_image, size: 300);
                     },
                   ),
@@ -245,10 +246,6 @@ class CardDetail extends ConsumerWidget {
                 Button(
                   text: 'Send Message',
                   onPressed: () {
-                    print('[ACTION] Chat button pressed');
-                    print('itemId: ${item.id}');
-                    print('userId: ${item.userId}');
-
                     Navigator.push(
                       context,
                       MaterialPageRoute(

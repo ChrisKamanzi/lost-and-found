@@ -29,7 +29,6 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
                 .toList();
 
       } else {
-        print('Failed to load categories. Status code: ${response.statusCode}');
       }
     } catch (e) {
       if (e is DioException) {
