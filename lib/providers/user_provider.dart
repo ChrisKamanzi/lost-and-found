@@ -11,7 +11,6 @@ Future<String> fetchName(String token) async {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json',
     };
-
     final response = await dio.get('$apiUrl/user/details');
 
     if (response.statusCode == 200) {
@@ -74,7 +73,6 @@ Future<String> fetchPhone(String token) async {
 final nameeProvider = FutureProvider<String>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('authToken') ?? '';
-
   if (token.isEmpty) throw Exception('No token found');
   return await fetchName(token);
 });

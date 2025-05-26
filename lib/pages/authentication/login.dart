@@ -121,14 +121,22 @@ class Login extends ConsumerWidget {
                   alignment: Alignment.topRight,
                   child: Button(
                     text: AppLocalizations.of(context)!.loginButton,
-                    onPressed: () async {
-                      if (!isLoading) {
-                        final email = emailController.text.trim();
-                        final password = passwordController.text.trim();
-                        await loginNotifier.login(email, password);
-                        context.go('/homepage');
+                      onPressed: () async {
+                        if (!isLoading) {
+                          final email = emailController.text.trim();
+                          final password = passwordController.text.trim();
+                          final success = await loginNotifier.login(email, password);
+
+                          if (success) {
+                            context.go('/homepage');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Login failed. Please try again.')),
+                            );
+                          }
+                        }
                       }
-                    },
+
                   ),
                 ),
 

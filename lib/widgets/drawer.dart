@@ -1,12 +1,10 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/constant/api.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import 'package:lost_and_found/providers/them_notifier.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../providers/logout_notifier.dart';
+import '../providers/them_notifier.dart';
 import '../providers/user_provider.dart';
 
 class Draweer extends ConsumerWidget {
@@ -14,8 +12,23 @@ class Draweer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final logoutState = ref.watch(logoutNotifierProvider);
     final nameAsync = ref.watch(nameeProvider);
     final phoneAsync = ref.watch(phoneProvider);
+
+    ref.listen<AsyncValue<void>>(logoutNotifierProvider, (previous, next) {
+      next.when(
+        data: (_) {
+          context.go('/login');
+        },
+        error: (error, _) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Logout error: $error')));
+        },
+        loading: () {},
+      );
+    });
 
     return Drawer(
       child: SingleChildScrollView(
@@ -136,56 +149,33 @@ class Draweer extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 200),
-                  TextButton(
-                    onPressed: () async {
-                      final prefs = await SharedPreferences.getInstance();
-                      final token = prefs.getString('authToken');
 
-                      if (token != null) {
-                        try {
-                          final dio = Dio();
-                          final response = await dio.post(
-                            '$apiUrl/logout',
-                            options: Options(
-                              headers: {
-                                'Authorization': 'Bearer $token',
-                                'Accept': 'application/json',
+                  const SizedBox(height: 200),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: TextButton(
+                      onPressed:
+                          logoutState.isLoading
+                              ? null
+                              : () {
+                                ref
+                                    .read(logoutNotifierProvider.notifier)
+                                    .logout();
                               },
-                            ),
-                          );
-                          if (response.statusCode == 200) {
-                            print('logged out succesfully');
-                            await prefs.remove('authToken');
-                            if (context.mounted) {
-                              context.go('/login');
-                            }
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Logout failed on server.'),
+                      child:
+                          logoutState.isLoading
+                              ? const CircularProgressIndicator()
+                              : Text(
+                                AppLocalizations.of(context)!.logout,
+                                style: GoogleFonts.brawler(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color:
+                                      Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium?.color,
+                                ),
                               ),
-                            );
-                          }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Logout error: $e')),
-                          );
-                        }
-                      } else {
-                        await prefs.remove('authToken');
-                        if (context.mounted) {
-                          context.go('/login');
-                        }
-                      }
-                    },
-                    child: Text(
-                      AppLocalizations.of(context)!.logout,
-                      style: GoogleFonts.brawler(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w300,
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
-                      ),
                     ),
                   ),
                 ],
