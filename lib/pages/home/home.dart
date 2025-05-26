@@ -18,7 +18,10 @@ class Homepage extends ConsumerWidget {
       appBar: AppBar(),
       drawer: Draweer(),
       body: nameAsyncValue.when(
-        loading: () => Center(child: CircularProgressIndicator(color: Colors.orange.shade700,)),
+        loading:
+            () => Center(
+              child: CircularProgressIndicator(color: Colors.orange.shade700),
+            ),
         error: (e, _) => Center(child: Text('Failed to load name: $e')),
         data:
             (name) => SingleChildScrollView(
@@ -64,7 +67,7 @@ class Homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding:  EdgeInsets.only(top: 30, left: 50),
+                          padding: EdgeInsets.only(top: 30, left: 50),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -75,9 +78,12 @@ class Homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
-                                    color: Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.orangeAccent
-                                        : Colors.black,                                  ),
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.orangeAccent
+                                            : Colors.black,
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 5),
@@ -87,13 +93,14 @@ class Homepage extends ConsumerWidget {
                                   textStyle: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
-                                    color: Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.black
-                                        : Colors.black,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.black
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -110,7 +117,7 @@ class Homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding:  EdgeInsets.only(top: 30, left: 30),
+                          padding: EdgeInsets.only(top: 30, left: 30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -123,13 +130,14 @@ class Homepage extends ConsumerWidget {
                                   ),
                                   Icon(
                                     Icons.umbrella,
-                                    color: Colors.orange.shade300,                                     size: 40,
+                                    color: Colors.orange.shade300,
+                                    size: 40,
                                   ),
                                 ],
                               ),
                               SizedBox(height: 20),
                               Text(
-                               AppLocalizations.of(context)!.homeLostFOund,
+                                AppLocalizations.of(context)!.homeLostFOund,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 20,
@@ -137,29 +145,30 @@ class Homepage extends ConsumerWidget {
                                     color:
                                         Theme.of(context).brightness ==
                                                 Brightness.dark
-                                            ? Colors
-                                                .orangeAccent
-                                            : Colors
-                                                .black,
+                                            ? Colors.orangeAccent
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'Go through the lost and',
+                                AppLocalizations.of(
+                                  context,
+                                )!.homeLostFoundDetail,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 13,
                                   color:
                                       Theme.of(context).brightness ==
                                               Brightness.dark
-                                          ? Colors
-                                              .black
+                                          ? Colors.black
                                           : Colors.black,
                                 ),
                               ),
                               Text(
-                                'found items',
+                                AppLocalizations.of(
+                                  context,
+                                )!.homeLostFoundDetailfound,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 13,
@@ -167,8 +176,7 @@ class Homepage extends ConsumerWidget {
                                     color:
                                         Theme.of(context).brightness ==
                                                 Brightness.dark
-                                            ? Colors
-                                                .black
+                                            ? Colors.black
                                             : Colors.black,
                                   ),
                                 ),
@@ -189,7 +197,7 @@ class Homepage extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding:  EdgeInsets.only(left: 30, top: 30),
+                          padding: EdgeInsets.only(left: 30, top: 30),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -199,8 +207,7 @@ class Homepage extends ConsumerWidget {
                                 color:
                                     Theme.of(context).brightness ==
                                             Brightness.dark
-                                        ? Colors
-                                            .orangeAccent
+                                        ? Colors.orangeAccent
                                         : Colors.blueGrey,
                               ),
                               Text(
@@ -212,33 +219,38 @@ class Homepage extends ConsumerWidget {
                                     color:
                                         Theme.of(context).brightness ==
                                                 Brightness.dark
-                                            ? Colors
-                                                .orangeAccent
+                                            ? Colors.orangeAccent
                                             : Colors.black,
                                   ),
                                 ),
                               ),
                               Text(
-                                'Search for lost FoundItems on locations',
+                                AppLocalizations.of(context)!.homeSearchdetail,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 13,
-                                    color: Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.black
-                                        : Colors.black,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.black
+                                            : Colors.black,
                                   ),
                                 ),
                               ),
                               Text(
-                                'near you',
+                                AppLocalizations.of(
+                                  context,
+                                )!.homeSearchDetailNear,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 13,
-                                    color: Theme.of(context).brightness == Brightness.dark
-                                        ? Colors.black // custom color for dark mode
-                                        : Colors.black,
+                                    color:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.black
+                                            : Colors.black,
                                   ),
                                 ),
                               ),

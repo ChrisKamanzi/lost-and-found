@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/providers/user_provider.dart';
 import '../../../providers/my_item_notifier.dart';
 
@@ -118,7 +119,7 @@ class Account extends ConsumerWidget {
             ),
             SizedBox(height: 40),
             Text(
-              "My Items",
+              AppLocalizations.of(context)!.myItems,
               style: GoogleFonts.brawler(
                 textStyle: TextStyle(
                   fontSize: 25,

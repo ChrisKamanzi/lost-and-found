@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:go_router/go_router.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 
 class LostFoundCard extends StatelessWidget {
   final String? itemId;
@@ -120,7 +121,7 @@ class LostFoundCard extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: () => context.push('/cardDetail/$itemId'),
                   icon: Icon(Icons.info),
-                  label: Text('More Info'),
+                  label: Text(AppLocalizations.of(context)!.moreInfo),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

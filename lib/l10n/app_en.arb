@@ -38,9 +38,12 @@
   "homeCreateAdvert" : "Create an advert",
   "homeCreateDetail" : " Report if you find or lost an item",
   "homeLostFOund" : "Losst $ found items",
-  "homeLostFoundDetail" :  " Go through the lost and found items",
+  "homeLostFoundDetail" :  " Go through the lost and",
+  "homeLostFoundDetailfound" : "found items ",
   "homeSearch" : "Search on Map" ,
   "homeSearchdetail" : "Search for lost found Items on locations near you",
+  "homeSearchDetailNear" : "near you",
+
 
 
   "loadingName": "Loading name...",
@@ -54,12 +57,18 @@
   "logoutError": "Logout error: {error}",
 
   "myItems" : "My items",
+  "chat" : " chat",
+  "map" : "map" ,
 
-  "chat" : " chat"
+"additionalInfo" : "Additional information",
+  "brand" : "Brand",
+  "posted" : "posted",
+  "adPostedby" : "Posted BY",
+  "sendMessage" : "Send Message",
 
+  "search" : "search",
+  "moreInfo" :  "More Info",
 
-
-
-
+  "typeMessage" :  "Type your message"
 
 }

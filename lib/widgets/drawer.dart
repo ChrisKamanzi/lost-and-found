@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/constant/api.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/providers/them_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/user_provider.dart';
@@ -45,13 +46,17 @@ class Draweer extends ConsumerWidget {
                           ),
                           IconButton(
                             onPressed:
-                                () => ref.read(themeNotifierProvider.notifier).toggleTheme(),
+                                () =>
+                                    ref
+                                        .read(themeNotifierProvider.notifier)
+                                        .toggleTheme(),
                             icon: Icon(
                               Icons.brightness_3_sharp,
                               size: 60,
                               color: Colors.white,
                             ),
-                          ),],
+                          ),
+                        ],
                       ),
                       nameAsync.when(
                         data:
@@ -61,10 +66,12 @@ class Draweer extends ConsumerWidget {
                                 fontSize: 25,
                                 fontWeight: FontWeight.w900,
                                 color:
-                                    Theme.of(context).textTheme.bodyMedium?.color,
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.color,
                               ),
                             ),
-                        loading: () => const Text("Loading name..."),
+                        loading: () => const Text("App"),
                         error: (e, _) => const Text("Error"),
                       ),
                       phoneAsync.when(
@@ -74,7 +81,9 @@ class Draweer extends ConsumerWidget {
                               style: GoogleFonts.brawler(
                                 fontWeight: FontWeight.w200,
                                 color:
-                                    Theme.of(context).textTheme.bodyMedium?.color,
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.color,
                               ),
                             ),
                         loading: () => const Text("Loading phone..."),
@@ -85,7 +94,7 @@ class Draweer extends ConsumerWidget {
                 ),
               ),
             ),
-        
+
             const SizedBox(height: 80),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -94,7 +103,7 @@ class Draweer extends ConsumerWidget {
                   TextButton(
                     onPressed: () => context.push('/favorite'),
                     child: Text(
-                      'Favorites',
+                      AppLocalizations.of(context)!.favorites,
                       style: GoogleFonts.brawler(
                         fontSize: 25,
                         color: Theme.of(context).textTheme.bodyMedium?.color,
@@ -103,11 +112,11 @@ class Draweer extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-        
+
                   TextButton(
                     onPressed: () => context.push('/aboutUS'),
                     child: Text(
-                      'About us',
+                      AppLocalizations.of(context)!.aboutUs,
                       style: GoogleFonts.brawler(
                         fontWeight: FontWeight.w800,
                         fontSize: 25,
@@ -119,7 +128,7 @@ class Draweer extends ConsumerWidget {
                   TextButton(
                     onPressed: () => context.push('/chatHistory'),
                     child: Text(
-                      'Messages',
+                      AppLocalizations.of(context)!.messages,
                       style: GoogleFonts.brawler(
                         fontWeight: FontWeight.w800,
                         fontSize: 25,
@@ -132,7 +141,7 @@ class Draweer extends ConsumerWidget {
                     onPressed: () async {
                       final prefs = await SharedPreferences.getInstance();
                       final token = prefs.getString('authToken');
-        
+
                       if (token != null) {
                         try {
                           final dio = Dio();
@@ -170,9 +179,8 @@ class Draweer extends ConsumerWidget {
                         }
                       }
                     },
-        
                     child: Text(
-                      'LogOut',
+                      AppLocalizations.of(context)!.logout,
                       style: GoogleFonts.brawler(
                         fontSize: 20,
                         fontWeight: FontWeight.w300,

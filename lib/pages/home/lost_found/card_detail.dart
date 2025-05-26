@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import '../../../providers/card_detail.dart';
 import '../../../widgets/elevated_button.dart';
 import '../../message/char2.dart';
@@ -13,7 +14,6 @@ class CardDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final itemAsyncValue = ref.watch(cardDetailProvider(itemId));
     final notifier = ref.read(cardDetailProvider(itemId).notifier);
 
@@ -28,7 +28,7 @@ class CardDetail extends ConsumerWidget {
 
           appBar: AppBar(
             title: Text(
-              'Found Item',
+              AppLocalizations.of(context)!.homeLostFoundDetailfound,
               style: GoogleFonts.brawler(
                 textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -143,7 +143,7 @@ class CardDetail extends ConsumerWidget {
 
                 SizedBox(height: 30),
                 Text(
-                  'Additional Information',
+                  AppLocalizations.of(context)!.additionalInfo,
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 22,
@@ -169,9 +169,15 @@ class CardDetail extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      infoRow('Brand', item.title ?? ''),
+                      infoRow(
+                        AppLocalizations.of(context)!.brand,
+                        item.title ?? '',
+                      ),
                       SizedBox(height: 10),
-                      infoRow('Posted', item.postedAt ?? ''),
+                      infoRow(
+                        AppLocalizations.of(context)!.posted,
+                        item.postedAt ?? '',
+                      ),
                     ],
                   ),
                 ),
@@ -199,8 +205,8 @@ class CardDetail extends ConsumerWidget {
                         icon: Icon(
                           isFavorited ? Icons.favorite : Icons.favorite_border,
                         ),
-                        onPressed: () async{
-                         await notifier.toggleFavorite(item.id ?? '');
+                        onPressed: () async {
+                          await notifier.toggleFavorite(item.id ?? '');
                         },
                       ),
 
@@ -220,7 +226,7 @@ class CardDetail extends ConsumerWidget {
                 Row(
                   children: [
                     Text(
-                      'Ad posted by',
+                  AppLocalizations.of(context)!.adPostedby,
                       style: GoogleFonts.brawler(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -229,6 +235,7 @@ class CardDetail extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    SizedBox(width: 10,),
                     Text(
                       item.name ?? '',
                       style: GoogleFonts.brawler(
@@ -244,7 +251,7 @@ class CardDetail extends ConsumerWidget {
 
                 SizedBox(height: 30),
                 Button(
-                  text: 'Send Message',
+                  text: AppLocalizations.of(context)!.sendMessage,
                   onPressed: () async {
                     Navigator.push(
                       context,

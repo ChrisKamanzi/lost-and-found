@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import '../../providers/chat_screen_provider.dart';
 
 class ChatHistoryScreen extends ConsumerWidget {
@@ -10,7 +11,7 @@ class ChatHistoryScreen extends ConsumerWidget {
     final chatHistories = ref.watch(chatHistoryProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CHAT'),
+        title:  Text(AppLocalizations.of(context)!.chat),
         backgroundColor: Colors.orange,
       ),
 

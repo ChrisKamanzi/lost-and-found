@@ -43,9 +43,13 @@
   "homeCreateAdvert": "Créer une annonce",
   "homeCreateDetail": "Signalez si vous avez trouvé ou perdu un objet",
   "homeLostFOund": "Objets perdus et trouvés",
-  "homeLostFoundDetail": "Consultez les objets perdus et trouvés",
+  "homeLostFoundDetail": "Consultez les objets perdus et ",
+  "homeLostFoundDetailfound" : "trouvés",
+
   "homeSearch": "Rechercher sur la carte",
-  "homeSearchdetail": "Recherchez des objets perdus ou trouvés à proximité",
+  "homeSearchdetail": "Recherchez des objets perdus ou trouvés ",
+  "homeSearchDetailNear" : "à proximité",
+
 
 
   "loadingName": "Chargement du nom...",
@@ -59,7 +63,27 @@
   "logoutError": "Erreur de déconnexion : {error}",
 
   "myItems": "Mon objet",
-  "chat": "chatte"
+  "chat": "chatte",
+
+  "map" : "carte",
+  "additionalInfo" : "informations supplémentaires",
+
+  "brand" : "Marque",
+  "posted" : "posté",
+  "adPostedby" : "annonce publiéebt",
+  "sendMessage" : "envoyer un message",
+
+  "search" : "recherche",
+  "moreInfo" :  "plus d'infos",
+
+  "typeMessage" :  "tape ton message"
+
+
+
+
+
+
+
 
 
 }

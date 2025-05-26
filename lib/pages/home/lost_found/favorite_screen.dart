@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import '../../../providers/favorite_notifier.dart';
 
 class FavoriteScreen extends ConsumerWidget {
@@ -14,7 +15,7 @@ class FavoriteScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: Colors.orange,
         title: Text(
-          'My Favorites',
+          AppLocalizations.of(context)!.favorites,
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),

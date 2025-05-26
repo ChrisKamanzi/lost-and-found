@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import '../../providers/map_notifier.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -33,7 +34,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       appBar: AppBar(
         backgroundColor: Colors.orange.shade700,
         title: Text(
-          'MAP',
+          AppLocalizations.of(context)!.map,
           style: GoogleFonts.brawler(
             textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
           ),

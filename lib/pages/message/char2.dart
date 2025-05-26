@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import '../../providers/chat_provider.dart';
 
 class ConversationScreen extends ConsumerWidget {
@@ -92,7 +93,7 @@ class ConversationScreen extends ConsumerWidget {
                       child: TextField(
                         controller: messageController,
                         decoration:  InputDecoration(
-                          hintText: 'Type your message...',
+                          hintText: AppLocalizations.of(context)!.typeMessage,
                           border: OutlineInputBorder(),
                         ),
                       ),

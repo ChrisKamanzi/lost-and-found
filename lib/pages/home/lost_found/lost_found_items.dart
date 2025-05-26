@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
+import 'package:lost_and_found/generated/app_localizations_en.dart';
 import 'package:lost_and_found/widgets/card.dart';
 import '../../../providers/lost_found_items_notifier.dart';
 
@@ -65,7 +67,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
           controller: searchController,
           onSubmitted: (query) => notifier.search(query, tabController.index),
           decoration: InputDecoration(
-            hintText: 'Search...',
+            hintText: AppLocalizations.of(context)!.search,
             suffixIcon: IconButton(
               icon: const Icon(Icons.search),
               onPressed:

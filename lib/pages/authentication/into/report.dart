@@ -61,7 +61,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 30),
                       Text(
-                        page[AppLocalizations.of(context)!.reportFoundTitle] as String,
+                        page[AppLocalizations.of(context)!.reportFoundTitle] as String ?? '',
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 26,
@@ -71,7 +71,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        page[AppLocalizations.of(context)!.reportFoundDescription] as String,
+                        page[AppLocalizations.of(context)!.reportFoundDescription] as String ?? '',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
