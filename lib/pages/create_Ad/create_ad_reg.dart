@@ -1,17 +1,14 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
-import '../../constant/api.dart';
 import '../../models/create_ad_model.dart';
-import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/category_notifier.dart';
 import '../../providers/villages_notifier.dart';
+import '../services/create.dart';
+import '../services/create_ad.dart';
 
 class CreateAdReg extends ConsumerStatefulWidget {
   const CreateAdReg({super.key});
@@ -37,117 +34,15 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
     ref.read(villageProvider.notifier).fetchVillages();
   }
 
-  Future<void> _pickImage(int imageNumber) async {
-    final pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        if (imageNumber == 1) {
-          image1 = File(pickedFile.path);
-        } else {
-          image2 = File(pickedFile.path);
-        }
-      });
-    }
-  }
-
-  Future<void> save(CreateAd createAdData, BuildContext context) async {
-    String url = "$apiUrl/items";
-    Dio dio = Dio();
-
-    try {
-      setState(() => isLoading = true);
-
-      final prefs = await SharedPreferences.getInstance();
-      final token = prefs.getString('authToken');
-      final userId = prefs.getInt('userId');
-
-      if (token == null || userId == null) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('You are not authenticated.')));
-        return;
-      }
-
-      final selectedCategory = ref.read(selectedCategoryProvider);
-      FormData formData = FormData();
-
-      if (createAdData.image1 != null) {
-        formData.files.add(
-          MapEntry(
-            'itemImages[]',
-            await MultipartFile.fromFile(
-              createAdData.image1!.path,
-              filename: basename(createAdData.image1!.path),
-            ),
-          ),
-        );
-      }
-      if (createAdData.image2 != null) {
-        formData.files.add(
-          MapEntry(
-            'itemImages[]',
-            await MultipartFile.fromFile(
-              createAdData.image2!.path,
-              filename: basename(createAdData.image2!.path),
-            ),
-          ),
-        );
-      }
-      final response = await dio.post(
-        url,
-        data: formData,
-        options: Options(
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
-      );
-
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Ad successfully created!')));
-
-        setState(() {
-          title.clear();
-          description.clear();
-          image1 = null;
-          image2 = null;
-          selectedPostType = null;
-          selectedLocation = null;
-          ref.read(selectedCategoryProvider.notifier).state = null;
-        });
-      }
-    } catch (e) {
-      if (e is DioException) {
-        print('Dio error: ${e.response?.statusCode} - ${e.response?.data}');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Error: ${e.response?.data['message'] ?? 'Failed to post'}',
-            ),
-          ),
-        );
-      } else {
-        print('Unexpected error: $e');
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Unexpected error occurred.')));
-      }
-    } finally {
-      setState(() => isLoading = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(categoryProvider);
     final selectedCategory = ref.watch(selectedCategoryProvider);
     final villages = ref.watch(villageProvider);
+    final isLoading = ref.watch(createAdNotifierProvider);
+
+    final imageState = ref.watch(imagePickerProvider);
+    final imageNotifier = ref.read(imagePickerProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
@@ -286,7 +181,6 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   ),
                 ),
                 SizedBox(height: 20),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -300,7 +194,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => _pickImage(image1 == null ? 1 : 2),
+                      onTap: () => imageNotifier.pickImage(),
                       child: Container(
                         height: 60,
                         width: 60,
@@ -312,7 +206,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                             width: 2,
                           ),
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.add_a_photo,
                             size: 30,
@@ -323,7 +217,8 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+
+                const SizedBox(height: 20),
                 Row(
                   children: [
                     Container(
@@ -335,11 +230,11 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          image1 != null
+                          imageState.image1 != null
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.file(
-                                  image1!,
+                                  imageState.image1!,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
                                 ),
@@ -351,7 +246,8 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                                 ),
                               ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
+                    // Image 2 Container
                     Container(
                       height: 150,
                       width: 180,
@@ -361,54 +257,87 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          image2 != null
+                          imageState.image2 != null
                               ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.file(
-                                  image2!,
+                                  imageState.image2!,
                                   fit: BoxFit.cover,
                                   width: double.infinity,
                                 ),
                               )
-                              : Center(
+                              : const Center(
                                 child: Text(
                                   'Press that Icon 👆',
-                                  style: TextStyle(color: Colors.grey.shade700),
+                                  style: TextStyle(color: Colors.grey),
                                 ),
                               ),
                     ),
+                    SizedBox(height: 20),
+                    SizedBox(height: 40),
                   ],
                 ),
                 SizedBox(height: 20),
-                Button(
-                  text: 'Done',
-                  onPressed: () {
-                    if (selectedPostType == null || selectedLocation == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please fill all fields')),
-                      );
-                      return;
-                    }
+                ElevatedButton(
+                  onPressed:
+                      isLoading
+                          ? null
+                          : () async {
+                            image1 = imageState.image1;
+                            image2 = imageState.image2;
 
-                    CreateAd createAdData = CreateAd(
-                      selectedCategory: selectedCategory ?? '',
-                      post_type: selectedPostType == 'Lost' ? 'lost' : 'found',
-                      title: title.text.trim(),
-                      description: description.text.trim(),
-                      location: [selectedLocation!],
-                      villageId: selectedLocation!,
-                      image1: image1,
-                      image2: image2,
-                    );
+                            final createAdData = CreateAd(
+                              title: title.text,
+                              description: description.text,
+                              post_type: selectedPostType,
+                              location:
+                                  selectedLocation != null
+                                      ? [selectedLocation!]
+                                      : [],
+                              villageId: selectedLocation,
+                              image1: image1,
+                              image2: image2,
+                            );
 
-                    save(createAdData, context);
-                  },
+                            final error = await ref
+                                .read(createAdNotifierProvider.notifier)
+                                .save(createAdData);
+
+                            if (error != null) {
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(error)));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Ad successfully created!'),
+                                ),
+                              );
+
+                              title.clear();
+                              description.clear();
+                              image1 = null;
+                              image2 = null;
+                              selectedPostType = null;
+                              selectedLocation = null;
+                              ref
+                                  .read(selectedCategoryProvider.notifier)
+                                  .state = null;
+                            }
+                          },
+
+                  child:
+                      isLoading
+                          ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                          : const Text('Submit'),
                 ),
-                SizedBox(height: 40),
               ],
             ),
           ),
-
           if (isLoading)
             Container(
               color: Colors.black45,

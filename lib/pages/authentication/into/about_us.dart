@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 
 import '../../services/featureTextAndColors.dart';
 
@@ -23,30 +24,29 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
     );
 
     _slideAnimations = List.generate(3, (index) {
-      return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero)
-          .animate(
+      return Tween<Offset>(begin: Offset(1.5, 0), end: Offset.zero).animate(
         CurvedAnimation(
           parent: _slideController,
           curve: Interval(index * 0.2, 1.0, curve: Curves.easeOut),
         ),
       );
-    }
-    );
+    });
     _slideController.forward();
   }
+
   @override
   void dispose() {
     _slideController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange.shade700,
         title: Text(
-          'About Us',
+          AppLocalizations.of(context)!.aboutUsAppBarTitle,
           style: GoogleFonts.lato(
             textStyle: TextStyle(
               fontSize: 24,
@@ -60,12 +60,12 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding:  EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'ABOUT US',
+                AppLocalizations.of(context)!.aboutUsAppBarTitle,
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-         SizedBox(height: 20),
+              SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -88,14 +88,14 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                     BoxShadow(
                       color: Colors.orange.shade200,
                       blurRadius: 8,
-                      offset:  Offset(0, 4),
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Text(
-                  'We believe in the power of community and compassion. Our platform connects people who have lost valuable items with those who’ve found them — making it easier than ever to reunite lost belongings with their rightful owners.',
+                  AppLocalizations.of(context)!.aboutUsDescription,
                   style: GoogleFonts.brawler(
-                    textStyle:  TextStyle(
+                    textStyle: TextStyle(
                       fontSize: 18,
                       height: 1.5,
                       color: Colors.black87,
@@ -103,24 +103,24 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-           SizedBox(height: 30),
+              SizedBox(height: 30),
               Text(
-                'FEATURES',
+                AppLocalizations.of(context)!.aboutUsFeaturesTitle,
                 style: GoogleFonts.lato(
-                  textStyle:  TextStyle(
+                  textStyle: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
                     color: Colors.deepOrange,
                   ),
                 ),
               ),
-            SizedBox(height: 20),
+              SizedBox(height: 20),
               SizedBox(
                 height: 320,
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: featureTexts.length,
-                  separatorBuilder: (_, __) =>  SizedBox(width: 20),
+                  separatorBuilder: (_, __) => SizedBox(width: 20),
                   itemBuilder: (context, index) {
                     return SlideTransition(
                       position: _slideAnimations[index],
@@ -143,7 +143,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                           featureTexts[index],
                           textAlign: TextAlign.center,
                           style: GoogleFonts.brawler(
-                            textStyle:  TextStyle(
+                            textStyle: TextStyle(
                               color: Colors.white,
                               fontSize: 22,
                               fontWeight: FontWeight.bold,

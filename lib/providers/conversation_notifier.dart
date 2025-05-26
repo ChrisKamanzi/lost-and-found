@@ -28,11 +28,9 @@ class ChatHistoryNotifier extends StateNotifier<List<ChatHistory>?> {
         state = chatHistories;
         return chatHistories;
       } else {
-        print("Failed to fetch chat histories: ${response.statusCode}");
         return [];
       }
     } catch (e) {
-      print('Error fetching chat histories: $e');
       return [];
     }
 

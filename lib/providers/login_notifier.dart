@@ -26,12 +26,9 @@ class LoginNotifier extends StateNotifier<LoginModel> {
         await prefs.setString('authToken', token);
         await prefs.setInt('userId', userId);
 
-        print('Login successful: token saved');
       } else {
-        print('Login failed with status: ${response.statusCode}');
       }
     } on DioException catch (e) {
-      print('Login error: ${e.response?.data ?? e.message}');
     }
   }
 }

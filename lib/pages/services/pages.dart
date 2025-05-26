@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-final pages = [
+final pages  = [
   {
     'title': 'Report Found',
     'description':
@@ -19,3 +19,4 @@ final pages = [
     'icon': Icons.message,
   },
 ];
+

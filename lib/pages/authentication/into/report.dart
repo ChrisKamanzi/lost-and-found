@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 
 import '../../services/pages.dart';
 
@@ -60,7 +61,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 30),
                       Text(
-                        page['title'] as String,
+                        page[AppLocalizations.of(context)!.reportFoundTitle] as String,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 26,
@@ -70,7 +71,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        page['description'] as String,
+                        page[AppLocalizations.of(context)!.reportFoundDescription] as String,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(

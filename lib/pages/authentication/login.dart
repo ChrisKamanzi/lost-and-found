@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
@@ -32,7 +33,7 @@ class Login extends ConsumerWidget {
                 SizedBox(height: 100),
                 Center(
                   child: Text(
-                    'Log In.',
+                    AppLocalizations.of(context)!.loginTitle,
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
                         fontSize: 60,
@@ -47,7 +48,7 @@ class Login extends ConsumerWidget {
                 ),
                 SizedBox(height: 50),
                 Text(
-                  'Email',
+                  AppLocalizations.of(context)!.emailLabel,
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 20,
@@ -63,7 +64,7 @@ class Login extends ConsumerWidget {
                 Textfield(controller: emailController),
                 SizedBox(height: 10),
                 Text(
-                  'Password',
+                  AppLocalizations.of(context)!.passwordLabel,
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 20,
@@ -102,7 +103,7 @@ class Login extends ConsumerWidget {
                   child: TextButton(
                     onPressed: () => context.push('/forrgotPassword'),
                     child: Text(
-                      'Forgot Password',
+                      AppLocalizations.of(context)!.forgotPassword,
                       style: GoogleFonts.brawler(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.w700,
@@ -119,7 +120,7 @@ class Login extends ConsumerWidget {
                 Align(
                   alignment: Alignment.topRight,
                   child: Button(
-                    text: 'Log In',
+                    text: AppLocalizations.of(context)!.loginButton,
                     onPressed: () async {
                       if (!isLoading) {
                         final email = emailController.text.trim();
@@ -137,7 +138,7 @@ class Login extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        AppLocalizations.of(context)!.noAccount,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 15,
@@ -151,7 +152,7 @@ class Login extends ConsumerWidget {
                       TextButton(
                         onPressed: () => context.go('/signUp'),
                         child: Text(
-                          'Sign Up',
+                          AppLocalizations.of(context)!.signUp,
                           style: GoogleFonts.brawler(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w300,

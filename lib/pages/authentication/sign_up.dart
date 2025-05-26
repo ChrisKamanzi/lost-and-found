@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/providers/sign_up_notifier.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
@@ -17,7 +18,6 @@ class SignUp extends ConsumerStatefulWidget {
 }
 
 class _SignUpScreenState extends ConsumerState<SignUp> {
-
   late TextEditingController nameController;
   late TextEditingController emailController;
   late TextEditingController phoneController;
@@ -53,7 +53,6 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-
     final villages = ref.watch(villageProvider);
     final selectedVillage = ref.watch(selectedVillageProvider);
     final signUpNotifier = ref.read(signUpProvider.notifier);
@@ -68,45 +67,52 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Sign Up.',
+                AppLocalizations.of(context)!.signUp,
                 style: GoogleFonts.brawler(
                   fontSize: 50,
                   fontWeight: FontWeight.w800,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.orangeAccent
-                      : Colors.black,
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.orangeAccent
+                          : Colors.black,
                 ),
               ),
             ),
             const SizedBox(height: 30),
-            buildLabel(context, 'NAME'),
+            buildLabel(context, AppLocalizations.of(context)!.nameLabel),
             Textfield(controller: nameController),
             const SizedBox(height: 30),
-            buildLabel(context, 'EMAIL'),
+            buildLabel(context, AppLocalizations.of(context)!.emailLabel),
             Textfield(controller: emailController),
             const SizedBox(height: 30),
-            buildLabel(context, 'PASSWORD'),
+            buildLabel(context, AppLocalizations.of(context)!.passwordLabel),
             PasswordField(controller: passController),
             const SizedBox(height: 30),
-            buildLabel(context, 'PASSWORD CONFIRMATION'),
+            buildLabel(
+              context,
+              AppLocalizations.of(context)!.passwordConfirmationLabel,
+            ),
             PasswordField(controller: passConfController),
             const SizedBox(height: 30),
-            buildLabel(context, 'PHONE'),
+            buildLabel(context, AppLocalizations.of(context)!.phoneLabel),
             Textfield(controller: phoneController),
             const SizedBox(height: 30),
-            buildLabel(context, 'VILLAGE'),
+            buildLabel(context, AppLocalizations.of(context)!.villageLabel),
             DropdownButtonFormField<String>(
               value: selectedVillage,
               decoration: const InputDecoration(
                 labelText: "Select a Village",
                 border: OutlineInputBorder(),
               ),
-              items: villages
-                  .map((village) => DropdownMenuItem(
-                value: village['id'].toString(),
-                child: Text(village['name']),
-              ))
-                  .toList(),
+              items:
+                  villages
+                      .map(
+                        (village) => DropdownMenuItem(
+                          value: village['id'].toString(),
+                          child: Text(village['name']),
+                        ),
+                      )
+                      .toList(),
               onChanged: (value) {
                 ref.read(selectedVillageProvider.notifier).state = value;
               },
@@ -115,47 +121,48 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
             isLoading
                 ? const CircularProgressIndicator()
                 : Button(
-              text: 'Sign Up',
-              onPressed: () async {
-                signUpNotifier.updateField(
-                  name: nameController.text,
-                  email: emailController.text,
-                  password: passController.text,
-                  passwordConfirmation: passConfController.text,
-                  phone: phoneController.text,
-                  village: selectedVillage,
-                );
+                  text: AppLocalizations.of(context)!.signUp,
+                  onPressed: () async {
+                    signUpNotifier.updateField(
+                      name: nameController.text,
+                      email: emailController.text,
+                      password: passController.text,
+                      passwordConfirmation: passConfController.text,
+                      phone: phoneController.text,
+                      village: selectedVillage,
+                    );
 
-                await signUpNotifier.signUp(context, ref);
-              },
-            ),
+                    await signUpNotifier.signUp(context, ref);
+                  },
+                ),
             const SizedBox(height: 40),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  "Already have an account?",
+                  AppLocalizations.of(context)!.alreadyHaveAccount,
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 15,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.orangeAccent
-                          : Colors.blueGrey,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Colors.orangeAccent
+                              : Colors.blueGrey,
                     ),
                   ),
                 ),
                 TextButton(
                   onPressed: () => context.go('/login'),
                   child: Text(
-                    'Login',
+                    AppLocalizations.of(context)!.loginTitle,
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
                         fontWeight: FontWeight.w300,
                         fontSize: 15,
                         color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Colors.orangeAccent
-                            : Colors.blueGrey,
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.orangeAccent
+                                : Colors.blueGrey,
                       ),
                     ),
                   ),
@@ -167,6 +174,4 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
       ),
     );
   }
-
-
 }

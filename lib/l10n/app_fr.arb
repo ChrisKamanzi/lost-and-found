@@ -1,0 +1,65 @@
+{
+  "@@locale": "fr",
+  "loginTitle": "Connexion.",
+  "emailLabel": "Email",
+  "passwordLabel": "Mot de passe",
+  "forgotPassword": "Mot de passe oublié",
+  "loginButton": "Se connecter",
+  "noAccount": "Vous n'avez pas de compte ?",
+
+
+  "signUp": "S'inscrire",
+  "signUpTitle": "S'inscrire.",
+  "nameLabel": "NOM",
+  "passwordConfirmationLabel": "CONFIRMATION DU MOT DE PASSE",
+  "phoneLabel": "TÉLÉPHONE",
+  "villageLabel": "VILLAGE",
+  "selectVillage": "Sélectionnez un village",
+  "signUpButton": "S'inscrire",
+  "alreadyHaveAccount": "Vous avez déjà un compte ?",
+
+
+
+  "resetPassword": "réinitialiser le mot de passe",
+  "Token": "jeton",
+
+
+  "reportFoundTitle": "Signaler un objet trouvé",
+  "reportFoundDescription": "Un objet perdu et retrouvé peut être facilement signalé ou une annonce peut être créée",
+  "searchMapTitle": "Carte de recherche",
+  "searchMapDescription": "Recherchez des objets trouvés ou trouvés à proximité de votre position affichés sur la carte",
+  "messagingTitle": "Messagerie",
+  "messagingDescription": "L'application permet l'interaction entre les utilisateurs",
+
+
+
+  "aboutUsAppBarTitle": "À propos de nous",
+  "aboutUsHeading": "À PROPOS DE NOUS",
+  "aboutUsDescription": "Nous croyons au pouvoir de la communauté et de la compassion. Notre plateforme met en relation les personnes ayant perdu des objets de valeur avec celles qui les ont trouvés, facilitant ainsi la restitution des biens perdus à leurs propriétaires légitimes.",
+  "aboutUsFeaturesTitle": "FONCTIONNALITÉS",
+
+
+  "hello": "Salut",
+  "homeCreateAdvert": "Créer une annonce",
+  "homeCreateDetail": "Signalez si vous avez trouvé ou perdu un objet",
+  "homeLostFOund": "Objets perdus et trouvés",
+  "homeLostFoundDetail": "Consultez les objets perdus et trouvés",
+  "homeSearch": "Rechercher sur la carte",
+  "homeSearchdetail": "Recherchez des objets perdus ou trouvés à proximité",
+
+
+  "loadingName": "Chargement du nom...",
+  "loadingPhone": "Chargement du téléphone...",
+  "error": "Erreur",
+  "favorites": "Favoris",
+  "aboutUs": "À propos de nous",
+  "messages": "Messages",
+  "logout": "Se déconnecter",
+  "logoutFailed": "Échec de la déconnexion sur le serveur.",
+  "logoutError": "Erreur de déconnexion : {error}",
+
+  "myItems": "Mon objet",
+  "chat": "chatte"
+
+
+}

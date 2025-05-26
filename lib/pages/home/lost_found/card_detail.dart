@@ -245,7 +245,7 @@ class CardDetail extends ConsumerWidget {
                 SizedBox(height: 30),
                 Button(
                   text: 'Send Message',
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -17,7 +17,6 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
         state = List<Map<String, dynamic>>.from(response.data['villages']);
       }
     } catch (e) {
-      print("Error fetching villages: $e");
     }
   }
 }

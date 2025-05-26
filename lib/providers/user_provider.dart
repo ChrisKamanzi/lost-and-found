@@ -45,7 +45,6 @@ Future<String> fetchEmail(String token) async {
       throw Exception('Failed to load name');
     }
   } catch (e) {
-    print('Error fetching name: $e');
     throw Exception('Failed to load name');
   }
 }
@@ -60,7 +59,6 @@ Future<String> fetchPhone(String token) async {
     };
 
     final response = await dio.get('$apiUrl/user/details');
-
     if (response.statusCode == 200) {
       final data = response.data;
       final userDetails = data['user-details'];
@@ -69,7 +67,6 @@ Future<String> fetchPhone(String token) async {
       throw Exception('Failed to load name');
     }
   } catch (e) {
-    print('Error fetching name: $e');
     throw Exception('Failed to load name');
   }
 }

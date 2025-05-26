@@ -20,6 +20,9 @@ import 'package:lost_and_found/pages/message/conversation.dart';
 import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
 import 'package:lost_and_found/providers/them_notifier.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/app_localizations.dart';
+
 
 final lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -52,6 +55,19 @@ class MyApp extends ConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
+
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      supportedLocales: [
+        Locale('en'), 
+        Locale('fr')
+      ],
+      locale: Locale('fr'),
     );
   }
 

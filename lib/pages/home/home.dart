@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/drawer.dart';
 
 import '../../providers/user_provider.dart';
@@ -29,7 +30,7 @@ class Homepage extends ConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          'Hello',
+                          AppLocalizations.of(context)!.hello,
                           style: GoogleFonts.brawler(
                             textStyle: TextStyle(
                               fontWeight: FontWeight.w800,
@@ -69,7 +70,7 @@ class Homepage extends ConsumerWidget {
                             children: [
                               Icon(Icons.add_circle_outline_sharp, size: 40),
                               Text(
-                                'Create an advert',
+                                AppLocalizations.of(context)!.homeCreateAdvert,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 20,
@@ -81,7 +82,7 @@ class Homepage extends ConsumerWidget {
                               ),
                               SizedBox(height: 5),
                               Text(
-                                'Report if you find or lost',
+                                AppLocalizations.of(context)!.homeCreateDetail,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 13,
@@ -92,18 +93,7 @@ class Homepage extends ConsumerWidget {
                                   ),
                                 ),
                               ),
-                              Text(
-                                'an Item',
-                                style: GoogleFonts.brawler(
-                                  textStyle: TextStyle(
-                                    fontWeight: FontWeight.w100,
-                                    fontSize: 13,
-                                    color: Theme.of(context).brightness == Brightness.dark
-                                      ? Colors.black // custom color for dark mode
-                                      : Colors.black,
-                                  ),
-                                ),
-                              ),
+
                             ],
                           ),
                         ),
@@ -139,7 +129,7 @@ class Homepage extends ConsumerWidget {
                               ),
                               SizedBox(height: 20),
                               Text(
-                                'Lost & found Items',
+                               AppLocalizations.of(context)!.homeLostFOund,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontSize: 20,
@@ -214,7 +204,7 @@ class Homepage extends ConsumerWidget {
                                         : Colors.blueGrey,
                               ),
                               Text(
-                                'Search on map',
+                                AppLocalizations.of(context)!.searchMapTitle,
                                 style: GoogleFonts.brawler(
                                   textStyle: TextStyle(
                                     fontWeight: FontWeight.w800,
@@ -223,7 +213,7 @@ class Homepage extends ConsumerWidget {
                                         Theme.of(context).brightness ==
                                                 Brightness.dark
                                             ? Colors
-                                                .orangeAccent // custom color for dark mode
+                                                .orangeAccent
                                             : Colors.black,
                                   ),
                                 ),

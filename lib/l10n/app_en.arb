@@ -1,0 +1,65 @@
+{
+  "@@locale": "en",
+  "loginTitle": "Log In.",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "forgotPassword": "Forgot Password",
+  "loginButton": "Log In",
+  "noAccount": "Don't have an account?",
+  "signUp": "Sign Up",
+
+  "signUpTitle": "Sign Up.",
+  "nameLabel": "NAME",
+  "passwordConfirmationLabel": "PASSWORD CONFIRMATION",
+  "phoneLabel": "PHONE",
+  "villageLabel": "VILLAGE",
+  "selectVillage": "Select a Village",
+  "signUpButton": "Sign Up",
+  "alreadyHaveAccount": "Already have an account?",
+  "resetPassword" : "réinitialiser le mot de passe",
+
+
+  "reportFoundTitle": "Report Found",
+  "reportFoundDescription": "An item lost and found can easily be reported or an ad could be created",
+  "searchMapTitle": "Search Map",
+  "searchMapDescription": "Search for found items or found close to your location be showed on the map",
+  "messagingTitle": "Messaging",
+  "messagingDescription": "last app allows interaction between users",
+
+
+
+  "aboutUsAppBarTitle": "About Us",
+  "aboutUsHeading": "ABOUT US",
+  "aboutUsDescription": "We believe in the power of community and compassion. Our platform connects people who have lost valuable items with those who’ve found them — making it easier than ever to reunite lost belongings with their rightful owners.",
+  "aboutUsFeaturesTitle": "FEATURES",
+
+
+  "hello" : "Hello",
+  "homeCreateAdvert" : "Create an advert",
+  "homeCreateDetail" : " Report if you find or lost an item",
+  "homeLostFOund" : "Losst $ found items",
+  "homeLostFoundDetail" :  " Go through the lost and found items",
+  "homeSearch" : "Search on Map" ,
+  "homeSearchdetail" : "Search for lost found Items on locations near you",
+
+
+  "loadingName": "Loading name...",
+  "loadingPhone": "Loading phone...",
+  "error": "Error",
+  "favorites": "Favorites",
+  "aboutUs": "About us",
+  "messages": "Messages",
+  "logout": "LogOut",
+  "logoutFailed": "Logout failed on server.",
+  "logoutError": "Logout error: {error}",
+
+  "myItems" : "My items",
+
+  "chat" : " chat"
+
+
+
+
+
+
+}
