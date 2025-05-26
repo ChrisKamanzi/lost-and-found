@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 
-final pages  = [
-  {
-    'title': 'Report Found',
-    'description':
-    'An item lost and found can easily be reported or an ad could be created',
-    'icon': Icons.report,
-  },
-  {
-    'title': 'Search Map',
-    'description':
-    'Search for found items or found close to your location be showed on the map',
-    'icon': Icons.map,
-  },
-  {
-    'title': 'Messaging',
-    'description': 'last app allows interaction between users',
-    'icon': Icons.message,
-  },
-];
+import '../../generated/app_localizations.dart';
+
+List<Map<String, dynamic>> getLocalizedPages(BuildContext context) {
+  return [
+    {
+      'title': AppLocalizations.of(context)!.reportFoundTitle,
+      'description': AppLocalizations.of(context)!.reportFoundDescription,
+      'icon': Icons.report,
+    },
+    {
+      'title': AppLocalizations.of(context)!.searchMapTitle,
+      'description': AppLocalizations.of(context)!.searchMapDescription,
+      'icon': Icons.map,
+    },
+    {
+      'title': AppLocalizations.of(context)!.messagingTitle,
+      'description': AppLocalizations.of(context)!.messagingDescription,
+      'icon': Icons.message,
+    },
+  ];
+}
+
 

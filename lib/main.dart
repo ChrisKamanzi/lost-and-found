@@ -5,6 +5,7 @@ import 'package:lost_and_found/pages/authentication/congrat.dart';
 import 'package:lost_and_found/pages/authentication/forgot_password.dart';
 import 'package:lost_and_found/pages/authentication/forgot_token.dart';
 import 'package:lost_and_found/pages/authentication/into/about_us.dart';
+import 'package:lost_and_found/pages/authentication/into/language_selection.dart';
 import 'package:lost_and_found/pages/authentication/into/report.dart';
 import 'package:lost_and_found/pages/authentication/into/splash_screen.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
@@ -19,10 +20,10 @@ import 'package:lost_and_found/pages/message/char2.dart';
 import 'package:lost_and_found/pages/message/conversation.dart';
 import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
+import 'package:lost_and_found/providers/localeNotifier.dart';
 import 'package:lost_and_found/providers/them_notifier.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/app_localizations.dart';
-
 
 final lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -49,25 +50,30 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeNotifierProvider);
 
-    return MaterialApp.router(
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeMode,
+    return ProviderScope(
+      child: Consumer(
+        builder: (context, ref, _) {
+          final locale = ref.watch(localeProvider);
 
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+          return MaterialApp.router(
+            routerConfig: _router,
+            debugShowCheckedModeBanner: false,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: themeMode,
 
-      supportedLocales: [
-        Locale('en'), 
-        Locale('fr')
-      ],
-      locale: Locale('fr'),
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+
+            supportedLocales: [Locale('en'), Locale('fr')],
+            locale: locale,
+          );
+        },
+      ),
     );
   }
 
@@ -191,6 +197,12 @@ class MyApp extends ConsumerWidget {
         path: '/chatHistory',
         builder: (BuildContext context, GoRouterState state) {
           return ChatHistoryScreen();
+        },
+      ),
+      GoRoute(
+        path: '/language',
+        builder: (BuildContext context, GoRouterState state) {
+          return LanguageSelectionScreen();
         },
       ),
     ],

@@ -19,6 +19,8 @@ class _SearchPageState extends State<Report> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = getLocalizedPages(context);
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -27,7 +29,7 @@ class _SearchPageState extends State<Report> {
             child: TextButton(
               onPressed: () => context.go('/login'),
               child: Text(
-                'Skip',
+               AppLocalizations.of(context)!.skip,
                 style: GoogleFonts.brawler(
                   color: Colors.grey,
                   fontWeight: FontWeight.w500,
@@ -61,7 +63,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 30),
                       Text(
-                        page[AppLocalizations.of(context)!.reportFoundTitle] as String ?? '',
+                          page['title'] as String,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(
                             fontSize: 26,
@@ -71,7 +73,7 @@ class _SearchPageState extends State<Report> {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        page[AppLocalizations.of(context)!.reportFoundDescription] as String ?? '',
+                        page['description'] as String,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.brawler(
                           textStyle: TextStyle(

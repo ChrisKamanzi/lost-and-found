@@ -76,7 +76,17 @@
   "search" : "recherche",
   "moreInfo" :  "plus d'infos",
 
-  "typeMessage" :  "tape ton message"
+  "typeMessage" :  "tape ton message",
+
+  "chooseLanguage": "Choisir la langue",
+  "whatLanguage": "Quelle langue voulez-vous utiliser ?",
+  "next": "Continuer",
+
+  "reportLostItem": "Signaler un objet perdu",
+  "locateFoundItem": "Localiser un objet trouvé",
+  "instantMessaging": "Messagerie instantanée",
+
+  "skip" :  "sauter"
 
 
 

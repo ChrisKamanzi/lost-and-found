@@ -69,6 +69,17 @@
   "search" : "search",
   "moreInfo" :  "More Info",
 
-  "typeMessage" :  "Type your message"
+  "typeMessage" :  "Type your message",
 
+
+  "chooseLanguage" : " Choose Language",
+  "whatLanguage" : "What language do you want to use ? ",
+  "next" : "Continue",
+
+
+  "reportLostItem": "Report Lost Item",
+  "locateFoundItem": "Locate Found Item",
+  "instantMessaging": "Instant Messaging",
+
+  "skip" :  "skip"
 }

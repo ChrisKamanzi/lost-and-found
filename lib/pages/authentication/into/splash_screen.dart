@@ -13,10 +13,9 @@ class _splashScreenState extends State<splashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        context.go('/report');
+        context.go('/language');
       }
     });
   }
