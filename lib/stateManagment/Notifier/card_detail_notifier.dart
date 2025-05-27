@@ -1,8 +1,8 @@
 import 'package:riverpod/riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../constant/api.dart';
-import '../../../models/lost_found_model.dart';
+import '../../../../constant/api.dart';
+import '../../../../models/lost_found_model.dart';
 
 class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
   CardDetailNotifier() : super(const AsyncValue.loading());
@@ -62,8 +62,4 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
   }
 }
 
-final cardDetailProvider = StateNotifierProvider.family<CardDetailNotifier, AsyncValue<LostFound>, String>((ref, itemId) {
-  final notifier = CardDetailNotifier();
-  notifier.fetchItem(itemId);
-  return notifier;
-});
+

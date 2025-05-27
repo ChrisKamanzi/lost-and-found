@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import '../../providers/chat_screen_provider.dart';
+import '../../stateManagment/provider/chat_screen_provider.dart';
 
 class ChatHistoryScreen extends ConsumerWidget {
   const ChatHistoryScreen({super.key});

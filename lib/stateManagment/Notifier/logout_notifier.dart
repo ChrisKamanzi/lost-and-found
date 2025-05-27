@@ -3,10 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final logoutNotifierProvider =
-StateNotifierProvider<LogoutNotifier, AsyncValue<void>>((ref) {
-  return LogoutNotifier();
-});
 
 class LogoutNotifier extends StateNotifier<AsyncValue<void>> {
   LogoutNotifier() : super(const AsyncData(null));

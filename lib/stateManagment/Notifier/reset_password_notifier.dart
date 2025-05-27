@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/reset_password.dart';
+import '../../models/reset_password.dart';
 import 'package:go_router/go_router.dart';
-import '../constant/api.dart';
+import '../../constant/api.dart';
 
 class ResetNotifier extends StateNotifier<ResetPasswordModel> {
   ResetNotifier()
@@ -76,7 +76,4 @@ class ResetNotifier extends StateNotifier<ResetPasswordModel> {
   }
 }
 
-final resetProvider = StateNotifierProvider<ResetNotifier, ResetPasswordModel>(
-      (ref) => ResetNotifier(),
-);
 

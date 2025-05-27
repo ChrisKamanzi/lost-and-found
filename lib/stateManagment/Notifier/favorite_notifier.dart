@@ -2,12 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/favorite_model.dart';
-
-final favoritesProvider =
-    AsyncNotifierProvider<FavoritesNotifier, List<FavoriteItem>>(
-      FavoritesNotifier.new,
-    );
+import '../../models/favorite_model.dart';
 
 class FavoritesNotifier extends AsyncNotifier<List<FavoriteItem>> {
   @override

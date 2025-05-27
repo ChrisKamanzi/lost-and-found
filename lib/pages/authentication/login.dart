@@ -3,11 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
-import '../../providers/login_loading.dart';
-import '../../providers/login_provider.dart';
+import '../../stateManagment/provider/loading_provider.dart';
+import '../../stateManagment/provider/login_provider.dart';
 
 class Login extends ConsumerWidget {
   Login({super.key});

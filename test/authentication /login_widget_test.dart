@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/pages/authentication/login.dart';
-import 'package:lost_and_found/providers/login_loading.dart';
+import 'package:lost_and_found/stateManagment/provider/loading_provider.dart';
 
 void main() {
   testWidgets('Login form validation and submission', (

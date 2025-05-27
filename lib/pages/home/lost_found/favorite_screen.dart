@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import '../../../providers/favorite_notifier.dart';
+import '../../../stateManagment/provider/favorite_provider.dart';
 
 class FavoriteScreen extends ConsumerWidget {
   const FavoriteScreen({super.key});

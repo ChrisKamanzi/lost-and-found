@@ -4,8 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/drawer.dart';
-
-import '../../providers/user_provider.dart';
+import '../../stateManagment/Notifier/user_notifier.dart';
 
 class Homepage extends ConsumerWidget {
   const Homepage({super.key});

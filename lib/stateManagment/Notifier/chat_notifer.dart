@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constant/api.dart';
-import '../models/chat_model.dart';
+import '../../constant/api.dart';
+import '../../models/chat_model.dart';
 
 class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
   ConversationNotifier() : super(const AsyncLoading());

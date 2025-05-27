@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import '../providers/logout_notifier.dart';
-import '../providers/them_notifier.dart';
-import '../providers/user_provider.dart';
+import '../stateManagment/Notifier/user_notifier.dart';
+import '../stateManagment/provider/logout_provider.dart';
+import '../stateManagment/provider/theme_provider.dart';
+
 
 class Draweer extends ConsumerWidget {
   const Draweer({super.key});

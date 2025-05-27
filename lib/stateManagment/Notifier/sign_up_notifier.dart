@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
-import '../constant/api.dart';
-import '../models/sign_up_model.dart';
+import '../../constant/api.dart';
+import '../../models/sign_up_model.dart';
 
 class SignUpNotifier extends StateNotifier<SignUpModel> {
   SignUpNotifier() : super(SignUpModel());
@@ -82,9 +82,6 @@ class SignUpNotifier extends StateNotifier<SignUpModel> {
   }
 }
 
-final signUpProvider =
-StateNotifierProvider<SignUpNotifier, SignUpModel>((ref) {
-  return SignUpNotifier();
-});
+
 final loadingProvider = StateProvider<bool>((ref) => false);
 

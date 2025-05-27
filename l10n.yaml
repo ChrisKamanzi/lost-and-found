@@ -4,6 +4,9 @@ output-localization-file: app_localizations.dart
 output-class: AppLocalizations
 output-dir: lib/generated
 synthetic-package: false
-
-
+untranslated-messages-file: untranslated_messages.json
+supported-locales:
+  - en
+  - fr
+  - rw
 

@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/generated/app_localizations_en.dart';
 import 'package:lost_and_found/widgets/card.dart';
-import '../../../providers/lost_found_items_notifier.dart';
+
+import '../../../stateManagment/provider/lost_found_provider.dart';
 
 class LostFoundItemsScreen extends ConsumerStatefulWidget {
   const LostFoundItemsScreen({super.key});

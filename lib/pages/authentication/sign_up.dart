@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import 'package:lost_and_found/providers/sign_up_notifier.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
-import '../../providers/villages_notifier.dart';
+import '../../stateManagment/Notifier/sign_up_notifier.dart';
+import '../../stateManagment/Notifier/villages_notifier.dart';
+import '../../stateManagment/provider/sign_up_provider.dart';
+import '../../stateManagment/provider/village_provider.dart';
 import '../../widgets/build_label.dart';
 import '../../widgets/passworld_textfield.dart';
 

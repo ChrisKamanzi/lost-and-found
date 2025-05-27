@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 import '../../models/create_ad_model.dart';
 import '../../constant/api.dart';
-import '../../providers/category_notifier.dart';
+import '../../stateManagment/provider/category_provider.dart';
 
 final createAdNotifierProvider = StateNotifierProvider<CreateAdNotifier, bool>((ref,){
 

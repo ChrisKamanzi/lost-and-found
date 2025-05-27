@@ -1,0 +1,96 @@
+{
+  "@@locale": "rw",
+  "loginTitle": "Injira.",
+  "emailLabel": "Imeli",
+  "passwordLabel": "Ijambo ry’ibanga",
+  "forgotPassword": "Wibagiwe ijambo ry’ibanga",
+  "loginButton": "Injira",
+  "noAccount": "Nta konti ufite?",
+  "signUp": "Iyandikishe",
+
+  "signUpTitle": "Iyandikishe.",
+  "nameLabel": "Izina",
+  "passwordConfirmationLabel": "EMEZA IJAMBO RY’IBANGA",
+  "phoneLabel": "TELEFONI",
+  "villageLabel": "UMUDUGUDU",
+  "selectVillage": "Hitamo Umudugudu",
+  "signUpButton": "Iyandikishe",
+  "alreadyHaveAccount": "Ufite konti?",
+  "resetPassword": "Hindura ijambo ry’ibanga",
+
+
+  "reportFoundTitle": "IBBIKORESHO BYABONETSE",
+  "reportFoundDescription": "Ikintu cyatakaye cyangwa cyabonetse gishobora gutangazwa cyangwa hakarebwa itangazo rishyirwaho",
+  "searchMapTitle": "Shakisha kuri Karita",
+  "searchMapDescription": "Shakisha ibintu byatakaye cyangwa byabonetse hafi yawe bikagaragara kuri karita",
+  "messagingTitle": "Ubutumwa",
+  "messagingDescription": "Ubu buryo bwa porogaramu butuma abakoresha bashobora kuganira",
+
+
+
+  "aboutUsAppBarTitle": "Ibyerekeye Twebwe",
+  "aboutUsHeading": "IBYEREKEYE TWEBWE",
+  "aboutUsDescription": "Twemera imbaraga z'ubufatanye. Urubuga rwacu ruhuza abantu bataye ibintu by'agaciro n'ababibonye — bigatuma byoroha kongera guhuza ibitaye n'ababifite.",
+  "aboutUsFeaturesTitle": "IBIRANGA",
+
+  "hello": "Muraho",
+  "homeCreateAdvert": "Tanga itangazo",
+  "homeCreateDetail": "Tanga raporo niba wataye cyangwa wabonye ikintu",
+  "homeLostFOund": "Ibintu byatakaye n'ibiboneka",
+  "homeLostFoundDetail": "Reba mu byatakaye",
+  "homeLostFoundDetailfound": "n'ibiboneka",
+  "homeSearch": "Shakisha kuri karita",
+  "homeSearchdetail": "Shakisha ibintu byatakaye cyangwa biboneka mu duce dukwegereye",
+  "homeSearchDetailNear": "bikwegereye",
+
+
+  "loadingName": "Turimo gupakira izina...",
+  "loadingPhone": "Turimo gupakira nimero ya telefoni...",
+  "error": "Ikosa",
+  "favorites": "Ibikunzwe",
+  "aboutUs": "Ibyerekeye Twebwe",
+  "messages": "Ubutumwa",
+  "logout": "Sohoka",
+  "logoutFailed": "Gusohoka byanze ku rubuga.",
+  "logoutError": "Ikosa ryo gusohoka:",
+
+
+  "myItems": "Ibintu byanjye",
+  "chat": "Ikiganiro",
+  "map": "Ikarita",
+
+  "additionalInfo": "Amakuru yandi",
+  "brand": "Ikirango",
+  "posted": "Byashyizweho",
+  "adPostedby": "Byashyizweho na",
+  "sendMessage": "Ohereza ubutumwa",
+
+  "search": "Shakisha",
+  "moreInfo": "Andi makuru",
+
+  "typeMessage": "Andika ubutumwa bwawe",
+
+  "chooseLanguage": "Hitamo ururimi",
+  "whatLanguage": "Ni uruhe rurimi ushaka gukoresha?",
+  "next": "Komeza",
+
+
+  "reportLostItem": "Tangaza ikintu cyabuze",
+  "locateFoundItem": "Shakisha ikintu cyabonetse",
+  "instantMessaging": "Ubutumwa bwihuse",
+
+  "skip":  "Subira",
+  "create_ad": "Kora itangazo",
+  "category": "Icyiciro",
+  "post_type": "Ubwoko bw'itangazo",
+  "title": "Umutwe w'itangazo",
+  "description": "Ibisobanuro",
+  "village": "Umudugudu",
+  "upload_image": "Ohereza ifoto",
+  "no_image_selected": "Nta foto wahisemo",
+  "press_icon": "Kanda kuri iyo ikoni 👆",
+  "submit": "Ohereza",
+  "ad_success": "Itangazo ryoherejwe neza!",
+  "error_generic": "Habaye ikibazo"
+
+}

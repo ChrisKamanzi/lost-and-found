@@ -21,14 +21,5 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   }
 }
 
-final dioProvider = Provider((ref) {
-  return Dio(BaseOptions(headers: {'Accept': 'application/json'}));
-});
-
-final villageProvider =
-    StateNotifierProvider<VillageNotifier, List<Map<String, dynamic>>>((ref) {
-      final dio = ref.watch(dioProvider);
-      return VillageNotifier(dio);
-    });
 
 final selectedVillageProvider = StateProvider<String?>((ref) => null);

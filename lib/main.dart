@@ -20,9 +20,9 @@ import 'package:lost_and_found/pages/message/char2.dart';
 import 'package:lost_and_found/pages/message/conversation.dart';
 import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
-import 'package:lost_and_found/providers/localeNotifier.dart';
-import 'package:lost_and_found/providers/them_notifier.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lost_and_found/stateManagment/provider/locale_provider.dart';
+import 'package:lost_and_found/stateManagment/provider/theme_provider.dart';
 import 'generated/app_localizations.dart';
 
 final lightTheme = ThemeData(
@@ -38,43 +38,43 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
 );
-
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
-
 class MyApp extends ConsumerWidget {
   MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeNotifierProvider);
+    final locale = ref.watch(localeProvider);
 
-    return ProviderScope(
-      child: Consumer(
-        builder: (context, ref, _) {
-          final locale = ref.watch(localeProvider);
-
-          return MaterialApp.router(
-            routerConfig: _router,
-            debugShowCheckedModeBanner: false,
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: themeMode,
-
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-
-            supportedLocales: [Locale('en'), Locale('fr')],
-            locale: locale,
-          );
-        },
-      ),
+    return MaterialApp.router(
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: themeMode,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('rw')],
+      locale: locale,
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (locale != null) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode) {
+              return supportedLocale;
+            }
+          }
+        }
+        return const Locale('en');
+      },
     );
+
   }
 
   final GoRouter _router = GoRouter(

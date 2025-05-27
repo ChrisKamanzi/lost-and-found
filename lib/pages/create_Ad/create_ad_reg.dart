@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/widgets/elevated_button.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import '../../models/create_ad_model.dart';
-import '../../providers/category_notifier.dart';
-import '../../providers/villages_notifier.dart';
+import '../../stateManagment/provider/category_provider.dart';
+import '../../stateManagment/provider/village_provider.dart';
 import '../services/create.dart';
 import '../services/create_ad.dart';
 
@@ -55,42 +55,48 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  'Create ad',
+                  AppLocalizations.of(context)!.create_ad,
                   style: GoogleFonts.brawler(
                     textStyle: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
                       color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors.orangeAccent
-                              : Colors.black,
+                      Theme
+                          .of(context)
+                          .brightness == Brightness.dark
+                          ? Colors.orangeAccent
+                          : Colors.black,
                     ),
                   ),
                 ),
                 SizedBox(height: 30),
                 DropdownButtonFormField<String>(
                   hint: Text(
-                    'Category',
+                    AppLocalizations.of(context)!.category,
                     style: TextStyle(
                       color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors.black
-                              : Colors.blueGrey,
+                      Theme
+                          .of(context)
+                          .brightness == Brightness.dark
+                          ? Colors.black
+                          : Colors.blueGrey,
                     ),
                   ),
                   value: selectedCategory,
                   items:
-                      categories.map((cat) {
-                        return DropdownMenuItem<String>(
-                          value: cat['id'],
-                          child: Text(
-                            cat['name'],
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        );
-                      }).toList(),
+                  categories.map((cat) {
+                    return DropdownMenuItem<String>(
+                      value: cat['id'],
+                      child: Text(
+                        cat['name'],
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    ref.read(selectedCategoryProvider.notifier).state = value;
+                    ref
+                        .read(selectedCategoryProvider.notifier)
+                        .state = value;
                   },
                   decoration: InputDecoration(
                     filled: true,
@@ -107,22 +113,24 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                 SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   hint: Text(
-                    'Post Type',
+                    AppLocalizations.of(context)!.post_type,
                     style: TextStyle(
                       color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors.black
-                              : Colors.blueGrey,
+                      Theme
+                          .of(context)
+                          .brightness == Brightness.dark
+                          ? Colors.black
+                          : Colors.blueGrey,
                     ),
                   ),
                   value: selectedPostType,
                   items:
-                      ['Lost', 'Found'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value, style: TextStyle(fontSize: 20)),
-                        );
-                      }).toList(),
+                  ['Lost', 'Found'].map((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value, style: TextStyle(fontSize: 20)),
+                    );
+                  }).toList(),
                   onChanged:
                       (value) => setState(() => selectedPostType = value),
                   decoration: InputDecoration(
@@ -139,9 +147,11 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                 ),
                 SizedBox(height: 20),
 
-                Textfield(controller: title, hintText: 'Title'),
+                Textfield(controller: title,
+                    hintText: AppLocalizations.of(context)!.title),
                 SizedBox(height: 20),
-                Textfield(controller: description, hintText: 'Description'),
+                Textfield(controller: description,
+                    hintText: AppLocalizations.of(context)!.description),
                 SizedBox(height: 20),
 
                 Align(
@@ -149,18 +159,18 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   child: FractionallySizedBox(
                     widthFactor: 1,
                     child: DropdownButtonFormField<String>(
-                      hint: Text('Village'),
+                      hint: Text(AppLocalizations.of(context)!.selectVillage),
                       value: selectedLocation,
                       items:
-                          villages.map((village) {
-                            return DropdownMenuItem<String>(
-                              value: village['id'],
-                              child: Text(
-                                village['name'],
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            );
-                          }).toList(),
+                      villages.map((village) {
+                        return DropdownMenuItem<String>(
+                          value: village['id'],
+                          child: Text(
+                            village['name'],
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (value) {
                         setState(() {
                           selectedLocation = value;
@@ -185,7 +195,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Upload Image',
+                      AppLocalizations.of(context)!.upload_image,
                       style: GoogleFonts.brawler(
                         textStyle: const TextStyle(
                           fontSize: 15,
@@ -206,7 +216,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                             width: 2,
                           ),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Icon(
                             Icons.add_a_photo,
                             size: 30,
@@ -218,7 +228,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Row(
                   children: [
                     Container(
@@ -230,21 +240,21 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          imageState.image1 != null
-                              ? ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.file(
-                                  imageState.image1!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                              )
-                              : Center(
-                                child: Text(
-                                  'No image selected',
-                                  style: TextStyle(color: Colors.grey.shade700),
-                                ),
-                              ),
+                      imageState.image1 != null
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.file(
+                          imageState.image1!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
+                          : Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.no_image_selected,
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 20),
                     // Image 2 Container
@@ -257,83 +267,103 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                         border: Border.all(color: Colors.orange.shade700),
                       ),
                       child:
-                          imageState.image2 != null
-                              ? ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.file(
-                                  imageState.image2!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                              )
-                              : const Center(
-                                child: Text(
-                                  'Press that Icon 👆',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
+                      imageState.image2 != null
+                          ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.file(
+                          imageState.image2!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      ) :
+                      Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.press_icon,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 20),
                     SizedBox(height: 40),
                   ],
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed:
-                      isLoading
-                          ? null
-                          : () async {
-                            image1 = imageState.image1;
-                            image2 = imageState.image2;
+                SizedBox(
+                  width: double.infinity,
+                  height: 60,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange.shade600,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                    ),
+                    onPressed:
+                    isLoading
+                        ? null
+                        : () async {
+                      image1 = imageState.image1;
+                      image2 = imageState.image2;
 
-                            final createAdData = CreateAd(
-                              title: title.text,
-                              description: description.text,
-                              post_type: selectedPostType,
-                              location:
-                                  selectedLocation != null
-                                      ? [selectedLocation!]
-                                      : [],
-                              villageId: selectedLocation,
-                              image1: image1,
-                              image2: image2,
-                            );
+                      final createAdData = CreateAd(
+                        title: title.text,
+                        description: description.text,
+                        post_type: selectedPostType,
+                        location:
+                        selectedLocation != null
+                            ? [selectedLocation!]
+                            : [],
+                        villageId: selectedLocation,
+                        image1: image1,
+                        image2: image2,
+                      );
 
-                            final error = await ref
-                                .read(createAdNotifierProvider.notifier)
-                                .save(createAdData);
+                      final error = await ref
+                          .read(createAdNotifierProvider.notifier)
+                          .save(createAdData);
 
-                            if (error != null) {
-                              ScaffoldMessenger.of(
-                                context,
-                              ).showSnackBar(SnackBar(content: Text(error)));
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Ad successfully created!'),
-                                ),
-                              );
+                      if (error != null) {
+                        ScaffoldMessenger.of(
+                          context,
+                        ).showSnackBar(SnackBar(content: Text(error)));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                AppLocalizations.of(context)!.ad_success),
+                          ),
+                        );
 
-                              title.clear();
-                              description.clear();
-                              image1 = null;
-                              image2 = null;
-                              selectedPostType = null;
-                              selectedLocation = null;
-                              ref
-                                  .read(selectedCategoryProvider.notifier)
-                                  .state = null;
-                            }
-                          },
+                        title.clear();
+                        description.clear();
+                        image1 = null;
+                        image2 = null;
+                        selectedPostType = null;
+                        selectedLocation = null;
+                        ref
+                            .read(selectedCategoryProvider.notifier)
+                            .state = null;
+                      }
+                    },
 
-                  child:
-                      isLoading
-                          ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                          : const Text('Submit'),
+                    child:
+                    isLoading
+                        ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ):
+                    Text(
+                      AppLocalizations.of(context)!.submit,
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

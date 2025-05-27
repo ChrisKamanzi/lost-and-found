@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/elevated_button.dart';
-import '../../../providers/localeNotifier.dart';
+import '../../../stateManagment/provider/locale_provider.dart';
 
 class LanguageSelectionScreen extends ConsumerWidget {
   const LanguageSelectionScreen({super.key});
@@ -50,7 +50,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -59,7 +59,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     onTap:
                         () => ref
                             .read(localeProvider.notifier)
-                            .setLocale(const Locale('en')),
+                            .setLocale( Locale('en')),
                     child: ClipOval(
                       child: Image.asset(
                         'icons/flags/png/us.png',
@@ -71,11 +71,9 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-
                 SizedBox(width: 40),
-
                 Container(
-                  padding: const EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -96,8 +94,30 @@ class LanguageSelectionScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-
                 SizedBox(width: 40),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: GestureDetector(
+                    onTap:
+                        () => ref
+                        .read(localeProvider.notifier)
+                        .setLocale(const Locale('rw')),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'icons/flags/png/rw.png',
+                        package: 'country_icons',
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
             SizedBox(height: 50),

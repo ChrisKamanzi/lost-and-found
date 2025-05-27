@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/chat_model.dart';
-import 'chat_notifer.dart';
+import '../../models/chat_model.dart';
+import '../Notifier/chat_notifer.dart';
 
 final conversationProvider = StateNotifierProvider.autoDispose
     .family<ConversationNotifier, AsyncValue<Conversation>, (int, String)>(

@@ -3,12 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/my_item_model.dart';
-
-final myItemsNotifierProvider =
-    StateNotifierProvider<MyItemsNotifier, AsyncValue<List<MyItem>>>(
-      (ref) => MyItemsNotifier(),
-    );
+import '../../models/my_item_model.dart';
 
 class MyItemsNotifier extends StateNotifier<AsyncValue<List<MyItem>>> {
   MyItemsNotifier() : super(AsyncLoading()) {
@@ -33,15 +28,15 @@ class MyItemsNotifier extends StateNotifier<AsyncValue<List<MyItem>>> {
       final response = await dio.get('$apiUrl/items');
 
       final allItems = List<Map<String, dynamic>>.from(response.data['items']);
-      final myItems = allItems
-          .where((item) => item['posted_by']['is_myItem'] == true)
-          .map((item) => MyItem.fromJson(item))
-          .toList();
+      final myItems =
+          allItems
+              .where((item) => item['posted_by']['is_myItem'] == true)
+              .map((item) => MyItem.fromJson(item))
+              .toList();
 
       state = AsyncData(myItems);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
-
 }

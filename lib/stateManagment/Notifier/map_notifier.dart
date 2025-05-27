@@ -2,35 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constant/api.dart';
-
-class MapState {
-  final LatLng? currentLocation;
-  final List<LatLng> nearbyLocations;
-  final List<String> nearbyNames;
-  final bool loading;
-
-  MapState({
-    this.currentLocation,
-    this.nearbyLocations = const [],
-    this.nearbyNames = const [],
-    this.loading = true,
-  });
-
-  MapState copyWith({
-    LatLng? currentLocation,
-    List<LatLng>? nearbyLocations,
-    List<String>? nearbyNames,
-    bool? loading,
-  }) {
-    return MapState(
-      currentLocation: currentLocation ?? this.currentLocation,
-      nearbyLocations: nearbyLocations ?? this.nearbyLocations,
-      nearbyNames: nearbyNames ?? this.nearbyNames,
-      loading: loading ?? this.loading,
-    );
-  }
-}
+import '../../../constant/api.dart';
+import '../../models/map_model.dart';
 
 class MapNotifier extends StateNotifier<MapState> {
   MapNotifier() : super(MapState()) {
@@ -87,7 +60,3 @@ class MapNotifier extends StateNotifier<MapState> {
     state = state.copyWith(currentLocation: newPosition);
   }
 }
-
-final mapProvider = StateNotifierProvider<MapNotifier, MapState>(
-  (ref) => MapNotifier(),
-);

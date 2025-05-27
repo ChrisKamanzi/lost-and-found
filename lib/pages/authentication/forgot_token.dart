@@ -1,13 +1,10 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lost_and_found/constant/api.dart';
-import 'package:lost_and_found/providers/reset_password_notifier.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../models/reset_password.dart';
+import '../../stateManagment/provider/reset_provider.dart';
 import '../../widgets/elevated_button.dart';
 
 class TokenPage extends ConsumerWidget {

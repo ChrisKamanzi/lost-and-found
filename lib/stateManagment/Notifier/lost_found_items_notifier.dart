@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
-import '../pages/services/lost_found_repo.dart';
-import '../pages/services/lost_found_state.dart';
+import '../../pages/services/lost_found_repo.dart';
+import '../../pages/services/lost_found_state.dart';
 
 final lostFoundRepositoryProvider = Provider((ref) => LostFoundRepository());
 
@@ -78,8 +78,3 @@ class LostFoundNotifier extends StateNotifier<LostFoundState> {
   }
 }
 
-final lostFoundNotifierProvider =
-    StateNotifierProvider<LostFoundNotifier, LostFoundState>((ref) {
-      final repo = ref.watch(lostFoundRepositoryProvider);
-      return LostFoundNotifier(repo)..init();
-    });

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-
 import '../../services/pages.dart';
 
 class Report extends StatefulWidget {
@@ -16,7 +15,6 @@ class _SearchPageState extends State<Report> {
   final PageController pageController = PageController();
   int currentPage = 0;
 
-
   @override
   Widget build(BuildContext context) {
     final pages = getLocalizedPages(context);
@@ -26,14 +24,16 @@ class _SearchPageState extends State<Report> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 30),
-            child: TextButton(
-              onPressed: () => context.go('/login'),
-              child: Text(
-               AppLocalizations.of(context)!.skip,
-                style: GoogleFonts.brawler(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
+            child: Builder(
+              builder:(context) => TextButton(
+                onPressed: () => context.go('/login'),
+                child: Text(
+                 AppLocalizations.of(context)!.skip,
+                  style: GoogleFonts.brawler(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
@@ -106,6 +106,17 @@ class _SearchPageState extends State<Report> {
             ),
           ),
         SizedBox(height: 30),
+          TextButton(
+            onPressed: () => context.go('/login'),
+            child: Text(
+              AppLocalizations.of(context)!.skip,
+              style: GoogleFonts.brawler(
+                color: Colors.grey,
+                fontWeight: FontWeight.w500,
+                fontSize: 20,
+              ),
+            ),
+          ),
         ],
       ),
     );

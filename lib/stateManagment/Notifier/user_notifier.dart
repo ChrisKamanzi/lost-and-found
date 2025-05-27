@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../constant/api.dart';
+import '../../constant/api.dart';
 
 Future<String> fetchName(String token) async {
   final Dio dio = Dio();
