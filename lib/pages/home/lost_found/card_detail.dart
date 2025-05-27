@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import '../../../providers/card_detail.dart';
+import '../../../stateManagment/provider/card_detail_provider.dart';
 import '../../../widgets/elevated_button.dart';
 import '../../message/char2.dart';
 

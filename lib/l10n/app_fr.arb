@@ -86,7 +86,19 @@
   "locateFoundItem": "Localiser un objet trouvé",
   "instantMessaging": "Messagerie instantanée",
 
-  "skip" :  "sauter"
+  "skip" :  "sauter",
+  "create_ad": "Créer une annonce",
+  "category": "Catégorie",
+  "post_type": "Type de publication",
+  "title": "Titre",
+  "description": "Description",
+  "village": "Village",
+  "upload_image": "Télécharger une image",
+  "no_image_selected": "Aucune image sélectionnée",
+  "press_icon": "Appuyez sur cette icône 👆",
+  "submit": "Soumettre",
+  "ad_success": "Annonce créée avec succès !",
+  "error_generic": "Quelque chose s'est mal passé"
 
 
 

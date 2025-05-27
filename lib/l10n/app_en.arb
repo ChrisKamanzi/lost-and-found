@@ -16,7 +16,7 @@
   "selectVillage": "Select a Village",
   "signUpButton": "Sign Up",
   "alreadyHaveAccount": "Already have an account?",
-  "resetPassword" : "réinitialiser le mot de passe",
+  "resetPassword" : "reset password",
 
 
   "reportFoundTitle": "Report Found",
@@ -81,5 +81,18 @@
   "locateFoundItem": "Locate Found Item",
   "instantMessaging": "Instant Messaging",
 
-  "skip" :  "skip"
+  "skip" :  "skip",
+  "create_ad": "Create ad",
+  "category": "Category",
+  "post_type": "Post Type",
+  "title": "Title",
+  "description": "Description",
+  "village": "Village",
+  "upload_image": "Upload Image",
+  "no_image_selected": "No image selected",
+  "press_icon": "Press that Icon 👆",
+  "submit": "Submit",
+  "ad_success": "Ad successfully created!",
+  "error_generic": "Something went wrong"
+
 }
