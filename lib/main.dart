@@ -24,6 +24,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lost_and_found/stateManagment/provider/locale_provider.dart';
 import 'package:lost_and_found/stateManagment/provider/theme_provider.dart';
 import 'generated/app_localizations.dart';
+import 'l10n/kinyarwanda_material_localisation.dart';
 
 final lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -57,6 +58,7 @@ class MyApp extends ConsumerWidget {
       themeMode: themeMode,
       localizationsDelegates: const [
         AppLocalizations.delegate,
+        KinyarwandaMaterialLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
