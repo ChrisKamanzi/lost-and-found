@@ -1,5 +1,10 @@
 {
   "@@locale": "fr",
+
+  "english" : "Anglais",
+  "french" : "Francais",
+  "kinyarwanda" : "KinyaRwanda",
+
   "loginTitle": "Connexion.",
   "emailLabel": "Email",
   "passwordLabel": "Mot de passe",

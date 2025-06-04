@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../stateManagment/provider/reset_provider.dart';
@@ -25,10 +26,10 @@ class forgotPassword extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.only(top: 10, left: 20),
               child: Text(
-                'Forgot Password',
+                AppLocalizations.of(context)!.forgotPassword,
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.w800,
                     color:
                         Theme.of(context).brightness == Brightness.dark
@@ -40,7 +41,7 @@ class forgotPassword extends ConsumerWidget {
             ),
             SizedBox(height: 50),
             Text(
-              'Email',
+              AppLocalizations.of(context)!.emailLabel,
               style: GoogleFonts.brawler(
                 textStyle: TextStyle(
                   fontSize: 20,
@@ -58,7 +59,7 @@ class forgotPassword extends ConsumerWidget {
             Align(
               alignment: Alignment.topRight,
               child: Button(
-                text: 'Reset Password',
+                text: AppLocalizations.of(context)!.resetPassword,
                 onPressed: () => notifier.resetPassword(context),
               ),
             ),

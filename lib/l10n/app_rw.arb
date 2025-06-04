@@ -1,5 +1,10 @@
 {
   "@@locale": "rw",
+
+  "english" : "Icyongereza",
+  "french" : "Igifaransa",
+  "kinyarwanda" : "IkinyaRwanda",
+
   "loginTitle": "Injira.",
   "emailLabel": "Imeli",
   "passwordLabel": "Ijambo ry’ibanga",
@@ -19,7 +24,7 @@
   "resetPassword": "Hindura ijambo ry’ibanga",
 
 
-  "reportFoundTitle": "IBBIKORESHO BYABONETSE",
+  "reportFoundTitle": "IBIKORESHO BYABONETSE",
   "reportFoundDescription": "Ikintu cyatakaye cyangwa cyabonetse gishobora gutangazwa cyangwa hakarebwa itangazo rishyirwaho",
   "searchMapTitle": "Shakisha kuri Karita",
   "searchMapDescription": "Shakisha ibintu byatakaye cyangwa byabonetse hafi yawe bikagaragara kuri karita",

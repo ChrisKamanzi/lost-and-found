@@ -49,73 +49,121 @@ class LanguageSelectionScreen extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                    onTap:
-                        () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale( Locale('en')),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'icons/flags/png/us.png',
-                        package: 'country_icons',
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: GestureDetector(
+                        onTap:
+                            () => ref
+                                .read(localeProvider.notifier)
+                                .setLocale( Locale('en')),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'icons/flags/png/us.png',
+                            package: 'country_icons',
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10,), 
+                    
+                    Text(
+                      AppLocalizations.of(context)!.english,
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54
+                        )
+                      ),
+
+                    )
+                  ],
                 ),
                 SizedBox(width: 40),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                    onTap:
-                        () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale(Locale('fr')),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'icons/flags/png/fr.png',
-                        package: 'country_icons',
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
+                Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: GestureDetector(
+                        onTap:
+                            () => ref
+                                .read(localeProvider.notifier)
+                                .setLocale(Locale('fr')),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'icons/flags/png/fr.png',
+                            package: 'country_icons',
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10,), 
+                    Text(
+                      AppLocalizations.of(context)!.french,
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54,
+                        )
+                      ),
+
+                    )
+                  ],
                 ),
                 SizedBox(width: 40),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: GestureDetector(
-                    onTap:
-                        () => ref
-                        .read(localeProvider.notifier)
-                        .setLocale(const Locale('rw')),
-                    child: ClipOval(
-                      child: Image.asset(
-                        'icons/flags/png/rw.png',
-                        package: 'country_icons',
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                      child: GestureDetector(
+                        onTap:
+                            () => ref
+                            .read(localeProvider.notifier)
+                            .setLocale(const Locale('rw')),
+                        child: ClipOval(
+                          child: Image.asset(
+                            'icons/flags/png/rw.png',
+                            package: 'country_icons',
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10,),
+                    Text(
+                      AppLocalizations.of(context)!.kinyarwanda,
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                          color: Colors.black54
+                        )
+                      ),
+                    )
+                  ],
                 ),
 
               ],

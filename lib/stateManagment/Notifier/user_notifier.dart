@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../constant/api.dart';
 
+String? errorMessage;
+
 Future<String> fetchName(String token) async {
   final Dio dio = Dio();
 
@@ -21,7 +23,13 @@ Future<String> fetchName(String token) async {
       throw Exception('Failed to load name');
     }
   } catch (e) {
-    print('Error fetching name: $e');
+    if (e is DioError) {
+      errorMessage =
+          e.response?.data['message'] ??
+          'Something went wrong. Please try again.';
+    } else {
+      errorMessage = 'An unexpected error occurred.';
+    }
     throw Exception('Failed to load name');
   }
 }
@@ -44,6 +52,13 @@ Future<String> fetchEmail(String token) async {
       throw Exception('Failed to load name');
     }
   } catch (e) {
+    if (e is DioError) {
+      errorMessage =
+          e.response?.data['message'] ??
+          'Something went wrong. Please try again.';
+    } else {
+      errorMessage = 'An unexpected error occurred.';
+    }
     throw Exception('Failed to load name');
   }
 }

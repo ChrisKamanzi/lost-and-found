@@ -6,6 +6,7 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   final Dio dio;
 
   VillageNotifier(this.dio) : super([]);
+  String? errorMessage;
 
   Future<void> fetchVillages() async {
     try {
@@ -17,9 +18,15 @@ class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
         state = List<Map<String, dynamic>>.from(response.data['villages']);
       }
     } catch (e) {
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+            'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
     }
   }
 }
-
 
 final selectedVillageProvider = StateProvider<String?>((ref) => null);

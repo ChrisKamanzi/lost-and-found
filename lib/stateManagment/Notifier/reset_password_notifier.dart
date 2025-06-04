@@ -68,7 +68,6 @@ class ResetNotifier extends StateNotifier<ResetPasswordModel> {
         );
       }
     } catch (e) {
-      print('Reset error: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('An error occurred.')),
       );
