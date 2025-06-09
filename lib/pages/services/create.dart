@@ -30,7 +30,9 @@ class ImagePickerNotifier extends StateNotifier<ImagePickerState> {
   ImagePickerNotifier() : super(ImagePickerState());
 
   Future<void> pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
     if (pickedFile != null) {
       final file = File(pickedFile.path);
       if (!state.isFirstImageSelected) {
@@ -43,6 +45,6 @@ class ImagePickerNotifier extends StateNotifier<ImagePickerState> {
 }
 
 final imagePickerProvider =
-StateNotifierProvider<ImagePickerNotifier, ImagePickerState>(
+    StateNotifierProvider<ImagePickerNotifier, ImagePickerState>(
       (ref) => ImagePickerNotifier(),
-);
+    );

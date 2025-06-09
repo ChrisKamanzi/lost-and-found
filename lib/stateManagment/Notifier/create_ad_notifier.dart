@@ -12,6 +12,8 @@ import '../../models/create.dart';
   class CreateAdNotifier extends StateNotifier<CreateAdState> {
   CreateAdNotifier() : super(CreateAdState());
 
+  String? errorMessage;
+
   Future<void> save(BuildContext context) async {
     if (state.isLoading) return;
 
