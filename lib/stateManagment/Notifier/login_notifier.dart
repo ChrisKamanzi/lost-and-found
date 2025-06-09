@@ -10,33 +10,43 @@ class LoginNotifier extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {}
 
-  Future<void> login(String email, String password) async {
-    state =  AsyncLoading();
+  Future<String?> login(String email, String password) async {
+    state = AsyncLoading();
     try {
-      final response = await _dio.post('$apiUrl/login', data: {
-        'email': email,
-        'password': password,
-      });
+      final response = await _dio.post(
+        '$apiUrl/login',
+        data: {'email': email, 'password': password},
+      );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final token = response.data['token'];
         final userId = response.data['user']['id'];
         final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
         await prefs.setString('authToken', token);
-        await prefs.setInt('userId', userId);
+        if (userId is int) {
+          await prefs.setInt('userId', userId);
+        } else if (userId is String) {
+          await prefs.setString('userId', userId);
+        }
 
         state = const AsyncData(null);
+        return null; // no error
       } else {
-        throw Exception('Login failed');
+        return 'Login failed';
       }
     } on DioException catch (e) {
-      state = AsyncError(
-        e.response?.data['message'] ??
-            'Something went wrong. Please try again.',
-        StackTrace.current,
-      );
+      if (e.type == DioExceptionType.connectionTimeout) {
+        return 'Connection timeout. Please check your internet.';
+      } else if (e.type == DioExceptionType.receiveTimeout) {
+        return 'Server took too long to respond.';
+      } else if (e.type == DioExceptionType.badResponse) {
+        return 'Failed to Log In';
+      } else {
+        return 'Unexpected network error.';
+      }
     } catch (e) {
-      state = AsyncError('Unexpected error occurred.', StackTrace.current);
+      return 'Unexpected error occurred.';
     }
   }
 }

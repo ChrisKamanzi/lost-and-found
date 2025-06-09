@@ -195,6 +195,13 @@ class Login extends ConsumerWidget {
                                     )
                                     : Text(
                                       AppLocalizations.of(context)!.loginButton,
+                                      style: GoogleFonts.brawler(
+                                        textStyle: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                           ),
                         );

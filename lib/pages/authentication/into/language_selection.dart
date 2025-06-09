@@ -18,9 +18,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
         child: Column(
           children: [
             Image.asset('asset/logo.png', height: 130, width: 130),
-
             SizedBox(height: 50),
-
             Text(
               AppLocalizations.of(context)!.chooseLanguage,
               style: GoogleFonts.brawler(
@@ -61,7 +59,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                         onTap:
                             () => ref
                                 .read(localeProvider.notifier)
-                                .setLocale( Locale('en')),
+                                .setLocale(Locale('en')),
                         child: ClipOval(
                           child: Image.asset(
                             'icons/flags/png/us.png',
@@ -73,19 +71,18 @@ class LanguageSelectionScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,), 
-                    
+                    SizedBox(height: 10),
+
                     Text(
                       AppLocalizations.of(context)!.english,
                       style: GoogleFonts.brawler(
                         textStyle: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
-                          color: Colors.black54
-                        )
+                          color: Colors.black54,
+                        ),
                       ),
-
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(width: 40),
@@ -113,7 +110,7 @@ class LanguageSelectionScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,), 
+                    SizedBox(height: 10),
                     Text(
                       AppLocalizations.of(context)!.french,
                       style: GoogleFonts.brawler(
@@ -121,10 +118,9 @@ class LanguageSelectionScreen extends ConsumerWidget {
                           fontSize: 15,
                           fontWeight: FontWeight.w800,
                           color: Colors.black54,
-                        )
+                        ),
                       ),
-
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(width: 40),
@@ -139,8 +135,8 @@ class LanguageSelectionScreen extends ConsumerWidget {
                       child: GestureDetector(
                         onTap:
                             () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale(const Locale('rw')),
+                                .read(localeProvider.notifier)
+                                .setLocale(const Locale('rw')),
                         child: ClipOval(
                           child: Image.asset(
                             'icons/flags/png/rw.png',
@@ -152,20 +148,19 @@ class LanguageSelectionScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
                     Text(
                       AppLocalizations.of(context)!.kinyarwanda,
                       style: GoogleFonts.brawler(
                         textStyle: TextStyle(
                           fontWeight: FontWeight.w800,
                           fontSize: 15,
-                          color: Colors.black54
-                        )
+                          color: Colors.black54,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-
               ],
             ),
             SizedBox(height: 50),
