@@ -8,6 +8,8 @@ import '../../models/sign_up_model.dart';
 class SignUpNotifier extends StateNotifier<SignUpModel> {
   SignUpNotifier() : super(SignUpModel());
 
+  final formKey = GlobalKey<FormState>();
+
   void updateField({
     String? name,
     String? email,
@@ -29,13 +31,7 @@ class SignUpNotifier extends StateNotifier<SignUpModel> {
   Future<void> signUp(BuildContext context, WidgetRef ref) async {
     final data = state;
 
-    if ((data.name?.isEmpty ?? true) ||
-        (data.email?.isEmpty ?? true) ||
-        (data.password?.isEmpty ?? true) ||
-        (data.passwordConfirmation?.isEmpty ?? true) ||
-        (data.phone?.isEmpty ?? true) ||
-        data.village == null) {
-      showSnackBar(context, 'Please fill in all fields.');
+    if (!formKey.currentState!.validate()) {
       return;
     }
 

@@ -54,112 +54,103 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     final villages = ref.watch(villageProvider);
     final selectedVillage = ref.watch(selectedVillageProvider);
     final signUpNotifier = ref.read(signUpProvider.notifier);
     final isLoading = ref.watch(loadingProvider);
+    final formKey = ref.watch(signUpProvider.notifier).formKey;
 
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(30),
-        child: Column(
-          children: [
-            const SizedBox(height: 100),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                AppLocalizations.of(context)!.signUp,
-                style: GoogleFonts.brawler(
-                  fontSize: 50,
-                  fontWeight: FontWeight.w800,
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Colors.orangeAccent
-                          : Colors.black,
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            buildLabel(context, AppLocalizations.of(context)!.nameLabel),
-            Textfield(controller: nameController),
-            const SizedBox(height: 30),
-            buildLabel(context, AppLocalizations.of(context)!.emailLabel),
-            Textfield(controller: emailController),
-            const SizedBox(height: 30),
-            buildLabel(context, AppLocalizations.of(context)!.passwordLabel),
-            PasswordField(controller: passController),
-            const SizedBox(height: 30),
-            buildLabel(
-              context,
-              AppLocalizations.of(context)!.passwordConfirmationLabel,
-            ),
-            PasswordField(controller: passConfController),
-            const SizedBox(height: 30),
-            buildLabel(context, AppLocalizations.of(context)!.phoneLabel),
-            Textfield(controller: phoneController),
-            const SizedBox(height: 30),
-            buildLabel(context, AppLocalizations.of(context)!.villageLabel),
-            DropdownButtonFormField<String>(
-              value: selectedVillage,
-              decoration: const InputDecoration(
-                labelText: "Select a Village",
-                border: OutlineInputBorder(),
-              ),
-              items:
-                  villages
-                      .map(
-                        (village) => DropdownMenuItem(
-                          value: village['id'].toString(),
-                          child: Text(village['name']),
-                        ),
-                      )
-                      .toList(),
-              onChanged: (value) {
-                ref.read(selectedVillageProvider.notifier).state = value;
-              },
-            ),
-            const SizedBox(height: 40),
-            isLoading
-                ? const CircularProgressIndicator()
-                : Button(
-                  text: AppLocalizations.of(context)!.signUp,
-                  onPressed: () async {
-                    signUpNotifier.updateField(
-                      name: nameController.text,
-                      email: emailController.text,
-                      password: passController.text,
-                      passwordConfirmation: passConfController.text,
-                      phone: phoneController.text,
-                      village: selectedVillage,
-                    );
-
-                    await signUpNotifier.signUp(context, ref);
-                  },
-                ),
-            const SizedBox(height: 40),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.alreadyHaveAccount,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppLocalizations.of(context)!.signUp,
                   style: GoogleFonts.brawler(
-                    textStyle: TextStyle(
-                      fontSize: 15,
-                      color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Colors.orangeAccent
-                              : Colors.blueGrey,
-                    ),
+                    fontSize: 50,
+                    fontWeight: FontWeight.w800,
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Colors.orangeAccent
+                            : Colors.black,
                   ),
                 ),
-                TextButton(
-                  onPressed: () => context.go('/login'),
-                  child: Text(
-                    AppLocalizations.of(context)!.loginTitle,
+              ),
+              SizedBox(height: 30),
+              buildLabel(context, AppLocalizations.of(context)!.nameLabel),
+              Textfield(controller: nameController, isRequired: true),
+            SizedBox(height: 30),
+              buildLabel(context, AppLocalizations.of(context)!.emailLabel),
+              Textfield(controller: emailController, isRequired: true),
+              SizedBox(height: 30),
+              buildLabel(context, AppLocalizations.of(context)!.passwordLabel),
+              PasswordField(controller: passController),
+            SizedBox(height: 30),
+              buildLabel(
+                context,
+                AppLocalizations.of(context)!.passwordConfirmationLabel,
+              ),
+              PasswordField(controller: passConfController),
+             SizedBox(height: 30),
+              buildLabel(context, AppLocalizations.of(context)!.phoneLabel),
+              Textfield(controller: phoneController),
+        SizedBox(height: 30),
+              buildLabel(context, AppLocalizations.of(context)!.villageLabel),
+              DropdownButtonFormField<String>(
+                value: selectedVillage,
+                decoration:  InputDecoration(
+                  labelText: "Select a Village",
+                  border: OutlineInputBorder(),
+                ),
+                validator:
+                    (val) =>
+                        val == null ? 'Village selection is required' : null,
+                items:
+                    villages
+                        .map(
+                          (village) => DropdownMenuItem(
+                            value: village['id'].toString(),
+                            child: Text(village['name']),
+                          ),
+                        )
+                        .toList(),
+                onChanged: (value) {
+                  ref.read(selectedVillageProvider.notifier).state = value;
+                },
+              ),
+            SizedBox(height: 40),
+              isLoading
+                  ? CircularProgressIndicator()
+                  : Button(
+                    text: AppLocalizations.of(context)!.signUp,
+                    onPressed: () async {
+                      signUpNotifier.updateField(
+                        name: nameController.text,
+                        email: emailController.text,
+                        password: passController.text,
+                        passwordConfirmation: passConfController.text,
+                        phone: phoneController.text,
+                        village: selectedVillage,
+                      );
+                      await signUpNotifier.signUp(context, ref);
+                    },
+                  ),
+               SizedBox(height: 40),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.alreadyHaveAccount,
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
-                        fontWeight: FontWeight.w300,
                         fontSize: 15,
                         color:
                             Theme.of(context).brightness == Brightness.dark
@@ -168,10 +159,26 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  TextButton(
+                    onPressed: () => context.go('/login'),
+                    child: Text(
+                      AppLocalizations.of(context)!.loginTitle,
+                      style: GoogleFonts.brawler(
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 15,
+                          color:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.orangeAccent
+                                  : Colors.blueGrey,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
