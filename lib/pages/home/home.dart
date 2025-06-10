@@ -21,7 +21,15 @@ class Homepage extends ConsumerWidget {
             () => Center(
               child: CircularProgressIndicator(color: Colors.orange.shade700),
             ),
-        error: (e, _) => Center(child: Text('Failed to load name: $e')),
+        error:
+            (e, _) => Center(
+              child: Text(
+                'Please Connect to Internet 🛜',
+                style: GoogleFonts.brawler(
+                  textStyle: TextStyle(fontSize: 25, color: Colors.red),
+                ),
+              ),
+            ),
         data:
             (name) => SingleChildScrollView(
               child: Padding(

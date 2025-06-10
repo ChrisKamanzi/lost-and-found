@@ -18,7 +18,6 @@ class FavoritesNotifier extends AsyncNotifier<List<FavoriteItem>> {
       options: Options(
         headers: {
           'accept': 'application/json',
-
           'Authorization': 'Bearer $token',
         },
       ),

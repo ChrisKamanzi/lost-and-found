@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-
 class Textfield extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
   final ValueChanged<String>? onChanged;
+  final bool isRequired;
+
   const Textfield({
     super.key,
     required this.controller,
     this.hintText,
     this.onChanged,
+    this.isRequired = false,
   });
 
   @override
@@ -21,7 +23,7 @@ class _TextfieldState extends State<Textfield> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.transparent,
             spreadRadius: 1,
@@ -32,25 +34,23 @@ class _TextfieldState extends State<Textfield> {
       ),
       child: TextFormField(
         controller: widget.controller,
-        onChanged: widget.onChanged, // <-- Step 3
-
+        onChanged: widget.onChanged,
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 20,
           color: Colors.black,
         ),
-
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'You can\'t leave this empty';
-          }
-          return null;
-        },
-
+        validator: (value) =>
+        widget.isRequired && (value == null || value.isEmpty)
+            ? 'Fill this please '
+            : null,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 8,
+            horizontal: 12,
+          ),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
           hintText: widget.hintText,
         ),

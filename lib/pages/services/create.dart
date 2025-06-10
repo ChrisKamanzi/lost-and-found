@@ -42,6 +42,14 @@ class ImagePickerNotifier extends StateNotifier<ImagePickerState> {
       }
     }
   }
+
+  void clearImages() {
+    state = ImagePickerState(
+      image1: null,
+      image2: null,
+      isFirstImageSelected: false,
+    );
+  }
 }
 
 final imagePickerProvider =

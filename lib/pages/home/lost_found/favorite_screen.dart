@@ -21,7 +21,16 @@ class FavoriteScreen extends ConsumerWidget {
       ),
       body: favoritesAsync.when(
         loading: () => Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Error: $err')),
+        error: (err, stack) => Center(child: Text(
+            'Check your Connection Please!',
+          style: GoogleFonts.brawler(
+            textStyle: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700
+            )
+          ),
+
+        )),
         data: (items) {
           if (items.isEmpty) {
             return Center(child: Text('No favorite items found.'));

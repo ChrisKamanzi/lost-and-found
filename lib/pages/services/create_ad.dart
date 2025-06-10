@@ -6,9 +6,9 @@ import '../../models/create_ad_model.dart';
 import '../../constant/api.dart';
 
 final createAdNotifierProvider =
-StateNotifierProvider<CreateAdNotifier, AsyncValue<void>>((ref) {
-  return CreateAdNotifier(ref);
-});
+    StateNotifierProvider<CreateAdNotifier, AsyncValue<void>>((ref) {
+      return CreateAdNotifier(ref);
+    });
 
 class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
   final Ref ref;
@@ -80,14 +80,14 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        state = const AsyncValue.data(null);
+        state = AsyncValue.data(null);
         return null; // success
       } else {
-        state = const AsyncValue.data(null);
+        state = AsyncValue.data(null);
         return 'Failed to create ad: ${response.data['message'] ?? 'Unknown error'}';
       }
     } on DioException catch (e) {
-      state = const AsyncValue.data(null);
+      state = AsyncValue.data(null);
       if (e.type == DioExceptionType.connectionTimeout) {
         return 'Connection timeout. Please check your internet.';
       } else if (e.type == DioExceptionType.receiveTimeout) {
@@ -100,8 +100,8 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
         return 'Unexpected Dio error: ${e.message}';
       }
     } catch (e) {
-      state = const AsyncValue.data(null);
-      return 'Unexpected error: ${e.toString()}';
+      state = AsyncValue.data(null);
+      return 'Check your Connection Please ';
     }
   }
 }
