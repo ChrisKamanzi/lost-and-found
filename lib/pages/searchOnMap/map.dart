@@ -30,6 +30,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   @override
   Widget build(BuildContext context) {
     final mapState = ref.watch(mapProvider);
+    final mapStatee = ref.watch(mapProvider);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mapStatee.error != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(mapState.error!),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    });
+
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange.shade700,
@@ -40,10 +55,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
         ),
       ),
-
       body:
           mapState.loading
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                child: CircularProgressIndicator(color: Colors.deepOrange),
+              )
               : Column(
                 children: [
                   Expanded(

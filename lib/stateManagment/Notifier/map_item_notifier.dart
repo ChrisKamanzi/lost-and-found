@@ -9,7 +9,7 @@ class MapItemNotifier extends StateNotifier<MapState> {
   MapItemNotifier() : super(MapState()) {
     fetchLocationData();
   }
-
+String? errorMessage;
   final Dio _dio = Dio();
 
   Future<void> fetchLocationData() async {
@@ -62,7 +62,14 @@ class MapItemNotifier extends StateNotifier<MapState> {
         loading: false,
       );
     } catch (e) {
-      print('MapNotifier Error: $e');
+
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+                'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
       state = state.copyWith(loading: false);
     }
   }

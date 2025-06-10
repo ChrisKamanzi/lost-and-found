@@ -11,9 +11,11 @@ class MapNotifier extends StateNotifier<MapState> {
   }
 
   final Dio _dio = Dio();
+  String? errorMessage;
 
   Future<void> fetchLocationData() async {
     state = state.copyWith(loading: true);
+
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
@@ -26,7 +28,6 @@ class MapNotifier extends StateNotifier<MapState> {
           },
         ),
       );
-
       final data = response.data['near-locations'];
       final currentCoordinates = data['current_location']['coordinates'];
       final LatLng currentPos = LatLng(
@@ -35,6 +36,7 @@ class MapNotifier extends StateNotifier<MapState> {
       );
 
       List<dynamic> nearby = data['nearby_locations'];
+
       List<LatLng> coords = [];
       List<String> names = [];
 
@@ -43,7 +45,6 @@ class MapNotifier extends StateNotifier<MapState> {
         coords.add(LatLng(locCoords['lat'], locCoords['lng']));
         names.add(loc['name']);
       }
-
       state = state.copyWith(
         currentLocation: currentPos,
         nearbyLocations: coords,
@@ -51,8 +52,15 @@ class MapNotifier extends StateNotifier<MapState> {
         loading: false,
       );
     } catch (e) {
-      print("Error: $e");
-      state = state.copyWith(loading: false);
+      final String message;
+      if (e is DioError) {
+        message =
+            e.response?.data['message'] ??
+            'Please check your connection and try again.';
+      } else {
+        message = 'An unexpected error occurred.';
+      }
+      state = state.copyWith(loading: false, error: message);
     }
   }
 
