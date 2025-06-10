@@ -22,6 +22,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
   File? image2;
   String? selectedLocation;
   String? selectedPostType;
+  final _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
 
@@ -36,16 +37,24 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
   }
 
   @override
+  void dispose() {
+    title.dispose();
+    description.dispose();
+    ref.read(selectedCategoryProvider.notifier).state = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final categories = ref.watch(categoryProvider);
     final selectedCategory = ref.watch(selectedCategoryProvider);
     final villages = ref.watch(villageProvider);
-
     final createAdState = ref.watch(createAdNotifierProvider);
     final isLoading = createAdState.isLoading;
-    final _formKey = GlobalKey<FormState>();
+
     final imageState = ref.watch(imagePickerProvider);
     final imageNotifier = ref.read(imagePickerProvider.notifier);
+    final categoryError = ref.watch(categoryErrorProvider);
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
@@ -74,8 +83,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   ),
                   SizedBox(height: 30),
                   DropdownButtonFormField<String>(
+                    isExpanded: true,
                     hint: Text(
-                      AppLocalizations.of(context)!.category,
+                      'Select Category',
                       style: TextStyle(
                         color:
                             Theme.of(context).brightness == Brightness.dark
@@ -83,25 +93,32 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                                 : Colors.blueGrey,
                       ),
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'category  is required';
-                      }
-                      return null;
-                    },
                     value: selectedCategory,
                     items:
-                        categories.map((cat) {
-                          return DropdownMenuItem<String>(
-                            value: cat['id'],
-                            child: Text(
-                              cat['name'],
-                              style: TextStyle(fontSize: 20),
-                            ),
-                          );
-                        }).toList(),
-                    onChanged: (value) {
-                      ref.read(selectedCategoryProvider.notifier).state = value;
+                        isLoading
+                            ? []
+                            : categories.map((cat) {
+                              return DropdownMenuItem<String>(
+                                value: cat['id'].toString(),
+                                child: Text(
+                                  cat['name'],
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              );
+                            }).toList(),
+                    onChanged:
+                        isLoading
+                            ? null
+                            : (value) {
+                              ref
+                                  .read(selectedCategoryProvider.notifier)
+                                  .state = value;
+                            },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Category is required';
+                      }
+                      return null;
                     },
                     decoration: InputDecoration(
                       filled: true,
@@ -115,6 +132,17 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                       ),
                     ),
                   ),
+
+                  // Show error below dropdown
+                  if (!isLoading &&
+                      categoryError != null &&
+                      categories.isEmpty) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      categoryError!,
+                      style: TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                  ],
                   SizedBox(height: 20),
                   DropdownButtonFormField<String>(
                     hint: Text(

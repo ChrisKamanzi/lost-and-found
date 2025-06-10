@@ -42,8 +42,11 @@ class LostFoundCard extends StatelessWidget {
                           imagePath!,
                           fit: BoxFit.cover,
                           errorBuilder:
-                              (context, error, stackTrace) =>
-                                  Icon(Icons.image_not_supported),
+                              (context, error, stackTrace) => SizedBox(
+                                width: 120,
+                                height: 120,
+                                child: Icon(Icons.image_not_supported),
+                              ),
                           width: 120,
                           height: 120,
                         ),

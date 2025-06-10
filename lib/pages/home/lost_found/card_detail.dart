@@ -25,7 +25,6 @@ class CardDetail extends ConsumerWidget {
 
         return Scaffold(
           backgroundColor: Colors.grey.shade100,
-
           appBar: AppBar(
             title: Text(
               AppLocalizations.of(context)!.homeLostFoundDetailfound,

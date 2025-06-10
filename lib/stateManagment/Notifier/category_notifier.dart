@@ -8,9 +8,14 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 
   CategoryNotifier(this.dio) : super([]);
 
-  Future<void> fetchCategories() async {
-    try {
+  String? errorMessage;
+  bool isLoading = false;
 
+  Future<void> fetchCategories() async {
+    isLoading = true;
+    errorMessage = null;
+
+    try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('authToken');
 
@@ -25,19 +30,23 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
       if (response.statusCode == 200) {
         final List<dynamic> categories = response.data['categories'];
         state = categories
-                .map((cat) => {'id': cat['id'], 'name': cat['name']})
-                .toList();
-
+            .map((cat) => {'id': cat['id'], 'name': cat['name']})
+            .toList();
       } else {
+        errorMessage = 'Failed to load categories. Status code: ${response.statusCode}';
+        state = [];
       }
+    } on DioError catch (e) {
+      errorMessage =
+          e.response?.data['message'] ??
+              e.message ??
+              'Network error occurred.';
+      state = [];
     } catch (e) {
-      if (e is DioException) {
-        print('DioException: ${e.response?.data}');
-        print('Error status code: ${e.response?.statusCode}');
-      } else {
-        print('Error fetching categories: $e');
-      }
+      errorMessage = 'An unexpected error occurred.';
+      state = [];
+    } finally {
+      isLoading = false;
     }
   }
 }
-

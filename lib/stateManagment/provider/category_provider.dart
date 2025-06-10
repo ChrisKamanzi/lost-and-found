@@ -13,3 +13,7 @@ final categoryProvider = StateNotifierProvider<CategoryNotifier, List<Map<String
 });
 
 final selectedCategoryProvider = StateProvider<String?>((ref) => null);
+
+final categoryErrorProvider = Provider<String?>((ref) {
+  return ref.watch(categoryProvider.notifier).errorMessage;
+});

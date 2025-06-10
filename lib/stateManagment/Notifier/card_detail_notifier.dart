@@ -6,6 +6,7 @@ import '../../../../models/lost_found_model.dart';
 
 class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
   CardDetailNotifier() : super(const AsyncValue.loading());
+  String? errorMessage;
 
   Future<void> fetchItem(String itemId) async {
     try {
@@ -57,6 +58,12 @@ class CardDetailNotifier extends StateNotifier<AsyncValue<LostFound>> {
       } else {
       }
     } catch (e) {
+
+      if (e is DioError) {
+        errorMessage = e.response?.data['message'] ?? 'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
 
     }
   }
