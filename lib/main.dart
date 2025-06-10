@@ -12,7 +12,7 @@ import 'package:lost_and_found/pages/authentication/login.dart';
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
 import 'package:lost_and_found/pages/home/home.dart';
-import 'package:lost_and_found/pages/home/lost_found/acount.dart';
+import 'package:lost_and_found/pages/authentication/into/acount.dart';
 import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
 import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
 import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
@@ -85,7 +85,7 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/splash',
         builder: (BuildContext context, GoRouterState state) {
-          return splashScreen();
+          return SplashScreen();
         },
       ),
       GoRoute(

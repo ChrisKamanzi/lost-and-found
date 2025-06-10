@@ -7,12 +7,10 @@ import '../../../stateManagment/provider/locale_provider.dart';
 import '../../../stateManagment/provider/my_items_provider.dart';
 
 class Account extends ConsumerWidget {
-   Account({super.key});
-
+  Account({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final name = ref.watch(nameeProvider);
     final phone = ref.watch(phoneProvider);
     final email = ref.watch(EmailProvider);
@@ -38,12 +36,14 @@ class Account extends ConsumerWidget {
                           ),
                         ),
                       ),
-                  error: (e, _) => Text("Error"),
+                  error:
+                      (e, _) => Text("Failed to load name: Connection Error"),
                   loading: () => Text("Loading name..."),
                 ),
               ],
             ),
             SizedBox(height: 40),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Container(
@@ -83,7 +83,9 @@ class Account extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                            error: (e, _) => Text("Error"),
+                            error:
+                                (e, _) =>
+                                    Text("phone failed: Connection Error"),
                             loading: () => Text("Loading phone..."),
                           ),
                         ],
@@ -96,7 +98,7 @@ class Account extends ConsumerWidget {
                             size: 40,
                             color: Colors.deepPurpleAccent,
                           ),
-                    SizedBox(width: 20),
+                          SizedBox(width: 20),
                           email.when(
                             data:
                                 (email) => Text(
@@ -108,8 +110,10 @@ class Account extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                            error: (e, _) =>  Text("Error"),
-                            loading: () =>  Text("Loading email..."),
+                            error:
+                                (e, _) =>
+                                    Text("email failed: Connection Error"),
+                            loading: () => Text("Loading email..."),
                           ),
                         ],
                       ),
@@ -118,7 +122,7 @@ class Account extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 40,),
+            SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -133,8 +137,8 @@ class Account extends ConsumerWidget {
                       child: GestureDetector(
                         onTap:
                             () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale( Locale('en')),
+                                .read(localeProvider.notifier)
+                                .setLocale(Locale('en')),
                         child: ClipOval(
                           child: Image.asset(
                             'icons/flags/png/us.png',
@@ -146,19 +150,18 @@ class Account extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
 
                     Text(
                       AppLocalizations.of(context)!.english,
                       style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black54
-                          )
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54,
+                        ),
                       ),
-
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(width: 40),
@@ -173,8 +176,8 @@ class Account extends ConsumerWidget {
                       child: GestureDetector(
                         onTap:
                             () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale(Locale('fr')),
+                                .read(localeProvider.notifier)
+                                .setLocale(Locale('fr')),
                         child: ClipOval(
                           child: Image.asset(
                             'icons/flags/png/fr.png',
@@ -186,18 +189,17 @@ class Account extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
                     Text(
                       AppLocalizations.of(context)!.french,
                       style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black54,
-                          )
+                        textStyle: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54,
+                        ),
                       ),
-
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(width: 40),
@@ -212,8 +214,8 @@ class Account extends ConsumerWidget {
                       child: GestureDetector(
                         onTap:
                             () => ref
-                            .read(localeProvider.notifier)
-                            .setLocale(const Locale('rw')),
+                                .read(localeProvider.notifier)
+                                .setLocale(const Locale('rw')),
                         child: ClipOval(
                           child: Image.asset(
                             'icons/flags/png/rw.png',
@@ -225,25 +227,23 @@ class Account extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
                     Text(
                       AppLocalizations.of(context)!.kinyarwanda,
                       style: GoogleFonts.brawler(
-                          textStyle: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15,
-                              color: Colors.black54
-                          )
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                          color: Colors.black54,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
             ),
 
             SizedBox(height: 40),
-
-
 
             Text(
               AppLocalizations.of(context)!.myItems,
@@ -265,7 +265,7 @@ class Account extends ConsumerWidget {
                       final item = items[index];
                       return Card(
                         elevation: 3,
-                        margin:  EdgeInsets.symmetric(vertical: 8),
+                        margin: EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
                           leading: Image.network(
                             item.imageUrl!,
@@ -293,7 +293,7 @@ class Account extends ConsumerWidget {
               error:
                   (e, _) => Padding(
                     padding: EdgeInsets.all(20),
-                    child: Text('Failed to load items: $e'),
+                    child: Text('Failed to load Items : Connection Error'),
                   ),
             ),
           ],

@@ -8,7 +8,7 @@ import '../stateManagment/provider/logout_provider.dart';
 import '../stateManagment/provider/theme_provider.dart';
 
 
-class Draweer extends ConsumerWidget {
+  class Draweer extends ConsumerWidget {
   const Draweer({super.key});
 
   @override
@@ -25,12 +25,11 @@ class Draweer extends ConsumerWidget {
         error: (error, _) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text('Logout error: $error')));
+          ).showSnackBar(SnackBar(content: Text('Logout error: Check your connection')));
         },
         loading: () {},
       );
     });
-
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
@@ -86,7 +85,7 @@ class Draweer extends ConsumerWidget {
                               ),
                             ),
                         loading: () => const Text("App"),
-                        error: (e, _) => const Text("Error"),
+                        error: (e, _) => const Text("Connection Error"),
                       ),
                       phoneAsync.when(
                         data:
@@ -101,15 +100,14 @@ class Draweer extends ConsumerWidget {
                               ),
                             ),
                         loading: () => const Text("Loading phone..."),
-                        error: (e, _) => const Text("Error"),
+                        error: (e, _) => const Text("Connection Error"),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-
-            const SizedBox(height: 80),
+            SizedBox(height: 80),
             Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Column(
@@ -125,7 +123,7 @@ class Draweer extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: 20),
 
                   TextButton(
                     onPressed: () => context.push('/aboutUS'),
@@ -138,7 +136,7 @@ class Draweer extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                   SizedBox(height: 20),
                   TextButton(
                     onPressed: () => context.push('/chatHistory'),
                     child: Text(
@@ -151,9 +149,9 @@ class Draweer extends ConsumerWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 200),
+                  SizedBox(height: 200),
                   Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding:  EdgeInsets.only(left: 20),
                     child: TextButton(
                       onPressed:
                           logoutState.isLoading
@@ -164,8 +162,8 @@ class Draweer extends ConsumerWidget {
                                     .logout();
                               },
                       child:
-                          logoutState.isLoading
-                              ? const CircularProgressIndicator()
+                      logoutState.isLoading
+                              ?  CircularProgressIndicator()
                               : Text(
                                 AppLocalizations.of(context)!.logout,
                                 style: GoogleFonts.brawler(
