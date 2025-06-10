@@ -10,6 +10,8 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
 
   final Dio _dio = Dio();
 
+  String? errorMessage;
+
   Future<void> loadConversation(int receiverId, String itemId) async {
     state = const AsyncLoading();
     try {
@@ -29,6 +31,14 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
 
       state = AsyncData(Conversation.fromJson(data));
     } catch (e, st) {
+
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+                'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
       state = AsyncError(e, st);
     }
   }
@@ -77,6 +87,14 @@ class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
         print('error');
       }
     } catch (e, st) {
+
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+                'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
       state = AsyncError(e, st);
     }
   }

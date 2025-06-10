@@ -6,11 +6,12 @@ import '../../models/conversation_model.dart';
 
 class ChatHistoryNotifier extends StateNotifier<List<ChatHistory>?> {
   ChatHistoryNotifier() : super(null);
-  Future<List<ChatHistory>> fetchChatHistories() async {
 
+  String? errorMessage;
+
+  Future<List<ChatHistory>> fetchChatHistories() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('authToken');
-
 
     try {
       final response = await Dio().get(
@@ -31,10 +32,14 @@ class ChatHistoryNotifier extends StateNotifier<List<ChatHistory>?> {
         return [];
       }
     } catch (e) {
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+            'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
       return [];
     }
-
-
   }
 }
-
