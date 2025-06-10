@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/models/lost_found_model.dart';
 import '../../pages/services/lost_found_repo.dart';
@@ -7,6 +8,7 @@ final lostFoundRepositoryProvider = Provider((ref) => LostFoundRepository());
 
 class LostFoundNotifier extends StateNotifier<LostFoundState> {
   final LostFoundRepository repository;
+  String? errorMessage;
 
   LostFoundNotifier(this.repository) : super(LostFoundState());
 
@@ -44,6 +46,13 @@ class LostFoundNotifier extends StateNotifier<LostFoundState> {
           futures.add(AsyncValue.data(items));
         }
       } catch (e) {
+        if (e is DioError) {
+          errorMessage =
+              e.response?.data['message'] ??
+              'Something went wrong. Please try again.';
+        } else {
+          errorMessage = 'An unexpected error occurred.';
+        }
         futures.add(AsyncValue.error(e, StackTrace.current));
       }
     }
@@ -70,6 +79,13 @@ class LostFoundNotifier extends StateNotifier<LostFoundState> {
         );
         futures.add(AsyncValue.data(items));
       } catch (e) {
+        if (e is DioError) {
+          errorMessage =
+              e.response?.data['message'] ??
+              'Something went wrong. Please try again.';
+        } else {
+          errorMessage = 'An unexpected error occurred.';
+        }
         futures.add(AsyncValue.error(e, StackTrace.current));
       }
     }
@@ -77,4 +93,3 @@ class LostFoundNotifier extends StateNotifier<LostFoundState> {
     return futures;
   }
 }
-

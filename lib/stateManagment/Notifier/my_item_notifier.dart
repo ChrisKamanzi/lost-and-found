@@ -9,6 +9,7 @@ class MyItemsNotifier extends StateNotifier<AsyncValue<List<MyItem>>> {
   MyItemsNotifier() : super(AsyncLoading()) {
     fetchMyItems();
   }
+String? errorMessage;
 
   Future<void> fetchMyItems() async {
     try {
@@ -36,6 +37,14 @@ class MyItemsNotifier extends StateNotifier<AsyncValue<List<MyItem>>> {
 
       state = AsyncData(myItems);
     } catch (e, st) {
+
+      if (e is DioError) {
+        errorMessage =
+            e.response?.data['message'] ??
+                'Something went wrong. Please try again.';
+      } else {
+        errorMessage = 'An unexpected error occurred.';
+      }
       state = AsyncError(e, st);
     }
   }

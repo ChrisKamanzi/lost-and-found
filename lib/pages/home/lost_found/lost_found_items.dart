@@ -1,9 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found/generated/app_localizations.dart';
-import 'package:lost_and_found/generated/app_localizations_en.dart';
 import 'package:lost_and_found/widgets/card.dart';
-
 import '../../../stateManagment/provider/lost_found_provider.dart';
 
 class LostFoundItemsScreen extends ConsumerStatefulWidget {
@@ -16,23 +15,45 @@ class LostFoundItemsScreen extends ConsumerStatefulWidget {
 
 class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     with TickerProviderStateMixin {
+
   late TabController tabController;
   late TextEditingController searchController;
+
+  Timer? _debounce;
+  bool _isTimeout = false;
+  bool _initialDataFetched = false;
 
   @override
   void initState() {
     super.initState();
     searchController = TextEditingController();
 
-    final categoriesLength =
-        ref.read(lostFoundNotifierProvider).categories.length;
+    final categoriesLength = ref.read(lostFoundNotifierProvider).categories.length;
     tabController = TabController(length: categoriesLength + 1, vsync: this);
 
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
-        final query = searchController.text;
-        final notifier = ref.read(lostFoundNotifierProvider.notifier);
-        notifier.search(query, tabController.index);
+        _onSearchChanged(searchController.text);
+      }
+    });
+
+    Future.delayed(const Duration(seconds: 60), () {
+      if (!_initialDataFetched && mounted) {
+        setState(() {
+          _isTimeout = true;
+        });
+      }
+    });
+  }
+
+  void _onSearchChanged(String query) {
+    final notifier = ref.read(lostFoundNotifierProvider.notifier);
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 50), () {
+      if (query.trim().isEmpty) {
+        notifier.search('', tabController.index);
+      } else {
+        notifier.search(query.trim(), tabController.index);
       }
     });
   }
@@ -41,6 +62,7 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
   void dispose() {
     tabController.dispose();
     searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -49,34 +71,75 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     final state = ref.watch(lostFoundNotifierProvider);
     final notifier = ref.read(lostFoundNotifierProvider.notifier);
 
+    final isInitialLoading =
+        state.categories.isEmpty ||
+        state.itemsPerTab.any((asyncItems) => asyncItems.isLoading);
+
+    if (isInitialLoading) {
+      if (_isTimeout) {
+        return const Scaffold(
+          body: Center(
+            child: Text(
+              'Taking too long...\nPlease check your internet or try again later.',
+              style: TextStyle(color: Colors.redAccent, fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      } else {
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(color: Colors.deepOrange),
+          ),
+        );
+      }
+    }
+
+    _initialDataFetched = true;
+
     if (tabController.length != state.categories.length + 1) {
       tabController.dispose();
       tabController = TabController(
         length: state.categories.length + 1,
         vsync: this,
       );
-
       tabController.addListener(() {
         if (!tabController.indexIsChanging) {
-          notifier.search(searchController.text, tabController.index);
+          _onSearchChanged(searchController.text);
         }
       });
     }
+
     return Scaffold(
       appBar: AppBar(
         title: TextField(
           controller: searchController,
-          onSubmitted: (query) => notifier.search(query, tabController.index),
+          onChanged: _onSearchChanged,
+          style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(
-            hintText: AppLocalizations.of(context)!.search,
-            suffixIcon: IconButton(
-              icon: const Icon(Icons.search),
-              onPressed:
-                  () => notifier.search(
-                    searchController.text,
-                    tabController.index,
-                  ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
             ),
+            hintText: AppLocalizations.of(context)!.search,
+            hintStyle: const TextStyle(color: Colors.grey),
+            filled: true,
+            fillColor: Colors.grey.shade100,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon:
+                searchController.text.isEmpty
+                    ? const Icon(Icons.search, color: Colors.grey)
+                    : IconButton(
+                      icon: const Icon(Icons.clear, color: Colors.grey),
+                      onPressed: () {
+                        searchController.clear();
+                        notifier.search('', tabController.index);
+                        _onSearchChanged('');
+                      },
+                    ),
           ),
         ),
         bottom: TabBar(
@@ -120,8 +183,19 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
                     },
                   );
                 },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Center(child: Text('Error: $e')),
+                loading:
+                    () => const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.deepOrange,
+                      ),
+                    ),
+                error:
+                    (e, _) => Center(
+                      child: Text(
+                        'Error: $e',
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
               );
             }).toList(),
       ),
