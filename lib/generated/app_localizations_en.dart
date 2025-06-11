@@ -240,4 +240,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_generic => 'Something went wrong';
+
+  @override
+  String get please_Connect_to_Internet => 'Please Connect to Internet';
 }

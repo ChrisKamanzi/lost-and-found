@@ -558,6 +558,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong'**
   String get error_generic;
+
+  /// No description provided for @please_Connect_to_Internet.
+  ///
+  /// In en, this message translates to:
+  /// **'Please Connect to Internet'**
+  String get please_Connect_to_Internet;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

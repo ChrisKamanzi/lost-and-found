@@ -24,7 +24,7 @@ class Homepage extends ConsumerWidget {
         error:
             (e, _) => Center(
               child: Text(
-                'Please Connect to Internet 🛜',
+                AppLocalizations.of(context)!.please_Connect_to_Internet,
                 style: GoogleFonts.brawler(
                   textStyle: TextStyle(fontSize: 25, color: Colors.red),
                 ),

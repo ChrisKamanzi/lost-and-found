@@ -96,6 +96,9 @@
   "press_icon": "Kanda kuri iyo ikoni 👆",
   "submit": "Ohereza",
   "ad_success": "Itangazo ryoherejwe neza!",
-  "error_generic": "Habaye ikibazo"
+  "error_generic": "Habaye ikibazo",
+
+  "please_Connect_to_Internet" : "Nta interineti ufite"
+
 
 }

@@ -103,7 +103,10 @@
   "press_icon": "Appuyez sur cette icône 👆",
   "submit": "Soumettre",
   "ad_success": "Annonce créée avec succès !",
-  "error_generic": "Quelque chose s'est mal passé"
+  "error_generic": "Quelque chose s'est mal passé",
+
+  "please_Connect_to_Internet" : "Veuillez vous connecter à Internet"
+
 
 
 

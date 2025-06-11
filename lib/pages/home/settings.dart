@@ -11,7 +11,15 @@ class FaceIDScreen extends ConsumerWidget {
     final faceIDNotifier = ref.read(faceIDProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text("App Lock"), backgroundColor: Colors.orange),
+      appBar: AppBar(
+        title: Text(
+          "App Lock",
+          style: GoogleFonts.brawler(
+            textStyle: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+          ),
+        ),
+        backgroundColor: Colors.orange.shade700,
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
         child: Row(

@@ -13,7 +13,7 @@ class FavoriteScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.orange.shade700,
         title: Text(
           AppLocalizations.of(context)!.favorites,
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),

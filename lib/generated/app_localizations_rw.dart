@@ -240,4 +240,7 @@ class AppLocalizationsRw extends AppLocalizations {
 
   @override
   String get error_generic => 'Habaye ikibazo';
+
+  @override
+  String get please_Connect_to_Internet => 'Nta interineti ufite';
 }
