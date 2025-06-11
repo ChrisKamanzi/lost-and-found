@@ -16,6 +16,7 @@ import 'package:lost_and_found/pages/authentication/into/acount.dart';
 import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
 import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
 import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
+import 'package:lost_and_found/pages/home/settings.dart';
 import 'package:lost_and_found/pages/message/char2.dart';
 import 'package:lost_and_found/pages/message/conversation.dart';
 import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
@@ -205,6 +206,12 @@ class MyApp extends ConsumerWidget {
         path: '/language',
         builder: (BuildContext context, GoRouterState state) {
           return LanguageSelectionScreen();
+        },
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (BuildContext context, GoRouterState state) {
+          return FaceIDScreen();
         },
       ),
     ],

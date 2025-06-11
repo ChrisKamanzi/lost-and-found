@@ -148,6 +148,18 @@ import '../stateManagment/provider/theme_provider.dart';
                       ),
                     ),
                   ),
+                  SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () => context.push('/settings'),
+                    child: Text(
+                   'Settings',
+                      style: GoogleFonts.brawler(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 25,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                    ),
+                  ),
 
                   SizedBox(height: 200),
                   Padding(
