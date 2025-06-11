@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lost_and_found/pages/authentication/congrat.dart';
@@ -40,7 +41,8 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: Colors.black,
   textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
 );
-void main() {
+void main() async {
+  await dotenv.load(fileName: "aapi.env");
   runApp(ProviderScope(child: MyApp()));
 }
 class MyApp extends ConsumerWidget {

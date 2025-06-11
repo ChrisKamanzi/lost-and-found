@@ -1,11 +1,19 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
-import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/favorite_model.dart';
 
 class FavoritesNotifier extends AsyncNotifier<List<FavoriteItem>> {
   @override
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
+
   Future<List<FavoriteItem>> build() async {
     final dio = Dio();
     final token = await _getToken();

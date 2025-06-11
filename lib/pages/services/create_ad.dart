@@ -1,9 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path/path.dart';
 import '../../models/create_ad_model.dart';
-import '../../constant/api.dart';
 
 final createAdNotifierProvider =
     StateNotifierProvider<CreateAdNotifier, AsyncValue<void>>((ref) {
@@ -15,6 +15,13 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
 
   CreateAdNotifier(this.ref) : super(const AsyncValue.data(null));
 
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
   Future<String?> save(CreateAd createAdData) async {
     state = const AsyncValue.loading();
 

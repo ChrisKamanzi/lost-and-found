@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/reset_password.dart';
 import 'package:go_router/go_router.dart';
-import '../../constant/api.dart';
 
 class ResetNotifier extends StateNotifier<ResetPasswordModel> {
   ResetNotifier()
@@ -13,6 +13,13 @@ class ResetNotifier extends StateNotifier<ResetPasswordModel> {
     password: null,
     passwordConfirmation: null,
   ));
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   void updateEmail(String value) {
     state = ResetPasswordModel(

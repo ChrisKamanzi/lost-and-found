@@ -1,13 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constant/api.dart';
 import '../../models/conversation_model.dart';
 
 class ChatHistoryNotifier extends StateNotifier<List<ChatHistory>?> {
   ChatHistoryNotifier() : super(null);
 
   String? errorMessage;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<List<ChatHistory>> fetchChatHistories() async {
     final prefs = await SharedPreferences.getInstance();

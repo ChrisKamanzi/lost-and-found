@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:dio/dio.dart';
-import '../../constant/api.dart';
 import '../../models/sign_up_model.dart';
 
 class SignUpNotifier extends StateNotifier<SignUpModel> {
@@ -10,6 +10,11 @@ class SignUpNotifier extends StateNotifier<SignUpModel> {
 
   final formKey = GlobalKey<FormState>();
 
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
   void updateField({
     String? name,
     String? email,

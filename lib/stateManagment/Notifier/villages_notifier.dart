@@ -1,12 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lost_and_found/constant/api.dart';
 
 class VillageNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   final Dio dio;
 
   VillageNotifier(this.dio) : super([]);
   String? errorMessage;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> fetchVillages() async {
     try {

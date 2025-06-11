@@ -1,8 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../constant/api.dart';
 import '../../models/map_model.dart';
 
 class MapNotifier extends StateNotifier<MapState> {
@@ -12,6 +12,13 @@ class MapNotifier extends StateNotifier<MapState> {
 
   final Dio _dio = Dio();
   String? errorMessage;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> fetchLocationData() async {
     state = state.copyWith(loading: true);

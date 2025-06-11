@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginNotifier extends AsyncNotifier<void> {
   final Dio _dio = Dio();
 
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
+
   @override
   FutureOr<void> build() {}
+
 
   Future<String?> login(String email, String password) async {
     state = AsyncLoading();

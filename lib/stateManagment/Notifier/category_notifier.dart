@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lost_and_found/constant/api.dart';
 
 class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   final Dio dio;
@@ -10,6 +10,13 @@ class CategoryNotifier extends StateNotifier<List<Map<String, dynamic>>> {
 
   String? errorMessage;
   bool isLoading = false;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> fetchCategories() async {
     isLoading = true;

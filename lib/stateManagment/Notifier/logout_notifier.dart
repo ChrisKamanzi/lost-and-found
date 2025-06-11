@@ -1,12 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lost_and_found/constant/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutNotifier extends StateNotifier<AsyncValue<void>> {
   LogoutNotifier() : super(const AsyncData(null));
 
   String? errorMessage;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> logout() async {
     state = const AsyncLoading();

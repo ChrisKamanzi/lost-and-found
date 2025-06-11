@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../constant/api.dart';
 import '../../models/create.dart';
 
 
@@ -13,6 +13,13 @@ import '../../models/create.dart';
   CreateAdNotifier() : super(CreateAdState());
 
   String? errorMessage;
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> save(BuildContext context) async {
     if (state.isLoading) return;

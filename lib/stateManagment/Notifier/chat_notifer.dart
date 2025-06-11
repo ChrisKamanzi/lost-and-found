@@ -1,16 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../constant/api.dart';
 import '../../models/chat_model.dart';
 
 class ConversationNotifier extends StateNotifier<AsyncValue<Conversation>> {
   ConversationNotifier() : super(const AsyncLoading());
 
   final Dio _dio = Dio();
-
   String? errorMessage;
+
+
+
+  String get apiUrl {
+    final url = dotenv.env['apiUrl'];
+    if (url == null) throw Exception('API URL not set');
+    return url;
+  }
 
   Future<void> loadConversation(int receiverId, String itemId) async {
     state = const AsyncLoading();
