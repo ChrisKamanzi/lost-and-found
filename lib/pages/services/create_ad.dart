@@ -15,13 +15,12 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
 
   CreateAdNotifier(this.ref) : super(const AsyncValue.data(null));
 
-
-
   String get apiUrl {
     final url = dotenv.env['apiUrl'];
     if (url == null) throw Exception('API URL not set');
     return url;
   }
+
   Future<String?> save(CreateAd createAdData) async {
     state = const AsyncValue.loading();
 
@@ -104,7 +103,7 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
       } else if (e.type == DioExceptionType.unknown) {
         return 'No internet connection or unexpected network error.';
       } else {
-        return 'Unexpected Dio error: ${e.message}';
+        return 'Check your connection please ';
       }
     } catch (e) {
       state = AsyncValue.data(null);

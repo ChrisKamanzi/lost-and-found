@@ -7,8 +7,7 @@ import '../stateManagment/Notifier/user_notifier.dart';
 import '../stateManagment/provider/logout_provider.dart';
 import '../stateManagment/provider/theme_provider.dart';
 
-
-  class Draweer extends ConsumerWidget {
+class Draweer extends ConsumerWidget {
   const Draweer({super.key});
 
   @override
@@ -23,13 +22,14 @@ import '../stateManagment/provider/theme_provider.dart';
           context.go('/login');
         },
         error: (error, _) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('Logout error: Check your connection')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Logout error: Check your connection')),
+          );
         },
         loading: () {},
       );
     });
+
     return Drawer(
       child: SingleChildScrollView(
         child: Column(
@@ -136,7 +136,7 @@ import '../stateManagment/provider/theme_provider.dart';
                       ),
                     ),
                   ),
-                   SizedBox(height: 20),
+                  SizedBox(height: 20),
                   TextButton(
                     onPressed: () => context.push('/chatHistory'),
                     child: Text(
@@ -152,7 +152,7 @@ import '../stateManagment/provider/theme_provider.dart';
                   TextButton(
                     onPressed: () => context.push('/settings'),
                     child: Text(
-                   'Settings',
+                      'Settings',
                       style: GoogleFonts.brawler(
                         fontWeight: FontWeight.w800,
                         fontSize: 25,
@@ -163,7 +163,7 @@ import '../stateManagment/provider/theme_provider.dart';
 
                   SizedBox(height: 200),
                   Padding(
-                    padding:  EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(left: 20),
                     child: TextButton(
                       onPressed:
                           logoutState.isLoading
@@ -174,8 +174,8 @@ import '../stateManagment/provider/theme_provider.dart';
                                     .logout();
                               },
                       child:
-                      logoutState.isLoading
-                              ?  CircularProgressIndicator()
+                          logoutState.isLoading
+                              ? CircularProgressIndicator()
                               : Text(
                                 AppLocalizations.of(context)!.logout,
                                 style: GoogleFonts.brawler(
