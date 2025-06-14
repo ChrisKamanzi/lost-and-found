@@ -50,6 +50,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final themeMode = ref.watch(themeNotifierProvider);
     final locale = ref.watch(localeProvider);
 
@@ -81,7 +82,6 @@ class MyApp extends ConsumerWidget {
     );
 
   }
-
   final GoRouter _router = GoRouter(
     initialLocation: '/splash',
     routes: [
@@ -103,6 +103,7 @@ class MyApp extends ConsumerWidget {
           return SignUp();
         },
       ),
+
       GoRoute(
         path: '/homepage',
         builder: (BuildContext context, GoRouterState state) {
@@ -115,7 +116,6 @@ class MyApp extends ConsumerWidget {
           return LostFoundItemsScreen();
         },
       ),
-
       GoRoute(
         path: '/create_add',
         builder: (BuildContext context, GoRouterState state) {
@@ -128,6 +128,7 @@ class MyApp extends ConsumerWidget {
           return LostFoundItemsScreen();
         },
       ),
+
       GoRoute(
         path: '/forrgotPassword',
         builder: (BuildContext context, GoRouterState state) {
@@ -140,12 +141,15 @@ class MyApp extends ConsumerWidget {
           return TokenPage();
         },
       ),
+
+
       GoRoute(
         path: '/account',
         builder: (BuildContext context, GoRouterState state) {
           return Account();
         },
       ),
+
       GoRoute(
         path: '/congrat',
         builder: (BuildContext context, GoRouterState state) {

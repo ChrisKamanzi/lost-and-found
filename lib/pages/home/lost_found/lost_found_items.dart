@@ -35,15 +35,18 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
       if (!tabController.indexIsChanging) {
         _onSearchChanged(searchController.text);
       }
-    });
+    }
+    );
 
     Future.delayed(const Duration(seconds: 60), () {
       if (!_initialDataFetched && mounted) {
         setState(() {
           _isTimeout = true;
-        });
+        }
+        );
       }
-    });
+    }
+    );
   }
 
   void _onSearchChanged(String query) {
