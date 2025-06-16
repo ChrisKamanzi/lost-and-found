@@ -44,7 +44,7 @@
   "hello" : "Hello",
   "homeCreateAdvert" : "Create an advert",
   "homeCreateDetail" : " Report if you find or lost an item",
-  "homeLostFOund" : "Losst $ found items",
+  "homeLostFOund" : "Lost $ found items",
   "homeLostFoundDetail" :  " Go through the lost and",
   "homeLostFoundDetailfound" : "found items ",
   "homeSearch" : "Search on Map" ,
@@ -107,7 +107,12 @@
   "enter_password" : "Enter your password please",
   "login_failed" : "Login Failed",
   "select_village" :  "Select your village",
-  "village_required" : " Village is required"
+  "village_required" : " Village is required",
+
+  "select_category" : "Select category",
+"category_required" : "Category required",
+  "post_type_required" : "Post Type Required"
+
 
 
 

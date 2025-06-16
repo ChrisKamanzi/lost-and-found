@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get homeCreateDetail => ' Report if you find or lost an item';
 
   @override
-  String get homeLostFOund => 'Losst \$ found items';
+  String get homeLostFOund => 'Lost \$ found items';
 
   @override
   String get homeLostFoundDetail => ' Go through the lost and';
@@ -258,4 +258,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get village_required => ' Village is required';
+
+  @override
+  String get select_category => 'Select category';
+
+  @override
+  String get category_required => 'Category required';
+
+  @override
+  String get post_type_required => 'Post Type Required';
 }

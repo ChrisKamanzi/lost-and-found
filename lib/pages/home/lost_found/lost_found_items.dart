@@ -15,7 +15,6 @@ class LostFoundItemsScreen extends ConsumerStatefulWidget {
 
 class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     with TickerProviderStateMixin {
-
   late TabController tabController;
   late TextEditingController searchController;
 
@@ -28,25 +27,23 @@ class _LostFoundItemsScreenState extends ConsumerState<LostFoundItemsScreen>
     super.initState();
     searchController = TextEditingController();
 
-    final categoriesLength = ref.read(lostFoundNotifierProvider).categories.length;
+    final categoriesLength =
+        ref.read(lostFoundNotifierProvider).categories.length;
     tabController = TabController(length: categoriesLength + 1, vsync: this);
 
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
         _onSearchChanged(searchController.text);
       }
-    }
-    );
+    });
 
     Future.delayed(const Duration(seconds: 60), () {
       if (!_initialDataFetched && mounted) {
         setState(() {
           _isTimeout = true;
-        }
-        );
+        });
       }
-    }
-    );
+    });
   }
 
   void _onSearchChanged(String query) {

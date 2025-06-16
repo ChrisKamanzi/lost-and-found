@@ -112,7 +112,12 @@
   "enter_password": "Veuillez entrer votre mot de passe",
   "login_failed": "Échec de la connexion",
   "select_village": "Sélectionnez votre village",
-  "village_required": "Le village est requis"
+  "village_required": "Le village est requis",
+
+  "select_category" : "Sélectionnez une catégorie",
+  "category_required" : "La catégorie est requise",
+  "post_type_required" : "Le type de publication est requis"
+
 
 
 

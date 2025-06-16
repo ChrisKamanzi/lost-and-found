@@ -292,7 +292,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeLostFOund.
   ///
   /// In en, this message translates to:
-  /// **'Losst \$ found items'**
+  /// **'Lost \$ found items'**
   String get homeLostFOund;
 
   /// No description provided for @homeLostFoundDetail.
@@ -594,6 +594,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' Village is required'**
   String get village_required;
+
+  /// No description provided for @select_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get select_category;
+
+  /// No description provided for @category_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Category required'**
+  String get category_required;
+
+  /// No description provided for @post_type_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Post Type Required'**
+  String get post_type_required;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

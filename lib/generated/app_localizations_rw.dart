@@ -258,4 +258,13 @@ class AppLocalizationsRw extends AppLocalizations {
 
   @override
   String get village_required => ' Umudugudu urasabwa kuwuhitamo';
+
+  @override
+  String get select_category => 'Hitamo ikiciro';
+
+  @override
+  String get category_required => 'Usabwa guhitamo ikiciro';
+
+  @override
+  String get post_type_required => 'Guhitamo ubwoko bwitangazo birakenewe';
 }

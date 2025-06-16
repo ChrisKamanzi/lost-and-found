@@ -20,22 +20,17 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
     if (url == null) throw Exception('API URL not set');
     return url;
   }
-
   Future<String?> save(CreateAd createAdData) async {
     state = const AsyncValue.loading();
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('authToken');
       final userId = prefs.getInt('userId');
-
       if (token == null || userId == null) {
         state = const AsyncValue.data(null);
         return 'You are not authenticated.';
       }
-
       final formData = FormData();
-
       if (createAdData.image1 != null) {
         formData.files.add(
           MapEntry(
@@ -47,7 +42,6 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
           ),
         );
       }
-
       if (createAdData.image2 != null) {
         formData.files.add(
           MapEntry(
@@ -60,7 +54,9 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
         );
       }
 
-      formData.fields.addAll([
+      formData.fields.addAll
+        (
+          [
         MapEntry('title', createAdData.title ?? ''),
         MapEntry('description', createAdData.description ?? ''),
         MapEntry('post_type', createAdData.post_type ?? ''),
@@ -69,7 +65,8 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
         MapEntry('user_id', userId.toString()),
         if (createAdData.location.isNotEmpty)
           MapEntry('location', createAdData.location.first),
-      ]);
+      ]
+      );
 
       final dio = Dio();
 
@@ -87,7 +84,7 @@ class CreateAdNotifier extends StateNotifier<AsyncValue<void>> {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         state = AsyncValue.data(null);
-        return null; // success
+        return null;
       } else {
         state = AsyncValue.data(null);
         return 'Failed to create ad: ${response.data['message'] ?? 'Unknown error'}';

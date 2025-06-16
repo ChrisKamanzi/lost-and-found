@@ -18,12 +18,14 @@ class CreateAdReg extends ConsumerStatefulWidget {
 }
 
 class _CreateAdRegState extends ConsumerState<CreateAdReg> {
+
   File? image1;
   File? image2;
+
   String? selectedLocation;
   String? selectedPostType;
-  final _formKey = GlobalKey<FormState>();
 
+  final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   final TextEditingController title = TextEditingController();
@@ -32,8 +34,10 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
   @override
   void initState() {
     super.initState();
+
     ref.read(categoryProvider.notifier).fetchCategories();
     ref.read(villageProvider.notifier).fetchVillages();
+
   }
 
   @override
@@ -46,15 +50,22 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     final categories = ref.watch(categoryProvider);
     final selectedCategory = ref.watch(selectedCategoryProvider);
     final villages = ref.watch(villageProvider);
     final createAdState = ref.watch(createAdNotifierProvider);
-    final isLoading = createAdState.isLoading;
 
+
+    final isLoading = createAdState.isLoading;
     final imageState = ref.watch(imagePickerProvider);
     final imageNotifier = ref.read(imagePickerProvider.notifier);
     final categoryError = ref.watch(categoryErrorProvider);
+
+
+
 
     return Scaffold(
       appBar: AppBar(automaticallyImplyLeading: true),
@@ -85,7 +96,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                   DropdownButtonFormField<String>(
                     isExpanded: true,
                     hint: Text(
-                      'Select Category',
+                      AppLocalizations.of(context)!.select_category,
                       style: TextStyle(
                         color:
                             Theme.of(context).brightness == Brightness.dark
@@ -116,7 +127,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                             },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Category is required';
+                        return AppLocalizations.of(context)!.category_required;
                       }
                       return null;
                     },
@@ -157,7 +168,7 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                     value: selectedPostType,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Post Type is required';
+                        return AppLocalizations.of(context)!.post_type_required;
                       }
                       return null;
                     },
@@ -216,7 +227,9 @@ class _CreateAdRegState extends ConsumerState<CreateAdReg> {
                             }).toList(),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Select a village please';
+                            return AppLocalizations.of(
+                              context,
+                            )!.village_required;
                           }
                           return null;
                         },

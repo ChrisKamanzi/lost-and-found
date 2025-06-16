@@ -258,4 +258,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get village_required => 'Le village est requis';
+
+  @override
+  String get select_category => 'Sélectionnez une catégorie';
+
+  @override
+  String get category_required => 'La catégorie est requise';
+
+  @override
+  String get post_type_required => 'Le type de publication est requis';
 }

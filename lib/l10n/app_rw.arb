@@ -104,8 +104,10 @@
   "enter_password" : "Shiramo Ijambo ry'ibanga",
   "login_failed" : "Gukomeza byanze",
   "select_village" :  "Hitamo umudugudu ubarizwamo",
-  "village_required" : " Umudugudu urasabwa kuwuhitamo"
+  "village_required" : " Umudugudu urasabwa kuwuhitamo",
 
 
-
+  "select_category" : "Hitamo ikiciro",
+  "category_required" : "Usabwa guhitamo ikiciro",
+  "post_type_required" : "Guhitamo ubwoko bwitangazo birakenewe"
 }
