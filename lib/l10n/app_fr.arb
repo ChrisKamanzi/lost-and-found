@@ -105,11 +105,14 @@
   "ad_success": "Annonce créée avec succès !",
   "error_generic": "Quelque chose s'est mal passé",
 
-  "please_Connect_to_Internet" : "Veuillez vous connecter à Internet"
+  "please_Connect_to_Internet" : "Veuillez vous connecter à Internet",
 
 
-
-
+  "fill_this_please": "Veuillez remplir ceci",
+  "enter_password": "Veuillez entrer votre mot de passe",
+  "login_failed": "Échec de la connexion",
+  "select_village": "Sélectionnez votre village",
+  "village_required": "Le village est requis"
 
 
 

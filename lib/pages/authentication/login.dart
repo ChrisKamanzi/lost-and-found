@@ -6,6 +6,7 @@ import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import '../../stateManagment/provider/loading_provider.dart';
 import '../../stateManagment/provider/login_provider.dart';
+import '../services/deviceManager.dart';
 
 class Login extends ConsumerWidget {
   Login({super.key});
@@ -81,7 +82,7 @@ class Login extends ConsumerWidget {
                     validator:
                         (value) =>
                             value == null || value.isEmpty
-                                ? 'Enter your password'
+                                ? AppLocalizations.of(context)!.enter_password
                                 : null,
                     style: const TextStyle(
                       fontWeight: FontWeight.w400,
@@ -152,6 +153,9 @@ class Login extends ConsumerWidget {
                                         final password =
                                             passwordController.text.trim();
 
+                                        final deviceId = await  Devicemanager.getDeviceId();
+                                        print('📱 Logged-in device ID: $deviceId');
+
                                         await loginNotifier.login(
                                           email,
                                           password,
@@ -164,8 +168,8 @@ class Login extends ConsumerWidget {
                                               context: context,
                                               builder:
                                                   (_) => AlertDialog(
-                                                    title: const Text(
-                                                      'Login Failed',
+                                                    title:  Text(
+                                                      AppLocalizations.of(context)!.login_failed,
                                                     ),
                                                     content: Text(
                                                       err.toString(),

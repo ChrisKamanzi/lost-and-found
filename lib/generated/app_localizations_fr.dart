@@ -243,4 +243,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get please_Connect_to_Internet => 'Veuillez vous connecter à Internet';
+
+  @override
+  String get fill_this_please => 'Veuillez remplir ceci';
+
+  @override
+  String get enter_password => 'Veuillez entrer votre mot de passe';
+
+  @override
+  String get login_failed => 'Échec de la connexion';
+
+  @override
+  String get select_village => 'Sélectionnez votre village';
+
+  @override
+  String get village_required => 'Le village est requis';
 }

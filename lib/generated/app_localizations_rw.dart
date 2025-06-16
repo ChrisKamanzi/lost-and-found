@@ -243,4 +243,19 @@ class AppLocalizationsRw extends AppLocalizations {
 
   @override
   String get please_Connect_to_Internet => 'Nta interineti ufite';
+
+  @override
+  String get fill_this_please => 'Usabwa kuzuza hano';
+
+  @override
+  String get enter_password => 'Shiramo Ijambo ry\'ibanga';
+
+  @override
+  String get login_failed => 'Gukomeza byanze';
+
+  @override
+  String get select_village => 'Hitamo umudugudu ubarizwamo';
+
+  @override
+  String get village_required => ' Umudugudu urasabwa kuwuhitamo';
 }

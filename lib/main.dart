@@ -80,8 +80,8 @@ class MyApp extends ConsumerWidget {
         return const Locale('en');
       },
     );
-
   }
+
   final GoRouter _router = GoRouter(
     initialLocation: '/splash',
     routes: [
@@ -103,7 +103,6 @@ class MyApp extends ConsumerWidget {
           return SignUp();
         },
       ),
-
       GoRoute(
         path: '/homepage',
         builder: (BuildContext context, GoRouterState state) {
@@ -128,7 +127,6 @@ class MyApp extends ConsumerWidget {
           return LostFoundItemsScreen();
         },
       ),
-
       GoRoute(
         path: '/forrgotPassword',
         builder: (BuildContext context, GoRouterState state) {
@@ -141,8 +139,6 @@ class MyApp extends ConsumerWidget {
           return TokenPage();
         },
       ),
-
-
       GoRoute(
         path: '/account',
         builder: (BuildContext context, GoRouterState state) {

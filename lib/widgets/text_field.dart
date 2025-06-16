@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found/generated/app_localizations.dart';
+
 class Textfield extends StatefulWidget {
   final TextEditingController controller;
   final String? hintText;
@@ -40,10 +42,11 @@ class _TextfieldState extends State<Textfield> {
           fontSize: 20,
           color: Colors.black,
         ),
-        validator: (value) =>
-        widget.isRequired && (value == null || value.isEmpty)
-            ? 'Fill this please '
-            : null,
+        validator:
+            (value) =>
+                widget.isRequired && (value == null || value.isEmpty)
+                    ? AppLocalizations.of(context)!.fill_this_please
+                    : null,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.grey.shade200,

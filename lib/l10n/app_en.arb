@@ -102,7 +102,14 @@
   "ad_success": "Ad successfully created!",
   "error_generic": "Something went wrong",
 
-  "please_Connect_to_Internet" : "Please Connect to Internet"
+  "please_Connect_to_Internet" : "Please Connect to Internet",
+  "fill_this_please" : "Feel this please",
+  "enter_password" : "Enter your password please",
+  "login_failed" : "Login Failed",
+  "select_village" :  "Select your village",
+  "village_required" : " Village is required"
+
+
 
 
 }

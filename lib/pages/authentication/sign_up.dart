@@ -107,12 +107,12 @@ class _SignUpScreenState extends ConsumerState<SignUp> {
               DropdownButtonFormField<String>(
                 value: selectedVillage,
                 decoration:  InputDecoration(
-                  labelText: "Select a Village",
+                  labelText: AppLocalizations.of(context)!.selectVillage,
                   border: OutlineInputBorder(),
                 ),
                 validator:
                     (val) =>
-                        val == null ? 'Village selection is required' : null,
+                        val == null ? AppLocalizations.of(context)!.village_required : null,
                 items:
                     villages
                         .map(

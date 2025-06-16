@@ -98,7 +98,14 @@
   "ad_success": "Itangazo ryoherejwe neza!",
   "error_generic": "Habaye ikibazo",
 
-  "please_Connect_to_Internet" : "Nta interineti ufite"
+  "please_Connect_to_Internet" : "Nta interineti ufite",
+
+  "fill_this_please" : "Usabwa kuzuza hano",
+  "enter_password" : "Shiramo Ijambo ry'ibanga",
+  "login_failed" : "Gukomeza byanze",
+  "select_village" :  "Hitamo umudugudu ubarizwamo",
+  "village_required" : " Umudugudu urasabwa kuwuhitamo"
+
 
 
 }

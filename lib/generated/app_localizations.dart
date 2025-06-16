@@ -564,6 +564,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please Connect to Internet'**
   String get please_Connect_to_Internet;
+
+  /// No description provided for @fill_this_please.
+  ///
+  /// In en, this message translates to:
+  /// **'Feel this please'**
+  String get fill_this_please;
+
+  /// No description provided for @enter_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password please'**
+  String get enter_password;
+
+  /// No description provided for @login_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Failed'**
+  String get login_failed;
+
+  /// No description provided for @select_village.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your village'**
+  String get select_village;
+
+  /// No description provided for @village_required.
+  ///
+  /// In en, this message translates to:
+  /// **' Village is required'**
+  String get village_required;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
