@@ -10,14 +10,12 @@ class SplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // One-time trigger to run cert check when the widget is first built
     Future.microtask(() async {
       if (Platform.isAndroid || Platform.isIOS) {
-        await CertificatePinningService.checkServerCertificate();
+        await CertificatePinningService.checkServerCertificate(context);
       }
     });
 
-    // Navigation logic
     ref.listen<String?>(splashProvider, (prev, next) {
       if (next != null) {
         context.go(next);

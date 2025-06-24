@@ -13,6 +13,7 @@ import 'package:lost_and_found/pages/authentication/login.dart';
 
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
+import 'package:lost_and_found/pages/home/alert.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/authentication/into/acount.dart';
 import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
@@ -49,7 +50,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "aapi.env");
   runApp(ProviderScope(child: MyApp()));
- await CertificatePinningService.checkServerCertificate();
 }
 
 class MyApp extends ConsumerWidget {
@@ -57,6 +57,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final themeMode = ref.watch(themeNotifierProvider);
     final locale = ref.watch(localeProvider);
 
@@ -222,6 +223,13 @@ class MyApp extends ConsumerWidget {
           return FaceIDScreen();
         },
       ),
+      GoRoute(
+        path: '/alert',
+        builder: (BuildContext context, GoRouterState state) {
+          return SecurityAlertPage();
+        },
+      )
+
     ],
   );
 }
