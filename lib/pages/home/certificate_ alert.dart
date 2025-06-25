@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:lost_and_found/pages/services/caertificate_pinning.dart';
 
@@ -13,7 +14,7 @@ class SecurityAlertPage extends StatelessWidget {
         backgroundColor: Colors.orange.shade700,
         title: Text(
           'Security Alert',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
+          style: GoogleFonts.brawler(fontWeight: FontWeight.w500, fontSize: 30),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -30,7 +31,7 @@ class SecurityAlertPage extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               'Untrusted Connection Detected',
-              style: TextStyle(
+              style: GoogleFonts.brawler(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
@@ -42,7 +43,7 @@ class SecurityAlertPage extends StatelessWidget {
               'We couldn’t confirm your connection is safe. '
               'This may happen if someone is trying to interfere with your internet connection '
               'or if something has changed on our server. For your safety, please retry or exit the app.',
-              style: TextStyle(fontSize: 20),
+              style: GoogleFonts.brawler(fontSize: 20),
             ),
             SizedBox(height: 40),
             ElevatedButton.icon(
@@ -57,7 +58,10 @@ class SecurityAlertPage extends StatelessWidget {
               icon: Icon(Icons.refresh),
               label: Text(
                 "Retry Connection",
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                style: GoogleFonts.brawler(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 18,
+                ),
               ),
             ),
             SizedBox(height: 16),
@@ -68,7 +72,7 @@ class SecurityAlertPage extends StatelessWidget {
               icon: Icon(Icons.exit_to_app, color: Colors.black),
               label: Text(
                 "Exit App",
-                style: TextStyle(color: Colors.black, fontSize: 18),
+                style: GoogleFonts.brawler(color: Colors.black, fontSize: 18),
               ),
             ),
           ],

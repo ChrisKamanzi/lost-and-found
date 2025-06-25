@@ -4,7 +4,7 @@ import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 import 'package:lost_and_found/stateManagment/Notifier/user_notifier.dart';
 
 class CertificatePinningService {
-  static Future<void> checkServerCertificate(BuildContext context) async {
+  static Future<bool?> checkServerCertificate(BuildContext context) async {
     try {
       final result = await HttpCertificatePinning.check(
         serverURL: apiUrl,
@@ -15,7 +15,6 @@ class CertificatePinningService {
         ],
         timeout: 50,
       );
-
       if (result == "CONNECTION_SECURE") {
         print('Certificate is valid and matches.');
       } else {
@@ -25,7 +24,6 @@ class CertificatePinningService {
     } catch (e) {
       _showSecurityAlert(context);
       GoRouter.of(context).go('/alert');
-
     }
   }
 

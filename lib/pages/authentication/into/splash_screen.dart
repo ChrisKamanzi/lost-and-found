@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../stateManagment/Notifier/splash_notifier.dart';
 import '../../services/caertificate_pinning.dart';
+import '../../services/root_detection.dart';
 
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
@@ -12,11 +13,20 @@ class SplashScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Future.microtask(() async {
       if (Platform.isAndroid || Platform.isIOS) {
-        await CertificatePinningService.checkServerCertificate(context);
+        final pinn = await CertificatePinningService.checkServerCertificate(
+          context,
+        );
+        final compromised = await DeviceSecurityService.isDeviceCompromised(
+          context,
+        );
+        if (compromised) {
+          context.go('/rootAlert');
+          return;
+        } else if (pinn == 'connection_seccure') {
+          context.go('/alert');
+        }
       }
-    });
-
-    ref.listen<String?>(splashProvider, (prev, next) {
+      final next = ref.read(splashProvider);
       if (next != null) {
         context.go(next);
       }
