@@ -13,12 +13,13 @@ import 'package:lost_and_found/pages/authentication/login.dart';
 
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
-import 'package:lost_and_found/pages/home/alert.dart';
+import 'package:lost_and_found/pages/home/certificate_ alert.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/authentication/into/acount.dart';
 import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
 import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
 import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
+import 'package:lost_and_found/pages/home/root_alert.dart';
 import 'package:lost_and_found/pages/home/settings.dart';
 
 import 'package:lost_and_found/pages/message/char2.dart';
@@ -26,7 +27,6 @@ import 'package:lost_and_found/pages/message/conversation.dart';
 import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
 import 'package:lost_and_found/pages/searchOnMap/map.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lost_and_found/pages/services/caertificate_pinning.dart';
 import 'package:lost_and_found/stateManagment/provider/locale_provider.dart';
 import 'package:lost_and_found/stateManagment/provider/theme_provider.dart';
 import 'generated/app_localizations.dart';
@@ -228,8 +228,13 @@ class MyApp extends ConsumerWidget {
         builder: (BuildContext context, GoRouterState state) {
           return SecurityAlertPage();
         },
-      )
-
+      ),
+      GoRoute(
+        path: '/rootAlert',
+        builder: (BuildContext context, GoRouterState state) {
+          return RootAlertPage();
+        },
+      ),
     ],
   );
 }
