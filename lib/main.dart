@@ -13,13 +13,12 @@ import 'package:lost_and_found/pages/authentication/login.dart';
 
 import 'package:lost_and_found/pages/authentication/sign_up.dart';
 import 'package:lost_and_found/pages/create_Ad/create_ad_reg.dart';
-import 'package:lost_and_found/pages/home/certificate_ alert.dart';
+import 'package:lost_and_found/pages/home/security_ alert.dart';
 import 'package:lost_and_found/pages/home/home.dart';
 import 'package:lost_and_found/pages/authentication/into/acount.dart';
 import 'package:lost_and_found/pages/home/lost_found/card_detail.dart';
 import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
 import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
-import 'package:lost_and_found/pages/home/root_alert.dart';
 import 'package:lost_and_found/pages/home/settings.dart';
 
 import 'package:lost_and_found/pages/message/char2.dart';
@@ -227,12 +226,6 @@ class MyApp extends ConsumerWidget {
         path: '/alert',
         builder: (BuildContext context, GoRouterState state) {
           return SecurityAlertPage();
-        },
-      ),
-      GoRoute(
-        path: '/rootAlert',
-        builder: (BuildContext context, GoRouterState state) {
-          return RootAlertPage();
         },
       ),
     ],

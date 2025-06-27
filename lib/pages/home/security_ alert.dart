@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lost_and_found/Certificate.dart';
 import 'dart:io';
-import 'package:lost_and_found/pages/services/caertificate_pinning.dart';
+import 'package:lost_and_found/pages/services/certificate_pinning.dart';
+import 'package:lost_and_found/pages/services/root_detection.dart';
+import 'package:lost_and_found/stateManagment/Notifier/user_notifier.dart';
 
 class SecurityAlertPage extends StatelessWidget {
   const SecurityAlertPage({super.key});
@@ -30,7 +33,7 @@ class SecurityAlertPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Untrusted Connection Detected',
+              'Untrusted security alert detected',
               style: GoogleFonts.brawler(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -53,7 +56,11 @@ class SecurityAlertPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               onPressed: () async {
-                await CertificatePinningService.checkServerCertificate(context);
+                await CertificatePinningService.checkServerCertificate(
+                  serverURL: apiUrl,
+                  allowedFingerprints: [CERTIFICATE],
+                );
+                await DeviceSecurityService.isDeviceCompromised(context);
               },
               icon: Icon(Icons.refresh),
               label: Text(
