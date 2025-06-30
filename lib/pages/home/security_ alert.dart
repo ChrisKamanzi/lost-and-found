@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lost_and_found/Certificate.dart';
+import 'package:lost_and_found/pages/certificate.dart';
 import 'dart:io';
 import 'package:lost_and_found/pages/services/certificate_pinning.dart';
 import 'package:lost_and_found/pages/services/root_detection.dart';
@@ -56,12 +56,16 @@ class SecurityAlertPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               onPressed: () async {
-                await CertificatePinningService.checkServerCertificate(
+                final pinningService = CertificatePinningService();
+                final isPinned = await pinningService.checkServerCertificate(
                   serverURL: apiUrl,
                   allowedFingerprints: [CERTIFICATE],
                 );
-                await DeviceSecurityService.isDeviceCompromised(context);
+
+                final compromised =
+                    await DeviceSecurityService.isDeviceCompromised(context);
               },
+
               icon: Icon(Icons.refresh),
               label: Text(
                 "Retry Connection",

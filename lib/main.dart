@@ -39,15 +39,18 @@ final lightTheme = ThemeData(
 );
 
 final darkTheme = ThemeData(
+
   brightness: Brightness.dark,
   primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.black,
-  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)),
+  textTheme: TextTheme(bodyMedium: TextStyle(color: Colors.white)
+  ),
 );
 
 void main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: "aapi.env");
+  await dotenv.load(fileName: "apii.env");
   runApp(ProviderScope(child: MyApp()));
 }
 
