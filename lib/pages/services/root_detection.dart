@@ -1,21 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:jailbreak_root_detection/jailbreak_root_detection.dart';
 
-class DeviceSecurityService {
-  static Future<bool> isDeviceCompromised(BuildContext context) async {
+class DeviceSecurityService{
+
+  final JailbreakRootDetection detection;
+
+  DeviceSecurityService({JailbreakRootDetection? detection})
+      : detection = detection ?? JailbreakRootDetection.instance;
+
+  Future<bool> isDeviceCompromised() async {
+
     try {
-      final bool jailBroken =
-          await JailbreakRootDetection.instance.isJailBroken;
-      final bool isRealDevice =
-          await JailbreakRootDetection.instance.isRealDevice;
-      final bool isTrusted = await JailbreakRootDetection.instance.isNotTrust;
-      final bool compromised = jailBroken || !isRealDevice || isTrusted;
-      debugPrint('Jailbroken? : $jailBroken');
-      debugPrint('RealDevice? : $isRealDevice');
-      debugPrint('Tursted?: $isTrusted');
-      return compromised;
-    } catch (e) {
-      debugPrint('error : $e');
+      final jailBroken = await detection.isJailBroken;
+      final isReal = await detection.isRealDevice;
+      final isNotTrusted = await detection.isNotTrust;
+      return jailBroken || !isReal || isNotTrusted;
+    } catch (_) {
       return false;
     }
   }

@@ -62,9 +62,24 @@ class SecurityAlertPage extends StatelessWidget {
                   allowedFingerprints: [CERTIFICATE],
                 );
 
-                final compromised =
-                    await DeviceSecurityService.isDeviceCompromised(context);
+                final securityService = DeviceSecurityService();
+                final compromised = await securityService.isDeviceCompromised();
+
+                if (isPinned && !compromised) {
+                  Navigator.of(context).pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Security check failed again. Please check your connection or device.',
+                        style: GoogleFonts.brawler(fontSize: 16),
+                      ),
+                      backgroundColor: Colors.redAccent,
+                    ),
+                  );
+                }
               },
+
 
               icon: Icon(Icons.refresh),
               label: Text(

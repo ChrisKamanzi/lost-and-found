@@ -14,7 +14,6 @@ class SplashScreen extends ConsumerWidget {
   @override
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final isInTest = Platform.environment.containsKey('FLUTTER_TEST');
 
     if (!isInTest) {
@@ -25,8 +24,8 @@ class SplashScreen extends ConsumerWidget {
             serverURL: apiUrl,
             allowedFingerprints: [CERTIFICATE],
           );
-
-          final compromised = await DeviceSecurityService.isDeviceCompromised(context);
+          final securityService = DeviceSecurityService();
+          final compromised = await securityService.isDeviceCompromised();
           if (compromised || !pinn) {
             context.go('/alert');
             return;
@@ -40,7 +39,6 @@ class SplashScreen extends ConsumerWidget {
         }
       });
     }
-
     return const Scaffold(
       backgroundColor: Colors.white,
       body: Center(
