@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
-import 'certifcate_Mockl.dart';
 
 
 class CertificatePinningService implements ICertificatePinningService {
@@ -24,4 +23,11 @@ class CertificatePinningService implements ICertificatePinningService {
       return false;
     }
   }
+}
+
+abstract class ICertificatePinningService {
+  Future<bool> checkServerCertificate({
+    required String serverURL,
+    required List<String> allowedFingerprints,
+  });
 }
