@@ -23,13 +23,13 @@ class Login extends ConsumerWidget {
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.all(30),
+            padding:  EdgeInsets.all(30),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 100),
+                SizedBox(height: 100),
                   Center(
                     child: Text(
                       AppLocalizations.of(context)!.loginTitle,
@@ -45,14 +45,13 @@ class Login extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                   SizedBox(height: 50),
                   Text(
                     AppLocalizations.of(context)!.emailLabel,
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
                         fontSize: 20,
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
+                        color: Theme.of(context).brightness == Brightness.dark
                                 ? Colors.orangeAccent
                                 : Colors.black,
                         fontWeight: FontWeight.w700,
@@ -153,8 +152,11 @@ class Login extends ConsumerWidget {
                                         final password =
                                             passwordController.text.trim();
 
-                                        final deviceId = await  Devicemanager.getDeviceId();
-                                        print('📱 Logged-in device ID: $deviceId');
+                                        final deviceId =
+                                            await Devicemanager.getDeviceId();
+                                        print(
+                                          '📱 Logged-in device ID: $deviceId',
+                                        );
 
                                         await loginNotifier.login(
                                           email,
@@ -168,8 +170,10 @@ class Login extends ConsumerWidget {
                                               context: context,
                                               builder:
                                                   (_) => AlertDialog(
-                                                    title:  Text(
-                                                      AppLocalizations.of(context)!.login_failed,
+                                                    title: Text(
+                                                      AppLocalizations.of(
+                                                        context,
+                                                      )!.login_failed,
                                                     ),
                                                     content: Text(
                                                       err.toString(),

@@ -17,7 +17,7 @@ class Devicemanager {
         return "Unsupported platform";
       }
     } catch (e) {
-      print('failed to frtch the ID : $e');
+      print('failed to fetch the ID : $e');
       return null;
     }
   }
