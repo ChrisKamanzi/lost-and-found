@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
-
-class CertificatePinningService implements ICertificatePinningService {
-  @override
-  Future<bool> checkServerCertificate({
+class CertificatePinning {
+  static Future<bool> checkServerCertificate({
     required String serverURL,
     required List<String> allowedFingerprints,
   }) async {
@@ -23,11 +21,4 @@ class CertificatePinningService implements ICertificatePinningService {
       return false;
     }
   }
-}
-
-abstract class ICertificatePinningService {
-  Future<bool> checkServerCertificate({
-    required String serverURL,
-    required List<String> allowedFingerprints,
-  });
 }
