@@ -1,20 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:jailbreak_root_detection/jailbreak_root_detection.dart';
 
-class DeviceSecurityService{
-
-  final JailbreakRootDetection detection;
-
-  DeviceSecurityService({JailbreakRootDetection? detection})
-      : detection = detection ?? JailbreakRootDetection.instance;
-
-  Future<bool> isDeviceCompromised() async {
+class DeviceSecurity {
+  static Future<bool> isDeviceCompromised({
+    JailbreakRootDetection? detection,
+  }) async {
+    final detector = detection ?? JailbreakRootDetection.instance;
 
     try {
-      final jailBroken = await detection.isJailBroken;
-      final isReal = await detection.isRealDevice;
-      final isNotTrusted = await detection.isNotTrust;
+      final jailBroken = await detector.isJailBroken;
+      final isReal = await detector.isRealDevice;
+      final isNotTrusted = await detector.isNotTrust;
+      debugPrint(
+        'jailBroken? $jailBroken , Emulator? $isReal , Trusted? $isNotTrusted',
+      );
       return jailBroken || !isReal || isNotTrusted;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('$e');
       return false;
     }
   }
