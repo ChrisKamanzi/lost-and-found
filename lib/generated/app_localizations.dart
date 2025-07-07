@@ -612,6 +612,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Post Type Required'**
   String get post_type_required;
+
+  /// No description provided for @security.
+  ///
+  /// In en, this message translates to:
+  /// **'Security Alert'**
+  String get security;
+
+  /// No description provided for @security_alert_detected.
+  ///
+  /// In en, this message translates to:
+  /// **' Untrusted security Alert detected'**
+  String get security_alert_detected;
+
+  /// No description provided for @security_alert_message.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t confirm your connection is safe. This may happen if someone is trying to interfere with your internet connection or if something has changed on our server. For your safety, please retry or exit the app.'**
+  String get security_alert_message;
+
+  /// No description provided for @retry_connection.
+  ///
+  /// In en, this message translates to:
+  /// **' Retry connection'**
+  String get retry_connection;
+
+  /// No description provided for @exit_app.
+  ///
+  /// In en, this message translates to:
+  /// **'Exit app'**
+  String get exit_app;
+
+  /// No description provided for @alert_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Security check failed again. Please check your connection or device'**
+  String get alert_message;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

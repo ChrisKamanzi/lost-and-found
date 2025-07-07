@@ -267,4 +267,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get post_type_required => 'Post Type Required';
+
+  @override
+  String get security => 'Security Alert';
+
+  @override
+  String get security_alert_detected => ' Untrusted security Alert detected';
+
+  @override
+  String get security_alert_message => 'We couldn\'t confirm your connection is safe. This may happen if someone is trying to interfere with your internet connection or if something has changed on our server. For your safety, please retry or exit the app.';
+
+  @override
+  String get retry_connection => ' Retry connection';
+
+  @override
+  String get exit_app => 'Exit app';
+
+  @override
+  String get alert_message => 'Security check failed again. Please check your connection or device';
 }

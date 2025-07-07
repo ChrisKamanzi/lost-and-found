@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add this import
+import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/pages/certificate.dart';
 import 'dart:io';
 import 'package:lost_and_found/pages/services/certificate_pinning.dart';
 import 'package:lost_and_found/pages/services/root_detection.dart';
-import 'package:lost_and_found/stateManagment/Notifier/user_notifier.dart';
+import '../../stateManagment/Notifier/user_notifier.dart';
+import '../../stateManagment/provider/locale_provider.dart';
 
-class SecurityAlertPage extends StatelessWidget {
-  const SecurityAlertPage({super.key});
+class SecurityAlertPage extends ConsumerWidget {
+  SecurityAlertPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.orange.shade50,
       appBar: AppBar(
         backgroundColor: Colors.orange.shade700,
-        title: Text(
-          'Security Alert',
-          style: GoogleFonts.brawler(fontWeight: FontWeight.w500, fontSize: 30),
+        title: Center(
+          child: Text(
+            AppLocalizations.of(context)!.security,
+            style: GoogleFonts.brawler(
+              fontWeight: FontWeight.w800,
+              fontSize: 30,
+            ),
+          ),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -26,6 +34,36 @@ class SecurityAlertPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildLanguageOption(
+                  context,
+                  ref,
+                  'en',
+                  'us',
+                  AppLocalizations.of(context)!.english,
+                ),
+                SizedBox(width: 20),
+                _buildLanguageOption(
+                  context,
+                  ref,
+                  'fr',
+                  'fr',
+                  AppLocalizations.of(context)!.french,
+                ),
+                SizedBox(width: 20),
+                _buildLanguageOption(
+                  context,
+                  ref,
+                  'rw',
+                  'rw',
+                  AppLocalizations.of(context)!.kinyarwanda,
+                ),
+              ],
+            ),
+            SizedBox(height: 30),
+
             Icon(
               Icons.warning_rounded,
               size: 80,
@@ -33,7 +71,7 @@ class SecurityAlertPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             Text(
-              'Untrusted security alert detected',
+              AppLocalizations.of(context)!.security_alert_detected,
               style: GoogleFonts.brawler(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -43,12 +81,12 @@ class SecurityAlertPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Text(
-              'We couldn’t confirm your connection is safe. '
-              'This may happen if someone is trying to interfere with your internet connection '
-              'or if something has changed on our server. For your safety, please retry or exit the app.',
+              AppLocalizations.of(context)!.security_alert_message,
               style: GoogleFonts.brawler(fontSize: 20),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 40),
+
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange.shade700,
@@ -56,22 +94,21 @@ class SecurityAlertPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               onPressed: () async {
-                final pinningService = CertificatePinningService();
-                final isPinned = await pinningService.checkServerCertificate(
+                final isSecure = await CertificatePinning.checkServerCertificate(
                   serverURL: apiUrl,
                   allowedFingerprints: [CERTIFICATE],
                 );
 
-                final securityService = DeviceSecurityService();
-                final compromised = await securityService.isDeviceCompromised();
+                final compromised = await DeviceSecurity.isDeviceCompromised();
 
-                if (isPinned && !compromised) {
+                if (isSecure && !compromised){
+
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        'Security check failed again. Please check your connection or device.',
+                        AppLocalizations.of(context)!.alert_message,
                         style: GoogleFonts.brawler(fontSize: 16),
                       ),
                       backgroundColor: Colors.redAccent,
@@ -79,11 +116,9 @@ class SecurityAlertPage extends StatelessWidget {
                   );
                 }
               },
-
-
               icon: Icon(Icons.refresh),
               label: Text(
-                "Retry Connection",
+                AppLocalizations.of(context)!.retry_connection,
                 style: GoogleFonts.brawler(
                   fontWeight: FontWeight.w800,
                   fontSize: 18,
@@ -92,18 +127,62 @@ class SecurityAlertPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             TextButton.icon(
-              onPressed: () {
-                exit(0);
-              },
+              onPressed: () => exit(0),
               icon: Icon(Icons.exit_to_app, color: Colors.black),
               label: Text(
-                "Exit App",
+                AppLocalizations.of(context)!.exit_app,
                 style: GoogleFonts.brawler(color: Colors.black, fontSize: 18),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLanguageOption(
+    BuildContext context,
+    WidgetRef ref,
+    String localeCode,
+    String flagCode,
+    String label,
+  ) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+          ),
+          child: GestureDetector(
+            onTap:
+                () => ref
+                    .read(localeProvider.notifier)
+                    .setLocale(Locale(localeCode)),
+            child: ClipOval(
+              child: Image.asset(
+                'icons/flags/png/$flagCode.png',
+                package: 'country_icons',
+                width: 60,
+                height: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          label,
+          style: GoogleFonts.brawler(
+            textStyle: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+              color: Colors.black54,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

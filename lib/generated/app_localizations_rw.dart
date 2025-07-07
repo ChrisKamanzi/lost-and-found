@@ -267,4 +267,22 @@ class AppLocalizationsRw extends AppLocalizations {
 
   @override
   String get post_type_required => 'Guhitamo ubwoko bwitangazo birakenewe';
+
+  @override
+  String get security => 'Impuruza y’umutekano';
+
+  @override
+  String get security_alert_detected => 'Habonetse impuruza y’umutekano itizewe';
+
+  @override
+  String get security_alert_message => 'Ntitwashoboye kwemeza ko ihuriro ryawe ritekanye. Ibi bishobora guterwa n’uko hari umuntu ushaka kwivanga mu murongo wawe wa interineti cyangwa hari ikintu cyahindutse kuri seriveri yacu. Kubw’umutekano wawe, gerageza kongera cyangwa sohoka muri porogaramu.';
+
+  @override
+  String get retry_connection => 'Ongera ugerageze kwihuza';
+
+  @override
+  String get exit_app => 'Exit app';
+
+  @override
+  String get alert_message => 'Isuzuma ry’umutekano yongeye kunanirwa. Nyamuneka genzura umurongo wa interineti cyangwa igikoresho ukoresha.';
 }

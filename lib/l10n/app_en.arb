@@ -111,8 +111,15 @@
 
   "select_category" : "Select category",
 "category_required" : "Category required",
-  "post_type_required" : "Post Type Required"
+  "post_type_required" : "Post Type Required",
 
+   "security" : "Security Alert",
+  "security_alert_detected" : " Untrusted security Alert detected",
+  "security_alert_message" : "We couldn't confirm your connection is safe. This may happen if someone is trying to interfere with your internet connection or if something has changed on our server. For your safety, please retry or exit the app.",
+  "retry_connection" : " Retry connection",
+  "exit_app" : "Exit app",
+
+  "alert_message" :"Security check failed again. Please check your connection or device"
 
 
 

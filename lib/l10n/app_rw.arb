@@ -109,5 +109,17 @@
 
   "select_category" : "Hitamo ikiciro",
   "category_required" : "Usabwa guhitamo ikiciro",
-  "post_type_required" : "Guhitamo ubwoko bwitangazo birakenewe"
+  "post_type_required" : "Guhitamo ubwoko bwitangazo birakenewe",
+
+  "security" : "Impuruza y’umutekano",
+  "security_alert_detected" : "Habonetse impuruza y’umutekano itizewe",
+  "security_alert_message" : "Ntitwashoboye kwemeza ko ihuriro ryawe ritekanye. Ibi bishobora guterwa n’uko hari umuntu ushaka kwivanga mu murongo wawe wa interineti cyangwa hari ikintu cyahindutse kuri seriveri yacu. Kubw’umutekano wawe, gerageza kongera cyangwa sohoka muri porogaramu.",
+  "retry_connection" : "Ongera ugerageze kwihuza",
+  "exit_App" : "Sohoka muri porogaramu",
+
+  "alert_message": "Isuzuma ry’umutekano yongeye kunanirwa. Nyamuneka genzura umurongo wa interineti cyangwa igikoresho ukoresha."
+
+
+
+
 }

@@ -116,10 +116,16 @@
 
   "select_category" : "Sélectionnez une catégorie",
   "category_required" : "La catégorie est requise",
-  "post_type_required" : "Le type de publication est requis"
+  "post_type_required" : "Le type de publication est requis",
 
 
+  "security" : "Alerte de sécurité ",
+  "security_alert_detected" : "Alerte de sécurité non fiable détectée",
+  "security_alert_message" : "Nous ne pouvons pas confirmer que votre connexion est sécurisée. Cela peut se produire si quelqu’un tente d’interférer avec votre connexion Internet ou si quelque chose a changé sur notre serveur. Pour votre sécurité, veuillez réessayer ou quitter l’application.",
+  "retry_connection" : "Réessayer la connexion",
+  "exit_app" : "Quitter l’application",
 
+  "alert_message": "La vérification de sécurité a échoué à nouveau. Veuillez vérifier votre connexion ou votre appareil."
 
 
 

@@ -267,4 +267,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get post_type_required => 'Le type de publication est requis';
+
+  @override
+  String get security => 'Alerte de sécurité ';
+
+  @override
+  String get security_alert_detected => 'Alerte de sécurité non fiable détectée';
+
+  @override
+  String get security_alert_message => 'Nous ne pouvons pas confirmer que votre connexion est sécurisée. Cela peut se produire si quelqu’un tente d’interférer avec votre connexion Internet ou si quelque chose a changé sur notre serveur. Pour votre sécurité, veuillez réessayer ou quitter l’application.';
+
+  @override
+  String get retry_connection => 'Réessayer la connexion';
+
+  @override
+  String get exit_app => 'Quitter l’application';
+
+  @override
+  String get alert_message => 'La vérification de sécurité a échoué à nouveau. Veuillez vérifier votre connexion ou votre appareil.';
 }
