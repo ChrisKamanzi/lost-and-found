@@ -97,11 +97,11 @@ class SecurityAlertPage extends ConsumerWidget {
                 final isSecure = await CertificatePinning.checkServerCertificate(
                   serverURL: apiUrl,
                   allowedFingerprints: [CERTIFICATE],
+                  timeout: 50,
                 );
 
                 final compromised = await DeviceSecurity.isDeviceCompromised();
-
-                if (isSecure && !compromised){
+                if (isSecure != true  && compromised != true){
 
                   Navigator.of(context).pop();
                 } else {

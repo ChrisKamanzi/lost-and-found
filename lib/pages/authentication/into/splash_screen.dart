@@ -19,16 +19,16 @@ class SplashScreen extends ConsumerWidget {
     if (!isInTest) {
       Future.microtask(() async {
         if (Platform.isAndroid || Platform.isIOS) {
-          final isPinned =
-              await CertificatePinning.checkServerCertificate(
-                serverURL: apiUrl,
-                allowedFingerprints: [CERTIFICATE],
-              );
+          final isPinned = await CertificatePinning.checkServerCertificate(
+            serverURL: apiUrl,
+            allowedFingerprints: [CERTIFICATE],
+            timeout: 50,
+          );
           final compromised = await DeviceSecurity.isDeviceCompromised();
-          if (compromised || !isPinned) {
+          if (compromised == true || isPinned != true) {
             context.go('/alert');
             return;
-          } else if (isPinned && !compromised) {
+          } else if (isPinned == true && compromised != true) {
             context.go('/login');
           }
         }
