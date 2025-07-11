@@ -6,8 +6,7 @@ import 'package:lost_and_found/stateManagment/Notifier/user_notifier.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockCertPinningService extends Mock
-    implements ICertificatePinningService {
-}
+    implements ICertificatePinningService {}
 
 void main() {
   late MockCertPinningService mockService;
@@ -22,27 +21,37 @@ void main() {
       () => mockService.checkServerCertificate(
         serverURL: apiUrl,
         allowedFingerprints: [CERTIFICATE],
+        headers: null,
+        timeout: 10,
       ),
     ).thenAnswer((_) async => true);
 
     final result = await mockService.checkServerCertificate(
       serverURL: apiUrl,
       allowedFingerprints: [CERTIFICATE],
+      headers: null,
+      timeout: 10,
     );
+
     expect(result, isTrue);
   });
 
-  test('returns false when certificate check fails', () async {
+  test('throws exception when certificate check fails', () async {
     when(
       () => mockService.checkServerCertificate(
         serverURL: apiUrl,
         allowedFingerprints: [CERTIFICATE],
+        headers: null,
+        timeout: 10,
       ),
     ).thenThrow(Exception('Invalid Certificate'));
+
     expect(
       () async => await mockService.checkServerCertificate(
         serverURL: apiUrl,
         allowedFingerprints: [CERTIFICATE],
+        headers: null,
+        timeout: 10,
       ),
       throwsA(isA<Exception>()),
     );
