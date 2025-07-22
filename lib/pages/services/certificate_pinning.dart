@@ -3,11 +3,11 @@ import 'package:http_certificate_pinning/http_certificate_pinning.dart';
 
 class CertificatePinning {
   static Future<bool?> checkServerCertificate({
+    bool showLogs = false,
     required String serverURL,
     required List<String> allowedFingerprints,
     Map<String, String>? headers,
-    required int timeout,
-
+    final int? timeout,
   }) async {
     try {
       await HttpCertificatePinning.check(
@@ -17,11 +17,11 @@ class CertificatePinning {
         allowedSHAFingerprints: allowedFingerprints,
         timeout: timeout,
       );
-      debugPrint('Certificate matches');
+      if (showLogs) debugPrint('Certificate matches');
       return true;
     } catch (e) {
-      debugPrint('Certificate pinning failed: $e');
-      return null;
+      if (showLogs) debugPrint('Certificate pinning failed: $e');
+      throw Exception("Certificate pinning failed");
     }
   }
 }
