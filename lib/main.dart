@@ -21,11 +21,11 @@ import 'package:lost_and_found/pages/home/lost_found/favorite_screen.dart';
 import 'package:lost_and_found/pages/home/lost_found/lost_found_items.dart';
 import 'package:lost_and_found/pages/home/settings.dart';
 
-import 'package:lost_and_found/pages/message/char2.dart';
+import 'package:lost_and_found/pages/message/chat.dart';
 import 'package:lost_and_found/pages/message/conversation.dart';
-import 'package:lost_and_found/pages/searchOnMap/map_item.dart';
-import 'package:lost_and_found/pages/searchOnMap/map.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:lost_and_found/pages/search_on_map/map.dart';
+import 'package:lost_and_found/pages/search_on_map/map_item.dart';
 import 'package:lost_and_found/stateManagment/provider/locale_provider.dart';
 import 'package:lost_and_found/stateManagment/provider/theme_provider.dart';
 import 'generated/app_localizations.dart';
