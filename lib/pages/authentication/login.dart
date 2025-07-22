@@ -6,9 +6,9 @@ import 'package:lost_and_found/generated/app_localizations.dart';
 import 'package:lost_and_found/widgets/text_field.dart';
 import '../../stateManagment/provider/loading_provider.dart';
 import '../../stateManagment/provider/login_provider.dart';
-import '../services/deviceManager.dart';
+import '../services/device_manager.dart';
 
-class Login extends ConsumerWidget {
+ class Login extends ConsumerWidget {
   Login({super.key});
 
   final TextEditingController emailController = TextEditingController();
@@ -18,18 +18,17 @@ class Login extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(loginLoadingProvider);
-
     return Scaffold(
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding:  EdgeInsets.all(30),
+            padding: EdgeInsets.all(30),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                SizedBox(height: 100),
+                  SizedBox(height: 100),
                   Center(
                     child: Text(
                       AppLocalizations.of(context)!.loginTitle,
@@ -45,13 +44,14 @@ class Login extends ConsumerWidget {
                       ),
                     ),
                   ),
-                   SizedBox(height: 50),
+                  SizedBox(height: 50),
                   Text(
                     AppLocalizations.of(context)!.emailLabel,
                     style: GoogleFonts.brawler(
                       textStyle: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).brightness == Brightness.dark
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
                                 ? Colors.orangeAccent
                                 : Colors.black,
                         fontWeight: FontWeight.w700,
@@ -152,11 +152,7 @@ class Login extends ConsumerWidget {
                                         final password =
                                             passwordController.text.trim();
 
-                                        final deviceId =
-                                            await Devicemanager.getDeviceId();
-                                        print(
-                                          '📱 Logged-in device ID: $deviceId',
-                                        );
+                                        final deviceInfo = await DeviceManager.getDeviceInfo(showLogs: false);
 
                                         await loginNotifier.login(
                                           email,
@@ -188,7 +184,7 @@ class Login extends ConsumerWidget {
                                                   ),
                                             );
                                           },
-                                          loading: () {}, // no-op
+                                          loading: () {},
                                         );
                                       }
                                     },
